@@ -700,8 +700,171 @@
           <h2>What If Calculator</h2>
           <p class="section-subtitle">Play with scenarios, see the impact</p>
         </div>
-        <div class="placeholder-message">
-          <p>What If calculator coming soon.</p>
+
+        <!-- Current Baseline -->
+        <div class="card" style="background:var(--bg-cream); border:2px solid var(--border);">
+          <div class="card-header">
+            <h3>Your Current Baseline</h3>
+            <span class="card-label">Based on your data</span>
+          </div>
+          <div class="grid-4" id="wi-baseline">
+            <div>
+              <div class="card-label">Avg Monthly Income</div>
+              <div id="wi-base-income" style="font-family:'Roboto Mono',monospace; font-size:1.1rem;">$0</div>
+            </div>
+            <div>
+              <div class="card-label">Avg Monthly Expenses</div>
+              <div id="wi-base-expenses" style="font-family:'Roboto Mono',monospace; font-size:1.1rem;">$0</div>
+            </div>
+            <div>
+              <div class="card-label">Avg Monthly Savings</div>
+              <div id="wi-base-savings" style="font-family:'Roboto Mono',monospace; font-size:1.1rem;">$0</div>
+            </div>
+            <div>
+              <div class="card-label">Current Savings Rate</div>
+              <div id="wi-base-rate" style="font-family:'Roboto Mono',monospace; font-size:1.1rem;">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario Cards -->
+        <div class="grid-2 section-gap">
+
+          <!-- Save More -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Save More</h3>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">What if you saved an extra amount each month?</p>
+            <div class="form-group">
+              <label class="form-label">Extra Monthly Savings</label>
+              <div class="currency-input">
+                <input type="number" class="form-input" id="wi-extra-savings" placeholder="500" oninput="calcSaveMore()">
+              </div>
+            </div>
+            <div id="wi-save-more-result" class="scenario-result"></div>
+          </div>
+
+          <!-- Income Change -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Income Change</h3>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">What if your household income changed?</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">New Monthly Income</label>
+                <div class="currency-input">
+                  <input type="number" class="form-input" id="wi-new-income" placeholder="10000" oninput="calcIncomeChange()">
+                </div>
+              </div>
+            </div>
+            <div id="wi-income-result" class="scenario-result"></div>
+          </div>
+
+          <!-- Major Purchase -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Major Purchase</h3>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Thinking about a big buy? See the monthly impact.</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Purchase Price</label>
+                <div class="currency-input">
+                  <input type="number" class="form-input" id="wi-purchase-price" placeholder="400000" oninput="calcPurchase()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Down Payment %</label>
+                <input type="number" class="form-input" id="wi-down-pct" placeholder="20" value="20" oninput="calcPurchase()">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Interest Rate %</label>
+                <input type="number" class="form-input" id="wi-interest-rate" placeholder="6.5" value="6.5" step="0.1" oninput="calcPurchase()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Loan Term (years)</label>
+                <input type="number" class="form-input" id="wi-loan-term" placeholder="30" value="30" oninput="calcPurchase()">
+              </div>
+            </div>
+            <div id="wi-purchase-result" class="scenario-result"></div>
+          </div>
+
+          <!-- One Income -->
+          <div class="card">
+            <div class="card-header">
+              <h3>One Income Scenario</h3>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">What if one of you stopped working for a while?</p>
+            <div class="form-group">
+              <label class="form-label">Remaining Monthly Income</label>
+              <div class="currency-input">
+                <input type="number" class="form-input" id="wi-one-income" placeholder="5000" oninput="calcOneIncome()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Duration (months)</label>
+              <input type="number" class="form-input" id="wi-one-duration" placeholder="6" value="6" oninput="calcOneIncome()">
+            </div>
+            <div id="wi-one-income-result" class="scenario-result"></div>
+          </div>
+
+          <!-- Goal Accelerator -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Goal Accelerator</h3>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Pick a goal and see how changing the contribution affects the timeline.</p>
+            <div class="form-group">
+              <label class="form-label">Goal</label>
+              <select class="form-select" id="wi-goal-select" onchange="calcGoalAccelerator()">
+                <option value="">Select a goal...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Monthly Contribution</label>
+              <div class="currency-input">
+                <input type="number" class="form-input" id="wi-goal-contribution" placeholder="1000" oninput="calcGoalAccelerator()">
+              </div>
+            </div>
+            <div id="wi-goal-result" class="scenario-result"></div>
+          </div>
+
+          <!-- Emergency Fund Health -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Emergency Fund Health</h3>
+            </div>
+            <div id="wi-emergency-result" class="scenario-result"></div>
+          </div>
+        </div>
+
+        <!-- Inflation Adjuster -->
+        <div class="card section-gap">
+          <div class="card-header">
+            <h3>Inflation Adjuster</h3>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">What does a future dollar amount really cost in today's money?</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Future Amount Needed</label>
+              <div class="currency-input">
+                <input type="number" class="form-input" id="wi-inflation-amount" placeholder="50000" oninput="calcInflation()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Years from Now</label>
+              <input type="number" class="form-input" id="wi-inflation-years" placeholder="5" value="5" oninput="calcInflation()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Inflation Rate %</label>
+              <input type="number" class="form-input" id="wi-inflation-rate" placeholder="3" value="3" step="0.1" oninput="calcInflation()">
+            </div>
+          </div>
+          <div id="wi-inflation-result" class="scenario-result"></div>
         </div>
       </section>
     </main>
@@ -714,6 +877,7 @@
   <script src="accounts.js"></script>
   <script src="quarterly.js"></script>
   <script src="yearly.js"></script>
+  <script src="whatif.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

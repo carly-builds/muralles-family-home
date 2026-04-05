@@ -1556,6 +1556,54 @@ tr:last-child td {
 }
 
 /* ============================================
+   WHAT IF CALCULATOR
+   ============================================ */
+
+.scenario-result {
+  margin-top: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.scenario-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--bg-warm-gray);
+  border-radius: var(--radius-sm);
+}
+
+.scenario-value {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.scenario-value.positive { color: var(--accent-green); }
+.scenario-value.negative { color: var(--accent-red); }
+
+.scenario-insight {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: 10px 14px;
+  background: var(--bg-warm-gray);
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+  border-left: 3px solid var(--accent-sage);
+}
+
+.scenario-insight.positive { border-left-color: var(--accent-green); }
+.scenario-insight.negative { border-left-color: var(--accent-red); }
+.scenario-insight.neutral { border-left-color: var(--accent-butter); }
+
+/* ============================================
    PRINT STYLES
    ============================================ */
 
