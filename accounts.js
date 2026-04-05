@@ -4,6 +4,7 @@
 
 function render_accounts() {
   renderAccountsSummary();
+  renderBalanceHistory();
   renderAccountType('checking');
   renderAccountType('savings');
   renderAccountType('investment');
@@ -377,4 +378,124 @@ function deleteDebt(id) {
   closeModal();
   render_accounts();
   showToast('Removed');
+}
+
+// ============================================
+// Monthly Balance Snapshots
+// ============================================
+
+function getAllAccounts() {
+  var all = [];
+  ['checking', 'savings', 'investment', 'property', 'vehicles', 'other'].forEach(function(type) {
+    var valField = ['property', 'vehicles', 'other'].includes(type) ? 'value' : 'balance';
+    (appData.accounts[type] || []).forEach(function(acct) {
+      all.push({ id: acct.id, name: acct.name, type: type, owner: acct.owner, currentBalance: acct[valField] || 0, valField: valField });
+    });
+  });
+  return all;
+}
+
+function showBalanceUpdate() {
+  var accounts = getAllAccounts();
+  if (accounts.length === 0) {
+    showToast('Add some accounts first', 'error');
+    return;
+  }
+
+  var ym = getCurrentYearMonth();
+  if (!appData.balanceHistory) appData.balanceHistory = {};
+  var existing = appData.balanceHistory[ym] || {};
+
+  var rows = accounts.map(function(acct) {
+    var val = existing[acct.id] !== undefined ? existing[acct.id] : acct.currentBalance;
+    return '<div class="monthly-row" style="margin-bottom:6px;">' +
+      '<div style="flex:1;"><span style="font-size:0.85rem;">' + acct.name + '</span>' +
+      '<span style="font-size:0.7rem; color:var(--text-muted); margin-left:8px;">' + acct.owner + '</span></div>' +
+      '<div class="amount-input-wrap" style="width:160px;"><span class="amount-prefix">$</span>' +
+      '<input type="number" class="form-input amount-field" id="bal-' + acct.id + '" value="' + val + '" placeholder="0"></div>' +
+      '</div>';
+  }).join('');
+
+  showModal('Update Balances for ' + getMonthName(ym), '<p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Enter the current balance for each account as of this month. This creates a snapshot for tracking changes over time.</p>' + rows, '<button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveBalanceSnapshot(\'' + ym + '\')">Save Snapshot</button>');
+}
+
+function saveBalanceSnapshot(ym) {
+  var accounts = getAllAccounts();
+  if (!appData.balanceHistory) appData.balanceHistory = {};
+  var snapshot = {};
+
+  accounts.forEach(function(acct) {
+    var input = document.getElementById('bal-' + acct.id);
+    if (input) {
+      var val = parseFloat(input.value) || 0;
+      snapshot[acct.id] = val;
+
+      // Also update the current account balance
+      ['checking', 'savings', 'investment', 'property', 'vehicles', 'other'].forEach(function(type) {
+        var items = appData.accounts[type] || [];
+        var item = items.find(function(a) { return a.id === acct.id; });
+        if (item) item[acct.valField] = val;
+      });
+    }
+  });
+
+  appData.balanceHistory[ym] = snapshot;
+  saveData(appData);
+  closeModal();
+  render_accounts();
+  showToast('Balances updated for ' + getMonthName(ym) + '!');
+}
+
+function renderBalanceHistory() {
+  var container = document.getElementById('balance-history-view');
+  if (!container) return;
+
+  if (!appData.balanceHistory) appData.balanceHistory = {};
+  var months = Object.keys(appData.balanceHistory).sort();
+
+  if (months.length === 0) {
+    container.innerHTML = '<p style="font-size:0.82rem; color:var(--text-light); font-style:italic;">No snapshots yet. Click "Update Balances" to take your first snapshot.</p>';
+    return;
+  }
+
+  var accounts = getAllAccounts();
+  var recentMonths = months.slice(-6);
+
+  var html = '<div class="revenue-table-wrap"><table><thead><tr><th>Account</th>';
+  recentMonths.forEach(function(ym) {
+    html += '<th style="text-align:right;">' + new Date(ym + '-15').toLocaleDateString('en-US', { month: 'short', year: '2-digit' }) + '</th>';
+  });
+  if (recentMonths.length >= 2) {
+    html += '<th style="text-align:right;">Change</th>';
+  }
+  html += '</tr></thead><tbody>';
+
+  accounts.forEach(function(acct) {
+    html += '<tr><td style="font-size:0.82rem;">' + acct.name + '</td>';
+    var firstVal = null, lastVal = null;
+    recentMonths.forEach(function(ym) {
+      var snap = appData.balanceHistory[ym] || {};
+      var val = snap[acct.id];
+      if (val !== undefined) {
+        if (firstVal === null) firstVal = val;
+        lastVal = val;
+        html += '<td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.78rem;">' + formatCurrency(val) + '</td>';
+      } else {
+        html += '<td style="text-align:right; color:var(--text-light); font-size:0.78rem;">--</td>';
+      }
+    });
+
+    if (recentMonths.length >= 2 && firstVal !== null && lastVal !== null) {
+      var change = lastVal - firstVal;
+      var color = change >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+      html += '<td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.78rem; color:' + color + ';">' + (change >= 0 ? '+' : '') + formatCurrency(change) + '</td>';
+    } else if (recentMonths.length >= 2) {
+      html += '<td></td>';
+    }
+
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  container.innerHTML = html;
 }

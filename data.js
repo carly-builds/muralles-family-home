@@ -21,6 +21,9 @@ function getDefaultData() {
       other: []        // { id, name, value }
     },
 
+    // Monthly balance snapshots keyed by "YYYY-MM" -> { accountId: balance }
+    balanceHistory: {},
+
     // Debts
     debts: [],  // { id, name, type, balance, originalBalance, rate, minPayment }
 
