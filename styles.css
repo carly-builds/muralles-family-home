@@ -1534,6 +1534,28 @@ tr:last-child td {
 }
 
 /* ============================================
+   QUARTERLY / YEARLY REVIEW
+   ============================================ */
+
+.category-bar-row {
+  margin-bottom: 14px;
+}
+
+.category-bar-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+}
+
+.category-bar-amount {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
    PRINT STYLES
    ============================================ */
 

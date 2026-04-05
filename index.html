@@ -492,11 +492,101 @@
       <!-- Quarterly Review Section -->
       <section id="quarterly" class="section">
         <div class="section-header">
-          <h2>Quarterly Review</h2>
-          <p class="section-subtitle">The deeper check-in, every 3 months</p>
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2>Quarterly Review</h2>
+              <p class="section-subtitle">The deeper check-in, every 3 months</p>
+            </div>
+            <div class="month-selector">
+              <button onclick="changeQuarter(-1)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15,18 9,12 15,6"/></svg>
+              </button>
+              <span class="current-month" id="quarterly-current"></span>
+              <button onclick="changeQuarter(1)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,6 15,12 9,18"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="placeholder-message">
-          <p>Quarterly review coming soon.</p>
+
+        <!-- Quarter Financial Summary -->
+        <div class="grid-4 mb-lg" id="quarterly-stats">
+          <div class="stat-card">
+            <div class="stat-label">Quarter Income</div>
+            <div class="stat-value" id="q-income">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Quarter Expenses</div>
+            <div class="stat-value" id="q-expenses">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Quarter Saved</div>
+            <div class="stat-value" id="q-saved">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg Savings Rate</div>
+            <div class="stat-value" id="q-rate">0%</div>
+          </div>
+        </div>
+
+        <!-- Month by Month Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Month by Month</h3>
+          </div>
+          <div id="q-month-breakdown"></div>
+        </div>
+
+        <!-- Category Spend Analysis -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Where Did the Money Go?</h3>
+          </div>
+          <div id="q-category-analysis"></div>
+        </div>
+
+        <!-- Lifestyle Creep Check -->
+        <div class="card" id="q-creep-card" style="display:none;">
+          <div class="card-header">
+            <h3>Lifestyle Creep Check</h3>
+          </div>
+          <div id="q-creep"></div>
+        </div>
+
+        <!-- Goal Progress -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Goal Progress This Quarter</h3>
+          </div>
+          <div id="q-goals"></div>
+        </div>
+
+        <!-- Quarterly Reflection -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Quarterly Reflection</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Wins this quarter</label>
+            <textarea class="form-textarea" id="q-wins" rows="3" placeholder="Financial and life wins. What went right?"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">What surprised you?</label>
+            <textarea class="form-textarea" id="q-surprises" rows="2" placeholder="Unexpected expenses, income, or changes"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">What to carry forward into next quarter</label>
+            <textarea class="form-textarea" id="q-carry-forward" rows="2" placeholder="Habits, adjustments, goals"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Next quarter intention / theme</label>
+            <input type="text" class="form-input" id="q-next-intention" placeholder="e.g., Tighten up, Build momentum, Invest in us">
+          </div>
+        </div>
+
+        <!-- Save -->
+        <div style="display:flex; justify-content:flex-end; margin-top:24px;">
+          <button class="btn btn-primary" style="padding: 14px 32px;" onclick="saveQuarterlyReview()">Save Quarterly Review</button>
         </div>
       </section>
 
@@ -529,6 +619,7 @@
   <script src="monthly.js"></script>
   <script src="goals.js"></script>
   <script src="accounts.js"></script>
+  <script src="quarterly.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
