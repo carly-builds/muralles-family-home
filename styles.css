@@ -1939,6 +1939,222 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+/* ============================================
+   SAVINGS BREAKDOWN (Dashboard)
+   ============================================ */
+
+.savings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.savings-header h3 {
+  font-size: 1.15rem;
+}
+
+.savings-year-block {
+  margin-bottom: 32px;
+}
+
+.savings-year-block:last-child {
+  margin-bottom: 0;
+}
+
+.savings-year-label {
+  font-family: 'Ibarra Real Nova', Georgia, serif;
+  font-size: 1.05rem;
+  color: var(--text-heading);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.savings-year-label .savings-year-saved {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.savings-quarter {
+  margin-bottom: 20px;
+}
+
+.savings-quarter:last-child {
+  margin-bottom: 0;
+}
+
+.savings-q-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0;
+  align-items: center;
+  background: linear-gradient(135deg, var(--bg-warm-gray) 0%, rgba(184, 201, 163, 0.08) 100%);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.savings-q-header:hover {
+  border-color: var(--accent-sage);
+  box-shadow: 0 2px 8px rgba(184, 201, 163, 0.15);
+}
+
+.savings-q-label {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
+.savings-q-stat {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+  min-width: 100px;
+  padding-left: 20px;
+}
+
+.savings-q-saved {
+  font-weight: 600;
+}
+
+.savings-months {
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.savings-month-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto auto;
+  gap: 0;
+  align-items: center;
+  padding: 10px 20px 10px 28px;
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.15s ease;
+}
+
+.savings-month-row:hover {
+  background: var(--bg-warm-gray);
+}
+
+.savings-month-row:last-child {
+  border-bottom: none;
+}
+
+.savings-month-name {
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 0.82rem;
+  color: var(--text-body);
+  font-weight: 300;
+}
+
+.savings-month-val {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+  min-width: 90px;
+  padding-left: 16px;
+}
+
+.savings-month-saved {
+  font-weight: 500;
+}
+
+.savings-change-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.savings-change-pill.positive {
+  background: rgba(123, 168, 123, 0.12);
+  color: var(--accent-green);
+}
+
+.savings-change-pill.negative {
+  background: rgba(207, 107, 99, 0.10);
+  color: var(--accent-red);
+}
+
+.savings-change-pill.neutral {
+  color: var(--text-light);
+}
+
+.savings-bar-wrap {
+  height: 4px;
+  background: var(--border-light);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.savings-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.savings-alltime {
+  background: linear-gradient(135deg, var(--text-heading) 0%, #8a7d72 100%);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0;
+  align-items: center;
+}
+
+.savings-alltime-label {
+  font-family: 'Ibarra Real Nova', Georgia, serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.92);
+}
+
+.savings-alltime-val {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.65);
+  text-align: right;
+  min-width: 100px;
+  padding-left: 20px;
+}
+
+.savings-alltime-saved {
+  color: rgba(255,255,255,0.95);
+  font-weight: 600;
+}
+
+.savings-rate-badge {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.75);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
 @media print {
   .sidebar, .mobile-header { display: none !important; }
   .content { margin-left: 0; padding: 20px; }

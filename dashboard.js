@@ -506,33 +506,39 @@ function switchSavingsView(view) {
 }
 
 function renderDashSavingsBreakdown() {
-  const container = document.getElementById('dash-savings-breakdown');
+  var container = document.getElementById('dash-savings-breakdown');
   if (!container) return;
 
-  const allMonths = Object.keys(appData.months).sort();
+  var allMonths = Object.keys(appData.months).sort();
   if (allMonths.length === 0) {
     container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>No data yet. Log your first month to see savings here.</p></div>';
     return;
   }
 
-  const partnerName = appData.settings.partnerName || 'Matt';
-  const mono = "font-family:'Roboto Mono',monospace; font-size:0.82rem;";
-  const right = 'text-align:right; ' + mono;
+  var partnerName = appData.settings.partnerName || 'Matt';
+  var who = savingsView === 'carly' ? 'carly' : savingsView === 'partner' ? 'matt' : 'everyone';
 
-  // Get savings for each month for the selected view
-  function getMonthSaved(ym, viewWho) {
+  function getMonthData(ym) {
     var s = splitMonthByOwner(appData.months[ym]);
     if (!s) return { income: 0, expenses: 0, saved: 0 };
-    if (viewWho === 'everyone') return { income: s.everyone.incomeTotal, expenses: s.everyone.expenseTotal, saved: s.everyone.saved };
-    var p = s[viewWho];
+    if (who === 'everyone') return { income: s.everyone.incomeTotal, expenses: s.everyone.expenseTotal, saved: s.everyone.saved };
+    var p = s[who];
     return { income: p.incomeTotal, expenses: p.expenseTotal, saved: p.incomeTotal - p.expenseTotal };
   }
 
-  var who = savingsView === 'carly' ? 'carly' : savingsView === 'partner' ? 'matt' : 'everyone';
+  // Find max saved for bar scaling
+  var maxSaved = 0;
+  allMonths.forEach(function(ym) {
+    var d = getMonthData(ym);
+    maxSaved = Math.max(maxSaved, Math.abs(d.saved));
+  });
 
-  var html = renderPersonToggle(savingsView, 'switchSavingsView');
+  var html = '<div class="savings-header">';
+  html += '<h3>Savings Overview</h3>';
+  html += '</div>';
+  html += renderPersonToggle(savingsView, 'switchSavingsView');
 
-  // Group months by year, then by quarter
+  // Group by year > quarter
   var years = {};
   allMonths.forEach(function(ym) {
     var year = ym.split('-')[0];
@@ -540,19 +546,30 @@ function renderDashSavingsBreakdown() {
     years[year].push(ym);
   });
 
+  var sortedYears = Object.keys(years).sort();
   var grandIncome = 0, grandExpenses = 0, grandSaved = 0;
   var prevSaved = null;
-
-  // Build table
-  html += '<div class="revenue-table-wrap"><table><thead><tr>';
-  html += '<th>Period</th><th style="' + right + '">Income</th><th style="' + right + '">Expenses</th><th style="' + right + '">Saved</th><th style="' + right + '">Change</th>';
-  html += '</tr></thead><tbody>';
-
-  var sortedYears = Object.keys(years).sort();
 
   sortedYears.forEach(function(year) {
     var yearMonths = years[year];
     var yearIncome = 0, yearExpenses = 0, yearSaved = 0;
+
+    // Pre-calculate year totals
+    yearMonths.forEach(function(ym) {
+      var d = getMonthData(ym);
+      yearIncome += d.income;
+      yearExpenses += d.expenses;
+      yearSaved += d.saved;
+    });
+
+    var yearRate = yearIncome > 0 ? (yearSaved / yearIncome * 100) : 0;
+    var yearColor = yearSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+
+    html += '<div class="savings-year-block">';
+    html += '<div class="savings-year-label">';
+    html += '<span>' + year + '</span>';
+    html += '<span class="savings-year-saved" style="color:' + yearColor + ';">' + formatCurrency(yearSaved) + ' saved<span class="savings-rate-badge" style="background:rgba(0,0,0,0.06); color:var(--text-muted);">' + yearRate.toFixed(1) + '%</span></span>';
+    html += '</div>';
 
     // Group by quarter
     var quarters = {};
@@ -564,83 +581,96 @@ function renderDashSavingsBreakdown() {
       quarters[qKey].push(ym);
     });
 
-    var sortedQs = Object.keys(quarters).sort();
-
-    sortedQs.forEach(function(qKey) {
+    Object.keys(quarters).sort().forEach(function(qKey) {
       var qMonths = quarters[qKey];
       var qIncome = 0, qExpenses = 0, qSaved = 0;
-
       qMonths.forEach(function(ym) {
-        var d = getMonthSaved(ym, who);
-        var change = prevSaved !== null ? d.saved - prevSaved : null;
-        var changeStr = change !== null
-          ? '<span style="color:' + (change >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + (change >= 0 ? '+' : '') + formatCurrency(change) + '</span>'
-          : '--';
-
-        var monthLabel = new Date(ym + '-15').toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-        html += '<tr>';
-        html += '<td style="padding-left:24px;">' + monthLabel + '</td>';
-        html += '<td style="' + right + '">' + formatCurrency(d.income) + '</td>';
-        html += '<td style="' + right + '">' + formatCurrency(d.expenses) + '</td>';
-        html += '<td style="' + right + ' color:' + (d.saved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(d.saved) + '</td>';
-        html += '<td style="' + right + '">' + changeStr + '</td>';
-        html += '</tr>';
-
+        var d = getMonthData(ym);
         qIncome += d.income;
         qExpenses += d.expenses;
         qSaved += d.saved;
+      });
+
+      var qColor = qSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+      var qId = 'sq-' + year + '-' + qKey;
+
+      html += '<div class="savings-quarter">';
+
+      // Quarter header
+      html += '<div class="savings-q-header" onclick="toggleSavingsQuarter(\'' + qId + '\')">';
+      html += '<span class="savings-q-label">' + qKey + '</span>';
+      html += '<span class="savings-q-stat">' + formatCurrency(qIncome) + '</span>';
+      html += '<span class="savings-q-stat">' + formatCurrency(qExpenses) + '</span>';
+      html += '<span class="savings-q-stat savings-q-saved" style="color:' + qColor + ';">' + formatCurrency(qSaved) + '</span>';
+      html += '</div>';
+
+      // Month rows (expandable)
+      html += '<div class="savings-months" id="' + qId + '">';
+
+      qMonths.forEach(function(ym) {
+        var d = getMonthData(ym);
+        var change = prevSaved !== null ? d.saved - prevSaved : null;
+        var savedColor = d.saved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+        var monthLabel = new Date(ym + '-15').toLocaleDateString('en-US', { month: 'long' });
+        var barPct = maxSaved > 0 ? (Math.abs(d.saved) / maxSaved * 100) : 0;
+        var barColor = d.saved >= 0 ? 'var(--accent-sage)' : 'var(--accent-pink)';
+
+        html += '<div class="savings-month-row">';
+        html += '<div><span class="savings-month-name">' + monthLabel + '</span>';
+        html += '<div class="savings-bar-wrap"><div class="savings-bar-fill" style="width:' + barPct + '%; background:' + barColor + ';"></div></div></div>';
+        html += '<span class="savings-month-val">' + formatCurrency(d.income) + '</span>';
+        html += '<span class="savings-month-val">' + formatCurrency(d.expenses) + '</span>';
+        html += '<span class="savings-month-val savings-month-saved" style="color:' + savedColor + ';">' + formatCurrency(d.saved) + '</span>';
+
+        // Change pill
+        if (change !== null) {
+          var pillClass = change >= 0 ? 'positive' : 'negative';
+          var arrow = change >= 0 ? '\u2191' : '\u2193';
+          html += '<span class="savings-change-pill ' + pillClass + '">' + arrow + ' ' + formatCurrency(Math.abs(change)) + '</span>';
+        } else {
+          html += '<span class="savings-change-pill neutral">\u2014</span>';
+        }
+
+        html += '</div>';
         prevSaved = d.saved;
       });
 
-      // Quarter subtotal
-      html += '<tr style="background:var(--bg-warm-gray); font-weight:600;">';
-      html += '<td style="padding-left:12px;">' + year + ' ' + qKey + '</td>';
-      html += '<td style="' + right + '">' + formatCurrency(qIncome) + '</td>';
-      html += '<td style="' + right + '">' + formatCurrency(qExpenses) + '</td>';
-      html += '<td style="' + right + ' color:' + (qSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(qSaved) + '</td>';
-      html += '<td style="' + right + '"></td>';
-      html += '</tr>';
-
-      yearIncome += qIncome;
-      yearExpenses += qExpenses;
-      yearSaved += qSaved;
+      html += '</div>'; // .savings-months
+      html += '</div>'; // .savings-quarter
     });
 
-    // Year total
-    html += '<tr style="background:var(--bg-cream); font-weight:700; border-top:2px solid var(--border);">';
-    html += '<td>' + year + ' Total</td>';
-    html += '<td style="' + right + '">' + formatCurrency(yearIncome) + '</td>';
-    html += '<td style="' + right + '">' + formatCurrency(yearExpenses) + '</td>';
-    html += '<td style="' + right + ' color:' + (yearSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(yearSaved) + '</td>';
-    var yearRate = yearIncome > 0 ? (yearSaved / yearIncome * 100) : 0;
-    html += '<td style="' + right + '">' + yearRate.toFixed(1) + '% rate</td>';
-    html += '</tr>';
-
-    // Spacer between years
-    if (year !== sortedYears[sortedYears.length - 1]) {
-      html += '<tr><td colspan="5" style="height:8px; border:none;"></td></tr>';
-    }
+    html += '</div>'; // .savings-year-block
 
     grandIncome += yearIncome;
     grandExpenses += yearExpenses;
     grandSaved += yearSaved;
   });
 
-  // Grand total if multiple years
+  // All-time bar (only if multiple years)
   if (sortedYears.length > 1) {
-    html += '<tr style="background:var(--text-heading); color:white; font-weight:700;">';
-    html += '<td>All Time</td>';
-    html += '<td style="' + right + ' color:white;">' + formatCurrency(grandIncome) + '</td>';
-    html += '<td style="' + right + ' color:white;">' + formatCurrency(grandExpenses) + '</td>';
-    html += '<td style="' + right + ' color:white;">' + formatCurrency(grandSaved) + '</td>';
     var grandRate = grandIncome > 0 ? (grandSaved / grandIncome * 100) : 0;
-    html += '<td style="' + right + ' color:white;">' + grandRate.toFixed(1) + '% rate</td>';
-    html += '</tr>';
+    var grandColor = grandSaved >= 0 ? 'rgba(123,168,123,0.9)' : 'rgba(207,107,99,0.9)';
+    html += '<div class="savings-alltime">';
+    html += '<span class="savings-alltime-label">All Time</span>';
+    html += '<span class="savings-alltime-val">' + formatCurrency(grandIncome) + '</span>';
+    html += '<span class="savings-alltime-val">' + formatCurrency(grandExpenses) + '</span>';
+    html += '<span class="savings-alltime-val savings-alltime-saved" style="color:' + grandColor + ';">' + formatCurrency(grandSaved) + '<span class="savings-rate-badge">' + grandRate.toFixed(1) + '%</span></span>';
+    html += '</div>';
   }
 
-  html += '</tbody></table></div>';
-
   container.innerHTML = html;
+}
+
+function toggleSavingsQuarter(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (el.style.maxHeight && el.style.maxHeight !== '0px') {
+    el.style.maxHeight = '0px';
+    el.style.opacity = '0';
+  } else {
+    el.style.maxHeight = el.scrollHeight + 'px';
+    el.style.opacity = '1';
+  }
 }
 
 // ============================================
