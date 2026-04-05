@@ -212,7 +212,7 @@ function addCCCategory(blockId, category, amount) {
       <option value="">Category</option>
       ${spendCategories.map(c => `<option value="${c}" ${c === category ? 'selected' : ''}>${c}</option>`).join('')}
     </select>
-    <div class="currency-input" style="width:120px;">
+    <div class="currency-input" style="width:140px;">
       <input type="number" class="form-input" value="${amount || ''}" placeholder="0">
     </div>
     <button class="row-delete" onclick="this.parentElement.remove();">
