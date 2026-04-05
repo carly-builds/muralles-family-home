@@ -11,6 +11,12 @@ function render_monthly() {
   renderMonthlyBreakdown();
 }
 
+function changeMonth(delta) {
+  if (delta === -1) currentViewMonth = getPreviousYearMonth(currentViewMonth);
+  if (delta === 1) currentViewMonth = getNextYearMonth(currentViewMonth);
+  render_monthly();
+}
+
 function switchMonthlyBreakdownView(view) {
   monthlyBreakdownView = view;
   renderMonthlyBreakdown();
@@ -22,199 +28,108 @@ function switchMonthlyBreakdownView(view) {
 
 function renderMonthlyBreakdown() {
   const container = document.getElementById('monthly-breakdown');
-  const card = document.getElementById('monthly-breakdown-card');
+  const cardEl = document.getElementById('monthly-breakdown-card');
   const monthData = appData.months[currentViewMonth];
 
   if (!monthData || (monthData.income.length === 0 && monthData.fixedExpenses.length === 0 && monthData.creditCards.length === 0)) {
-    card.style.display = 'none';
+    cardEl.style.display = 'none';
     return;
   }
-  card.style.display = 'block';
+  cardEl.style.display = 'block';
 
+  const split = splitMonthByOwner(monthData);
   const partnerName = appData.settings.partnerName || 'Matt';
 
-  // Categorize income by person
-  let carlyIncome = 0, mattIncome = 0, sharedIncome = 0;
-  const carlyIncomeItems = [];
-  const mattIncomeItems = [];
-  const sharedIncomeItems = [];
-
-  (monthData.income || []).forEach(inc => {
-    const cat = inc.category || '';
-    if (INCOME_STREAMS.carly.keys.includes(cat)) {
-      carlyIncome += inc.amount;
-      carlyIncomeItems.push(inc);
-    } else if (INCOME_STREAMS.matt.keys.includes(cat)) {
-      mattIncome += inc.amount;
-      mattIncomeItems.push(inc);
-    } else {
-      sharedIncome += inc.amount;
-      sharedIncomeItems.push(inc);
-    }
-  });
-
-  // Categorize expenses by person
-  // Credit cards: Chase Business (Carly) is Carly's, rest are shared/Matt
-  let carlyExpenses = 0, mattExpenses = 0, sharedExpenses = 0;
-  const carlyExpenseItems = [];
-  const mattExpenseItems = [];
-  const sharedExpenseItems = [];
-
-  (monthData.creditCards || []).forEach(card => {
-    const name = (card.name || '').toLowerCase();
-    if (name.includes('carly') || name.includes('business')) {
-      carlyExpenses += card.total;
-      carlyExpenseItems.push({ name: card.name, amount: card.total });
-    } else {
-      sharedExpenses += card.total;
-      sharedExpenseItems.push({ name: card.name, amount: card.total });
-    }
-  });
-
-  (monthData.fixedExpenses || []).forEach(exp => {
-    // Most fixed expenses come from BofA (Matt's account) so treat as shared
-    sharedExpenses += exp.amount;
-    sharedExpenseItems.push({ name: exp.name, amount: exp.amount });
-  });
-
-  const surprise = parseFloat(monthData.surpriseSpend) || 0;
-  if (surprise > 0) {
-    sharedExpenses += surprise;
-    sharedExpenseItems.push({ name: 'Surprise Spend', amount: surprise });
-  }
-
-  const totalIncome = carlyIncome + mattIncome + sharedIncome;
-  const totalExpenses = carlyExpenses + mattExpenses + sharedExpenses;
-
-  // Build toggle
-  let html = `
-    <div class="revenue-toggle-row">
-      <div class="revenue-toggles">
-        <button class="revenue-toggle ${monthlyBreakdownView === 'everyone' ? 'active' : ''}" onclick="switchMonthlyBreakdownView('everyone')">Everyone</button>
-        <button class="revenue-toggle ${monthlyBreakdownView === 'carly' ? 'active' : ''}" onclick="switchMonthlyBreakdownView('carly')">Carly</button>
-        <button class="revenue-toggle ${monthlyBreakdownView === 'partner' ? 'active' : ''}" onclick="switchMonthlyBreakdownView('partner')">${partnerName}</button>
-      </div>
-    </div>
-  `;
+  let html = renderPersonToggle(monthlyBreakdownView, 'switchMonthlyBreakdownView');
 
   if (monthlyBreakdownView === 'everyone') {
-    html += renderBreakdownEveryone(partnerName, carlyIncome, mattIncome, sharedIncome, totalIncome, carlyExpenses, mattExpenses, sharedExpenses, totalExpenses);
-  } else if (monthlyBreakdownView === 'carly') {
-    html += renderBreakdownPerson('Carly', carlyIncomeItems, carlyIncome, carlyExpenseItems, carlyExpenses, sharedIncomeItems, sharedIncome, sharedExpenseItems, sharedExpenses);
+    html += renderSplitEveryone(split, partnerName);
   } else {
-    html += renderBreakdownPerson(partnerName, mattIncomeItems, mattIncome, mattExpenseItems, mattExpenses, sharedIncomeItems, sharedIncome, sharedExpenseItems, sharedExpenses);
+    const who = monthlyBreakdownView === 'carly' ? 'carly' : 'matt';
+    const name = monthlyBreakdownView === 'carly' ? 'Carly' : partnerName;
+    html += renderSplitPerson(split, who, name);
   }
 
   container.innerHTML = html;
 }
 
-function renderBreakdownEveryone(partnerName, carlyIncome, mattIncome, sharedIncome, totalIncome, carlyExpenses, mattExpenses, sharedExpenses, totalExpenses) {
-  const totalSaved = totalIncome - totalExpenses;
+// Shared renderers used by monthly, quarterly, yearly
+function renderSplitEveryone(split, partnerName) {
+  const saved = split.everyone.saved;
   let html = '<div class="revenue-summary-row">';
-
-  html += `<div class="revenue-total-card">
-    <div class="stat-label">Total Income</div>
-    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(totalIncome)}</div>
-  </div>`;
-  html += `<div class="revenue-total-card">
-    <div class="stat-label">Total Expenses</div>
-    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(totalExpenses)}</div>
-  </div>`;
-  html += `<div class="revenue-total-card">
-    <div class="stat-label">Saved</div>
-    <div class="stat-value" style="font-size:1.4rem; color: ${totalSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">${formatCurrency(totalSaved)}</div>
-  </div>`;
-
+  html += '<div class="revenue-total-card"><div class="stat-label">Total Income</div><div class="stat-value" style="font-size:1.4rem;">' + formatCurrency(split.everyone.incomeTotal) + '</div></div>';
+  html += '<div class="revenue-total-card"><div class="stat-label">Total Expenses</div><div class="stat-value" style="font-size:1.4rem;">' + formatCurrency(split.everyone.expenseTotal) + '</div></div>';
+  html += '<div class="revenue-total-card"><div class="stat-label">Saved</div><div class="stat-value" style="font-size:1.4rem; color:' + (saved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(saved) + '</div></div>';
   html += '</div>';
 
-  // Income breakdown
   html += '<div class="revenue-table-wrap"><table><thead><tr><th>Income</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
-  html += `<tr><td style="color:var(--accent-pink);">Carly</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(carlyIncome)}</td></tr>`;
-  html += `<tr><td style="color:var(--accent-blue);">${partnerName}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(mattIncome)}</td></tr>`;
-  if (sharedIncome > 0) {
-    html += `<tr><td style="color:var(--text-muted);">Other</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(sharedIncome)}</td></tr>`;
+  html += '<tr><td style="color:var(--accent-pink);">Carly</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(split.carly.incomeTotal) + '</td></tr>';
+  html += '<tr><td style="color:var(--accent-blue);">' + partnerName + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(split.matt.incomeTotal) + '</td></tr>';
+  if (split.shared.incomeTotal > 0) {
+    html += '<tr><td style="color:var(--text-muted);">Other</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(split.shared.incomeTotal) + '</td></tr>';
   }
   html += '</tbody></table></div>';
 
-  // Expense breakdown
   html += '<div class="revenue-table-wrap"><table><thead><tr><th>Expenses</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
-  if (carlyExpenses > 0) {
-    html += `<tr><td style="color:var(--accent-pink);">Carly (cards)</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(carlyExpenses)}</td></tr>`;
+  if (split.carly.expenseTotal > 0) {
+    html += '<tr><td style="color:var(--accent-pink);">Carly</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(split.carly.expenseTotal) + '</td></tr>';
   }
-  html += `<tr><td style="color:var(--text-muted);">Shared</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(sharedExpenses)}</td></tr>`;
+  if (split.matt.expenseTotal > 0) {
+    html += '<tr><td style="color:var(--accent-blue);">' + partnerName + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(split.matt.expenseTotal) + '</td></tr>';
+  }
+  if (split.shared.expenseTotal > 0) {
+    html += '<tr><td style="color:var(--text-muted);">Shared</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(split.shared.expenseTotal) + '</td></tr>';
+  }
   html += '</tbody></table></div>';
-
   return html;
 }
 
-function renderBreakdownPerson(name, incomeItems, personalIncome, expenseItems, personalExpenses, sharedIncomeItems, sharedIncome, sharedExpenseItems, sharedExpenses) {
-  const totalPersonIncome = personalIncome + sharedIncome;
-  const totalPersonExpenses = personalExpenses + sharedExpenses;
-  const saved = totalPersonIncome - totalPersonExpenses;
+function renderSplitPerson(split, who, name) {
+  const person = split[who];
 
   let html = '<div class="revenue-summary-row">';
-  html += `<div class="revenue-total-card">
-    <div class="stat-label">${name}'s Income</div>
-    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(personalIncome)}</div>
-  </div>`;
-  html += `<div class="revenue-total-card">
-    <div class="stat-label">${name}'s Expenses</div>
-    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(personalExpenses)}</div>
-  </div>`;
+  html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Income</div><div class="stat-value" style="font-size:1.4rem;">' + formatCurrency(person.incomeTotal) + '</div></div>';
+  html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Expenses</div><div class="stat-value" style="font-size:1.4rem;">' + formatCurrency(person.expenseTotal) + '</div></div>';
   html += '</div>';
 
-  // Income detail
-  if (incomeItems.length > 0) {
+  if (person.income.length > 0) {
     html += '<div class="revenue-table-wrap"><table><thead><tr><th>Income</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
-    incomeItems.forEach(inc => {
-      const label = INCOME_STREAMS.carly.labels?.[inc.category] || INCOME_STREAMS.matt.labels?.[inc.category] || inc.category;
-      html += `<tr><td>${label}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(inc.amount)}</td></tr>`;
+    person.income.forEach(function(inc) {
+      html += '<tr><td>' + getIncomeLabel(inc.category) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(inc.amount) + '</td></tr>';
     });
-    html += `<tr style="font-weight:600;"><td>Total</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(personalIncome)}</td></tr>`;
+    html += '<tr style="font-weight:600;"><td>Total</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(person.incomeTotal) + '</td></tr>';
     html += '</tbody></table></div>';
   }
 
-  // Expense detail
-  if (expenseItems.length > 0) {
+  if (person.expenses.length > 0) {
     html += '<div class="revenue-table-wrap"><table><thead><tr><th>Expenses</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
-    expenseItems.forEach(exp => {
-      html += `<tr><td>${exp.name}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(exp.amount)}</td></tr>`;
+    person.expenses.forEach(function(exp) {
+      html += '<tr><td>' + exp.name + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(exp.amount) + '</td></tr>';
     });
-    html += `<tr style="font-weight:600;"><td>Total</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(personalExpenses)}</td></tr>`;
+    html += '<tr style="font-weight:600;"><td>Total</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(person.expenseTotal) + '</td></tr>';
     html += '</tbody></table></div>';
   }
 
-  // Shared section
-  if (sharedIncomeItems.length > 0 || sharedExpenseItems.length > 0) {
-    html += `<div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">`;
-    html += `<div class="card-label" style="margin-bottom:10px;">Shared / Household</div>`;
-
-    if (sharedIncomeItems.length > 0) {
+  if (split.shared.incomeTotal > 0 || split.shared.expenseTotal > 0) {
+    html += '<div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">';
+    html += '<div class="card-label" style="margin-bottom:10px;">Shared / Household</div>';
+    if (split.shared.income.length > 0) {
       html += '<div class="revenue-table-wrap"><table><thead><tr><th>Shared Income</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
-      sharedIncomeItems.forEach(inc => {
-        html += `<tr><td>${inc.category}${inc.notes ? ' — ' + inc.notes : ''}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(inc.amount)}</td></tr>`;
+      split.shared.income.forEach(function(inc) {
+        html += '<tr><td>' + inc.category + (inc.notes ? ' \u2014 ' + inc.notes : '') + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(inc.amount) + '</td></tr>';
       });
       html += '</tbody></table></div>';
     }
-
-    if (sharedExpenseItems.length > 0) {
+    if (split.shared.expenses.length > 0) {
       html += '<div class="revenue-table-wrap"><table><thead><tr><th>Shared Expenses</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
-      sharedExpenseItems.forEach(exp => {
-        html += `<tr><td>${exp.name}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(exp.amount)}</td></tr>`;
+      split.shared.expenses.forEach(function(exp) {
+        html += '<tr><td>' + exp.name + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(exp.amount) + '</td></tr>';
       });
       html += '</tbody></table></div>';
     }
-
     html += '</div>';
   }
-
   return html;
-}
-
-function changeMonth(delta) {
-  if (delta === -1) currentViewMonth = getPreviousYearMonth(currentViewMonth);
-  if (delta === 1) currentViewMonth = getNextYearMonth(currentViewMonth);
-  render_monthly();
 }
 
 // ============================================
@@ -225,34 +140,24 @@ function loadMonthData(yearMonth) {
   const monthData = appData.months[yearMonth];
   const partnerName = appData.settings.partnerName || 'Partner';
 
-  // Set partner name
   const partnerNameEl = document.getElementById('pulse-partner-name');
   if (partnerNameEl) partnerNameEl.textContent = partnerName;
 
-  // Clear all rows
   document.getElementById('monthly-income-rows').innerHTML = '';
   document.getElementById('monthly-fixed-rows').innerHTML = '';
   document.getElementById('monthly-cc-rows').innerHTML = '';
   document.getElementById('monthly-allocations-rows').innerHTML = '';
 
   if (monthData) {
-    // Load income
     (monthData.income || []).forEach(item => addIncomeRow(item.category, item.amount, item.notes));
-    // Load fixed expenses
     (monthData.fixedExpenses || []).forEach(item => addFixedExpenseRow(item.name, item.amount, item.notes));
-    // Load credit cards
     (monthData.creditCards || []).forEach(card => addCreditCardRow(card.name, card.total, card.categories));
-    // Load surprise spend
     document.getElementById('monthly-surprise-amount').value = monthData.surpriseSpend || '';
     document.getElementById('monthly-surprise-notes').value = monthData.surpriseNotes || '';
-    // Load savings allocations
     (monthData.savingsAllocations || []).forEach(item => addSavingsAllocationRow(item.account, item.amount));
-    // Load pulse
     loadPulseData(monthData.pulse);
-    // Show summary bar
     showMonthlySummary(monthData);
   } else {
-    // Empty form with default rows
     addIncomeRow();
     addIncomeRow();
     addFixedExpenseRow();
@@ -265,10 +170,8 @@ function loadMonthData(yearMonth) {
     document.getElementById('monthly-summary-bar').style.display = 'none';
   }
 
-  // Build pulse feeling selectors
   buildFeelingSelector('pulse-carly', monthData?.pulse?.carlyFeeling || 0);
   buildFeelingSelector('pulse-partner', monthData?.pulse?.partnerFeeling || 0);
-
   updateMonthlyTotals();
 }
 
@@ -287,38 +190,15 @@ function showMonthlySummary(monthData) {
     const prevTotals = calculateMonthTotals(prevData);
     const expDiff = totals.totalExpenses - prevTotals.totalExpenses;
     const expClass = expDiff <= 0 ? 'positive' : 'negative';
-    comparisonHTML = `
-      <div class="summary-stat">
-        <span class="card-label">vs. Last Month</span>
-        <span class="summary-stat-value month-comparison ${expClass}">
-          ${expDiff >= 0 ? '+' : ''}${formatCurrency(expDiff)} expenses
-        </span>
-      </div>
-    `;
+    comparisonHTML = '<div class="summary-stat"><span class="card-label">vs. Last Month</span><span class="summary-stat-value month-comparison ' + expClass + '">' + (expDiff >= 0 ? '+' : '') + formatCurrency(expDiff) + ' expenses</span></div>';
   }
 
   bar.style.display = 'flex';
-  bar.innerHTML = `
-    <div class="summary-stat">
-      <span class="card-label">Income</span>
-      <span class="summary-stat-value">${formatCurrency(totals.totalIncome)}</span>
-    </div>
-    <div class="summary-stat">
-      <span class="card-label">Expenses</span>
-      <span class="summary-stat-value">${formatCurrency(totals.totalExpenses)}</span>
-    </div>
-    <div class="summary-stat">
-      <span class="card-label">Saved</span>
-      <span class="summary-stat-value" style="color: ${totals.totalSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'}">
-        ${formatCurrency(totals.totalSaved)}
-      </span>
-    </div>
-    <div class="summary-stat">
-      <span class="card-label">Rate</span>
-      <span class="summary-stat-value">${formatPercent(totals.savingsRate)}</span>
-    </div>
-    ${comparisonHTML}
-  `;
+  bar.innerHTML = '<div class="summary-stat"><span class="card-label">Income</span><span class="summary-stat-value">' + formatCurrency(totals.totalIncome) + '</span></div>' +
+    '<div class="summary-stat"><span class="card-label">Expenses</span><span class="summary-stat-value">' + formatCurrency(totals.totalExpenses) + '</span></div>' +
+    '<div class="summary-stat"><span class="card-label">Saved</span><span class="summary-stat-value" style="color: ' + (totals.totalSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + '">' + formatCurrency(totals.totalSaved) + '</span></div>' +
+    '<div class="summary-stat"><span class="card-label">Rate</span><span class="summary-stat-value">' + formatPercent(totals.savingsRate) + '</span></div>' +
+    comparisonHTML;
 }
 
 // ============================================
@@ -331,20 +211,13 @@ function addIncomeRow(category, amount, notes) {
 
   const row = document.createElement('div');
   row.className = 'monthly-row';
-  row.innerHTML = `
-    <select class="form-select category-select" onchange="updateMonthlyTotals()">
-      <option value="">Category</option>
-      ${categories.map(c => `<option value="${c}" ${c === category ? 'selected' : ''}>${c}</option>`).join('')}
-    </select>
-    <div class="amount-input-wrap">
-      <span class="amount-prefix">$</span>
-      <input type="number" class="form-input amount-field" value="${amount || ''}" placeholder="0" onchange="updateMonthlyTotals()">
-    </div>
-    <input type="text" class="form-input notes-input" value="${notes || ''}" placeholder="Notes">
-    <button class="row-delete" onclick="this.parentElement.remove(); updateMonthlyTotals();">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  `;
+  row.innerHTML = '<select class="form-select category-select" onchange="updateMonthlyTotals()">' +
+    '<option value="">Category</option>' +
+    categories.map(function(c) { return '<option value="' + c + '"' + (c === category ? ' selected' : '') + '>' + c + '</option>'; }).join('') +
+    '</select>' +
+    '<div class="amount-input-wrap"><span class="amount-prefix">$</span><input type="number" class="form-input amount-field" value="' + (amount || '') + '" placeholder="0" onchange="updateMonthlyTotals()"></div>' +
+    '<input type="text" class="form-input notes-input" value="' + (notes || '') + '" placeholder="Notes">' +
+    '<button class="row-delete" onclick="this.parentElement.remove(); updateMonthlyTotals();"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
   container.appendChild(row);
 }
 
@@ -357,17 +230,10 @@ function addFixedExpenseRow(name, amount, notes) {
 
   const row = document.createElement('div');
   row.className = 'monthly-row';
-  row.innerHTML = `
-    <input type="text" class="form-input name-input" value="${name || ''}" placeholder="Expense name (e.g., Rent, Electric)">
-    <div class="amount-input-wrap">
-      <span class="amount-prefix">$</span>
-      <input type="number" class="form-input amount-field" value="${amount || ''}" placeholder="0" onchange="updateMonthlyTotals()">
-    </div>
-    <input type="text" class="form-input notes-input" value="${notes || ''}" placeholder="Notes">
-    <button class="row-delete" onclick="this.parentElement.remove(); updateMonthlyTotals();">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  `;
+  row.innerHTML = '<input type="text" class="form-input name-input" value="' + (name || '') + '" placeholder="Expense name (e.g., Rent, Electric)">' +
+    '<div class="amount-input-wrap"><span class="amount-prefix">$</span><input type="number" class="form-input amount-field" value="' + (amount || '') + '" placeholder="0" onchange="updateMonthlyTotals()"></div>' +
+    '<input type="text" class="form-input notes-input" value="' + (notes || '') + '" placeholder="Notes">' +
+    '<button class="row-delete" onclick="this.parentElement.remove(); updateMonthlyTotals();"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
   container.appendChild(row);
 }
 
@@ -383,46 +249,33 @@ function addCreditCardRow(name, total, categories) {
   const block = document.createElement('div');
   block.className = 'cc-card-block';
   block.id = id;
-  block.innerHTML = `
-    <div class="cc-card-header">
-      <input type="text" class="form-input name-input" value="${name || ''}" placeholder="Card name (e.g., Chase Sapphire)">
-      <div class="currency-input" style="width:140px;">
-        <input type="number" class="form-input cc-total-input" value="${total || ''}" placeholder="0" onchange="updateMonthlyTotals()">
-      </div>
-      <button class="row-delete" onclick="this.closest('.cc-card-block').remove(); updateMonthlyTotals();">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="cc-categories" data-cc-id="${id}"></div>
-    <button class="cc-add-category" onclick="addCCCategory('${id}')">+ break down by category (optional)</button>
-  `;
+  block.innerHTML = '<div class="cc-card-header">' +
+    '<input type="text" class="form-input name-input" value="' + (name || '') + '" placeholder="Card name (e.g., Chase Sapphire)">' +
+    '<div class="currency-input" style="width:140px;"><input type="number" class="form-input cc-total-input" value="' + (total || '') + '" placeholder="0" onchange="updateMonthlyTotals()"></div>' +
+    '<button class="row-delete" onclick="this.closest(\'.cc-card-block\').remove(); updateMonthlyTotals();"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
+    '</div>' +
+    '<div class="cc-categories" data-cc-id="' + id + '"></div>' +
+    '<button class="cc-add-category" onclick="addCCCategory(\'' + id + '\')">+ break down by category (optional)</button>';
   container.appendChild(block);
 
-  // Load existing categories
   if (categories && categories.length > 0) {
-    categories.forEach(cat => addCCCategory(id, cat.category, cat.amount));
+    categories.forEach(function(cat) { addCCCategory(id, cat.category, cat.amount); });
   }
 }
 
 function addCCCategory(blockId, category, amount) {
-  const container = document.querySelector(`[data-cc-id="${blockId}"]`);
+  const container = document.querySelector('[data-cc-id="' + blockId + '"]');
   if (!container) return;
   const spendCategories = appData.settings.spendCategories;
 
   const row = document.createElement('div');
   row.className = 'cc-category-row';
-  row.innerHTML = `
-    <select class="form-select" style="width:160px;">
-      <option value="">Category</option>
-      ${spendCategories.map(c => `<option value="${c}" ${c === category ? 'selected' : ''}>${c}</option>`).join('')}
-    </select>
-    <div class="currency-input" style="width:140px;">
-      <input type="number" class="form-input" value="${amount || ''}" placeholder="0">
-    </div>
-    <button class="row-delete" onclick="this.parentElement.remove();">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  `;
+  row.innerHTML = '<select class="form-select" style="width:160px;">' +
+    '<option value="">Category</option>' +
+    spendCategories.map(function(c) { return '<option value="' + c + '"' + (c === category ? ' selected' : '') + '>' + c + '</option>'; }).join('') +
+    '</select>' +
+    '<div class="currency-input" style="width:140px;"><input type="number" class="form-input" value="' + (amount || '') + '" placeholder="0"></div>' +
+    '<button class="row-delete" onclick="this.parentElement.remove();"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
   container.appendChild(row);
 }
 
@@ -435,16 +288,9 @@ function addSavingsAllocationRow(account, amount) {
 
   const row = document.createElement('div');
   row.className = 'monthly-row';
-  row.innerHTML = `
-    <input type="text" class="form-input name-input" value="${account || ''}" placeholder="Account or goal (e.g., Emergency Fund, 401k)">
-    <div class="amount-input-wrap">
-      <span class="amount-prefix">$</span>
-      <input type="number" class="form-input amount-field" value="${amount || ''}" placeholder="0">
-    </div>
-    <button class="row-delete" onclick="this.parentElement.remove();">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  `;
+  row.innerHTML = '<input type="text" class="form-input name-input" value="' + (account || '') + '" placeholder="Account or goal (e.g., Emergency Fund, 401k)">' +
+    '<div class="amount-input-wrap"><span class="amount-prefix">$</span><input type="number" class="form-input amount-field" value="' + (amount || '') + '" placeholder="0"></div>' +
+    '<button class="row-delete" onclick="this.parentElement.remove();"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
   container.appendChild(row);
 }
 
@@ -457,16 +303,16 @@ function buildFeelingSelector(containerId, selectedValue) {
   container.innerHTML = '';
   for (let i = 1; i <= 5; i++) {
     const dot = document.createElement('button');
-    dot.className = `feeling-dot ${i <= selectedValue ? 'selected' : ''}`;
+    dot.className = 'feeling-dot ' + (i <= selectedValue ? 'selected' : '');
     dot.textContent = i;
-    dot.onclick = () => selectFeeling(containerId, i);
+    dot.onclick = (function(val) { return function() { selectFeeling(containerId, val); }; })(i);
     container.appendChild(dot);
   }
 }
 
 function selectFeeling(containerId, value) {
   const container = document.getElementById(containerId);
-  container.querySelectorAll('.feeling-dot').forEach((dot, idx) => {
+  container.querySelectorAll('.feeling-dot').forEach(function(dot, idx) {
     dot.classList.toggle('selected', idx < value);
   });
   container.dataset.value = value;
@@ -497,33 +343,25 @@ function loadPulseData(pulse) {
 // ============================================
 
 function updateMonthlyTotals() {
-  // Income
   let totalIncome = 0;
-  document.querySelectorAll('#monthly-income-rows .monthly-row').forEach(row => {
-    const val = parseFloat(row.querySelector('.amount-field')?.value) || 0;
-    totalIncome += val;
+  document.querySelectorAll('#monthly-income-rows .monthly-row').forEach(function(row) {
+    totalIncome += parseFloat(row.querySelector('.amount-field')?.value) || 0;
   });
   document.getElementById('monthly-income-total').textContent = formatCurrency(totalIncome);
 
-  // Fixed expenses
   let totalFixed = 0;
-  document.querySelectorAll('#monthly-fixed-rows .monthly-row').forEach(row => {
-    const val = parseFloat(row.querySelector('.amount-field')?.value) || 0;
-    totalFixed += val;
+  document.querySelectorAll('#monthly-fixed-rows .monthly-row').forEach(function(row) {
+    totalFixed += parseFloat(row.querySelector('.amount-field')?.value) || 0;
   });
   document.getElementById('monthly-fixed-total').textContent = formatCurrency(totalFixed);
 
-  // Credit cards
   let totalCC = 0;
-  document.querySelectorAll('.cc-total-input').forEach(input => {
+  document.querySelectorAll('.cc-total-input').forEach(function(input) {
     totalCC += parseFloat(input.value) || 0;
   });
   document.getElementById('monthly-cc-total').textContent = formatCurrency(totalCC);
 
-  // Surprise
   const surprise = parseFloat(document.getElementById('monthly-surprise-amount').value) || 0;
-
-  // The math
   const totalExpenses = totalFixed + totalCC + surprise;
   const totalSaved = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? (totalSaved / totalIncome) * 100 : 0;
@@ -542,55 +380,41 @@ function updateMonthlyTotals() {
 function saveMonthlyUpdate() {
   const monthData = getMonthTemplate(currentViewMonth);
 
-  // Collect income
-  document.querySelectorAll('#monthly-income-rows .monthly-row').forEach(row => {
+  document.querySelectorAll('#monthly-income-rows .monthly-row').forEach(function(row) {
     const category = row.querySelector('.category-select')?.value || '';
     const amount = parseFloat(row.querySelector('.amount-field')?.value) || 0;
     const notes = row.querySelector('.notes-input')?.value || '';
-    if (amount > 0 || category) {
-      monthData.income.push({ category, amount, notes });
-    }
+    if (amount > 0 || category) monthData.income.push({ category: category, amount: amount, notes: notes });
   });
 
-  // Collect fixed expenses
-  document.querySelectorAll('#monthly-fixed-rows .monthly-row').forEach(row => {
+  document.querySelectorAll('#monthly-fixed-rows .monthly-row').forEach(function(row) {
     const name = row.querySelector('.name-input')?.value || '';
     const amount = parseFloat(row.querySelector('.amount-field')?.value) || 0;
     const notes = row.querySelector('.notes-input')?.value || '';
-    if (amount > 0 || name) {
-      monthData.fixedExpenses.push({ name, amount, notes });
-    }
+    if (amount > 0 || name) monthData.fixedExpenses.push({ name: name, amount: amount, notes: notes });
   });
 
-  // Collect credit cards
-  document.querySelectorAll('.cc-card-block').forEach(block => {
+  document.querySelectorAll('.cc-card-block').forEach(function(block) {
     const name = block.querySelector('.name-input')?.value || '';
     const total = parseFloat(block.querySelector('.cc-total-input')?.value) || 0;
     const categories = [];
-    block.querySelectorAll('.cc-category-row').forEach(catRow => {
+    block.querySelectorAll('.cc-category-row').forEach(function(catRow) {
       const cat = catRow.querySelector('.form-select')?.value || '';
       const amt = parseFloat(catRow.querySelector('.currency-input input')?.value) || 0;
       if (cat || amt > 0) categories.push({ category: cat, amount: amt });
     });
-    if (total > 0 || name) {
-      monthData.creditCards.push({ name, total, categories });
-    }
+    if (total > 0 || name) monthData.creditCards.push({ name: name, total: total, categories: categories });
   });
 
-  // Surprise spend
   monthData.surpriseSpend = parseFloat(document.getElementById('monthly-surprise-amount').value) || 0;
   monthData.surpriseNotes = document.getElementById('monthly-surprise-notes').value || '';
 
-  // Savings allocations
-  document.querySelectorAll('#monthly-allocations-rows .monthly-row').forEach(row => {
+  document.querySelectorAll('#monthly-allocations-rows .monthly-row').forEach(function(row) {
     const account = row.querySelector('.name-input')?.value || '';
     const amount = parseFloat(row.querySelector('.amount-field')?.value) || 0;
-    if (account || amount > 0) {
-      monthData.savingsAllocations.push({ account, amount });
-    }
+    if (account || amount > 0) monthData.savingsAllocations.push({ account: account, amount: amount });
   });
 
-  // Pulse check
   monthData.pulse = {
     carlyFeeling: getFeelingValue('pulse-carly'),
     partnerFeeling: getFeelingValue('pulse-partner'),
@@ -599,16 +423,13 @@ function saveMonthlyUpdate() {
     notes: document.getElementById('pulse-notes').value
   };
 
-  // Calculate totals
   monthData.totals = calculateMonthTotals(monthData);
-
-  // Save
   appData.months[currentViewMonth] = monthData;
   saveData(appData);
 
   showMonthlySummary(monthData);
   renderMonthlyBreakdown();
-  showToast(`${getMonthName(currentViewMonth)} saved!`);
+  showToast(getMonthName(currentViewMonth) + ' saved!');
 }
 
 // ============================================
@@ -616,7 +437,7 @@ function saveMonthlyUpdate() {
 // ============================================
 
 function clearMonthlyForm() {
-  showConfirm('Clear all data for this month? This cannot be undone.', () => {
+  showConfirm('Clear all data for this month? This cannot be undone.', function() {
     delete appData.months[currentViewMonth];
     saveData(appData);
     loadMonthData(currentViewMonth);

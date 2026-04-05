@@ -303,6 +303,184 @@ function projectGoalCompletion(goal) {
   };
 }
 
+// ============================================
+// Ownership Config: Who owns what
+// ============================================
+
+const OWNERSHIP = {
+  carly: {
+    incomeKeys: ['Reach Out Party (Stripe)', 'TETHER (Stripe)', 'Coaching (Stripe)', 'Substack (Stripe)'],
+    incomeLabels: {
+      'Reach Out Party (Stripe)': 'Reach Out Party',
+      'TETHER (Stripe)': 'TETHER',
+      'Coaching (Stripe)': 'Coaching',
+      'Substack (Stripe)': 'Substack'
+    },
+    incomeColors: {
+      'Reach Out Party (Stripe)': 'var(--accent-sage)',
+      'TETHER (Stripe)': 'var(--accent-lavender)',
+      'Coaching (Stripe)': 'var(--accent-butter)',
+      'Substack (Stripe)': 'var(--accent-orange)'
+    },
+    // Credit cards owned by Carly (matched case-insensitive)
+    cardMatches: ['carly', 'business'],
+  },
+  matt: {
+    incomeKeys: ['Salary (Matt/Flywire)', 'Bonus (Flywire)', 'RSU/Stock Sales', 'ESPP (Flywire)'],
+    incomeLabels: {
+      'Salary (Matt/Flywire)': 'Flywire Salary',
+      'Bonus (Flywire)': 'Bonus',
+      'RSU/Stock Sales': 'RSU / Stock Sales',
+      'ESPP (Flywire)': 'ESPP'
+    },
+    incomeColors: {
+      'Salary (Matt/Flywire)': 'var(--accent-blue)',
+      'Bonus (Flywire)': 'var(--accent-butter)',
+      'RSU/Stock Sales': 'var(--accent-sage)',
+      'ESPP (Flywire)': 'var(--accent-lavender)'
+    },
+    // Credit cards owned by Matt (matched case-insensitive)
+    cardMatches: ['sapphire', 'amex', 'blue cash'],
+    // Fixed expenses from BofA are Matt's
+    ownsFixedExpenses: true,
+  }
+};
+
+// Determine if a credit card belongs to a person
+function getCardOwner(cardName) {
+  const name = (cardName || '').toLowerCase();
+  if (OWNERSHIP.carly.cardMatches.some(m => name.includes(m))) return 'carly';
+  if (OWNERSHIP.matt.cardMatches.some(m => name.includes(m))) return 'matt';
+  return 'shared';
+}
+
+// Determine if an income entry belongs to a person
+function getIncomeOwner(category) {
+  if (OWNERSHIP.carly.incomeKeys.includes(category)) return 'carly';
+  if (OWNERSHIP.matt.incomeKeys.includes(category)) return 'matt';
+  return 'shared';
+}
+
+// Get income label for display
+function getIncomeLabel(category) {
+  return OWNERSHIP.carly.incomeLabels[category]
+    || OWNERSHIP.matt.incomeLabels[category]
+    || category;
+}
+
+// Get income color for display
+function getIncomeColor(category) {
+  return OWNERSHIP.carly.incomeColors[category]
+    || OWNERSHIP.matt.incomeColors[category]
+    || 'var(--text-muted)';
+}
+
+// Split month data by owner. Returns { carly: {...}, matt: {...}, shared: {...}, everyone: {...} }
+function splitMonthByOwner(monthData) {
+  if (!monthData) return null;
+
+  const result = {
+    carly: { income: [], incomeTotal: 0, expenses: [], expenseTotal: 0 },
+    matt: { income: [], incomeTotal: 0, expenses: [], expenseTotal: 0 },
+    shared: { income: [], incomeTotal: 0, expenses: [], expenseTotal: 0 },
+  };
+
+  // Income
+  (monthData.income || []).forEach(inc => {
+    const owner = getIncomeOwner(inc.category);
+    result[owner].income.push(inc);
+    result[owner].incomeTotal += inc.amount || 0;
+  });
+
+  // Credit cards
+  (monthData.creditCards || []).forEach(card => {
+    const owner = getCardOwner(card.name);
+    result[owner].expenses.push({ name: card.name, amount: card.total || 0, type: 'card', categories: card.categories });
+    result[owner].expenseTotal += card.total || 0;
+  });
+
+  // Fixed expenses (all from BofA = Matt)
+  (monthData.fixedExpenses || []).forEach(exp => {
+    result.matt.expenses.push({ name: exp.name, amount: exp.amount || 0, type: 'fixed' });
+    result.matt.expenseTotal += exp.amount || 0;
+  });
+
+  // Surprise spend (shared)
+  const surprise = parseFloat(monthData.surpriseSpend) || 0;
+  if (surprise > 0) {
+    result.shared.expenses.push({ name: 'Surprise Spend', amount: surprise, type: 'surprise' });
+    result.shared.expenseTotal += surprise;
+  }
+
+  // Everyone totals
+  result.everyone = {
+    incomeTotal: result.carly.incomeTotal + result.matt.incomeTotal + result.shared.incomeTotal,
+    expenseTotal: result.carly.expenseTotal + result.matt.expenseTotal + result.shared.expenseTotal,
+  };
+  result.everyone.saved = result.everyone.incomeTotal - result.everyone.expenseTotal;
+  result.everyone.savingsRate = result.everyone.incomeTotal > 0
+    ? (result.everyone.saved / result.everyone.incomeTotal) * 100 : 0;
+
+  return result;
+}
+
+// Aggregate splits across multiple months
+function aggregateSplits(monthKeys) {
+  const agg = {
+    carly: { incomeTotal: 0, expenseTotal: 0, incomeByCategory: {}, expenses: [] },
+    matt: { incomeTotal: 0, expenseTotal: 0, incomeByCategory: {}, expenses: [] },
+    shared: { incomeTotal: 0, expenseTotal: 0, income: [], expenses: [] },
+    everyone: { incomeTotal: 0, expenseTotal: 0 },
+    monthCount: 0
+  };
+
+  monthKeys.forEach(ym => {
+    const monthData = appData.months[ym];
+    if (!monthData) return;
+    agg.monthCount++;
+
+    const split = splitMonthByOwner(monthData);
+
+    ['carly', 'matt'].forEach(who => {
+      agg[who].incomeTotal += split[who].incomeTotal;
+      agg[who].expenseTotal += split[who].expenseTotal;
+      split[who].income.forEach(inc => {
+        agg[who].incomeByCategory[inc.category] = (agg[who].incomeByCategory[inc.category] || 0) + (inc.amount || 0);
+      });
+      split[who].expenses.forEach(exp => {
+        agg[who].expenses.push({ ...exp, month: ym });
+      });
+    });
+
+    agg.shared.incomeTotal += split.shared.incomeTotal;
+    agg.shared.expenseTotal += split.shared.expenseTotal;
+    split.shared.income.forEach(inc => agg.shared.income.push({ ...inc, month: ym }));
+    split.shared.expenses.forEach(exp => agg.shared.expenses.push({ ...exp, month: ym }));
+  });
+
+  agg.everyone.incomeTotal = agg.carly.incomeTotal + agg.matt.incomeTotal + agg.shared.incomeTotal;
+  agg.everyone.expenseTotal = agg.carly.expenseTotal + agg.matt.expenseTotal + agg.shared.expenseTotal;
+  agg.everyone.saved = agg.everyone.incomeTotal - agg.everyone.expenseTotal;
+  agg.everyone.savingsRate = agg.everyone.incomeTotal > 0
+    ? (agg.everyone.saved / agg.everyone.incomeTotal) * 100 : 0;
+
+  return agg;
+}
+
+// Render a standard person toggle bar (reusable across views)
+function renderPersonToggle(activeView, onClickFn) {
+  const partnerName = appData.settings.partnerName || 'Matt';
+  return `
+    <div class="revenue-toggle-row">
+      <div class="revenue-toggles">
+        <button class="revenue-toggle ${activeView === 'everyone' ? 'active' : ''}" onclick="${onClickFn}('everyone')">Everyone</button>
+        <button class="revenue-toggle ${activeView === 'carly' ? 'active' : ''}" onclick="${onClickFn}('carly')">Carly</button>
+        <button class="revenue-toggle ${activeView === 'partner' ? 'active' : ''}" onclick="${onClickFn}('partner')">${partnerName}</button>
+      </div>
+    </div>
+  `;
+}
+
 // Get quarter string from date
 function getQuarterFromDate(date) {
   const d = date || new Date();

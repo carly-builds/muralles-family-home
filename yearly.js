@@ -3,15 +3,74 @@
    ============================================ */
 
 let currentYear = new Date().getFullYear();
+let yearlyBreakdownView = 'everyone';
 
 function render_yearly() {
   document.getElementById('yearly-current').textContent = currentYear;
+  renderYearlyBreakdown();
   renderYearStats();
   renderYearChart();
   renderYearOverYear();
   renderYearScorecard();
   renderSubscriptionAudit();
   loadYearlyReflection();
+}
+
+function switchYearlyBreakdownView(view) {
+  yearlyBreakdownView = view;
+  renderYearlyBreakdown();
+}
+
+function renderYearlyBreakdown() {
+  const container = document.getElementById('yearly-breakdown');
+  const cardEl = document.getElementById('yearly-breakdown-card');
+  const months = getMonthsInYear(currentYear);
+  const hasData = months.some(function(m) { return appData.months[m]; });
+
+  if (!hasData) {
+    cardEl.style.display = 'none';
+    return;
+  }
+  cardEl.style.display = 'block';
+
+  const agg = aggregateSplits(months);
+  const partnerName = appData.settings.partnerName || 'Matt';
+
+  let html = renderPersonToggle(yearlyBreakdownView, 'switchYearlyBreakdownView');
+
+  var split = {
+    carly: { income: [], incomeTotal: agg.carly.incomeTotal, expenses: agg.carly.expenses, expenseTotal: agg.carly.expenseTotal },
+    matt: { income: [], incomeTotal: agg.matt.incomeTotal, expenses: agg.matt.expenses, expenseTotal: agg.matt.expenseTotal },
+    shared: { income: agg.shared.income, incomeTotal: agg.shared.incomeTotal, expenses: agg.shared.expenses, expenseTotal: agg.shared.expenseTotal },
+    everyone: agg.everyone
+  };
+
+  ['carly', 'matt'].forEach(function(who) {
+    var cats = agg[who].incomeByCategory;
+    for (var cat in cats) {
+      split[who].income.push({ category: cat, amount: cats[cat] });
+    }
+  });
+
+  ['carly', 'matt', 'shared'].forEach(function(who) {
+    var consolidated = {};
+    split[who].expenses.forEach(function(exp) {
+      consolidated[exp.name] = (consolidated[exp.name] || 0) + exp.amount;
+    });
+    split[who].expenses = Object.keys(consolidated).map(function(name) {
+      return { name: name, amount: consolidated[name] };
+    }).sort(function(a, b) { return b.amount - a.amount; });
+  });
+
+  if (yearlyBreakdownView === 'everyone') {
+    html += renderSplitEveryone(split, partnerName);
+  } else {
+    var who = yearlyBreakdownView === 'carly' ? 'carly' : 'matt';
+    var name = yearlyBreakdownView === 'carly' ? 'Carly' : partnerName;
+    html += renderSplitPerson(split, who, name);
+  }
+
+  container.innerHTML = html;
 }
 
 function changeYear(delta) {

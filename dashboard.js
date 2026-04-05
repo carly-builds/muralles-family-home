@@ -500,39 +500,8 @@ function renderDashMilestones() {
 
 let revenueView = 'everyone'; // 'everyone', 'carly', 'partner'
 
-// Define income stream configs
-const INCOME_STREAMS = {
-  carly: {
-    keys: ['Reach Out Party (Stripe)', 'TETHER (Stripe)', 'Coaching (Stripe)', 'Substack (Stripe)'],
-    labels: {
-      'Reach Out Party (Stripe)': 'Reach Out Party',
-      'TETHER (Stripe)': 'TETHER',
-      'Coaching (Stripe)': 'Coaching',
-      'Substack (Stripe)': 'Substack'
-    },
-    colors: {
-      'Reach Out Party (Stripe)': 'var(--accent-sage)',
-      'TETHER (Stripe)': 'var(--accent-lavender)',
-      'Coaching (Stripe)': 'var(--accent-butter)',
-      'Substack (Stripe)': 'var(--accent-orange)'
-    }
-  },
-  matt: {
-    keys: ['Salary (Matt/Flywire)', 'Bonus (Flywire)', 'RSU/Stock Sales', 'ESPP (Flywire)'],
-    labels: {
-      'Salary (Matt/Flywire)': 'Flywire Salary',
-      'Bonus (Flywire)': 'Bonus',
-      'RSU/Stock Sales': 'RSU / Stock Sales',
-      'ESPP (Flywire)': 'ESPP'
-    },
-    colors: {
-      'Salary (Matt/Flywire)': 'var(--accent-blue)',
-      'Bonus (Flywire)': 'var(--accent-butter)',
-      'RSU/Stock Sales': 'var(--accent-sage)',
-      'ESPP (Flywire)': 'var(--accent-lavender)'
-    }
-  }
-};
+// Backwards-compat alias for monthly.js references
+const INCOME_STREAMS = { carly: OWNERSHIP.carly, matt: OWNERSHIP.matt };
 
 function switchRevenueView(view) {
   revenueView = view;
@@ -551,154 +520,123 @@ function renderRevenueVerticals() {
     return;
   }
 
-  // Determine which streams to show based on view
-  let streamConfigs = [];
-  if (revenueView === 'carly') {
-    streamConfigs = [INCOME_STREAMS.carly];
-  } else if (revenueView === 'partner') {
-    streamConfigs = [INCOME_STREAMS.matt];
-  } else {
-    streamConfigs = [INCOME_STREAMS.carly, INCOME_STREAMS.matt];
-  }
+  const agg = aggregateSplits(allMonths);
 
-  // Gather all keys, labels, colors
-  const allKeys = [];
-  const allLabels = {};
-  const allColors = {};
-  streamConfigs.forEach(cfg => {
-    cfg.keys.forEach(k => {
-      allKeys.push(k);
-      allLabels[k] = cfg.labels[k];
-      allColors[k] = cfg.colors[k];
-    });
-  });
-
-  // Build monthly data
-  const monthlyVerticals = {};
-  let grandTotal = 0;
-  const verticalTotals = {};
-  allKeys.forEach(k => { verticalTotals[k] = 0; });
-
-  // Also track totals per person for "everyone" view
-  let carlyTotal = 0, mattTotal = 0;
-
-  allMonths.forEach(ym => {
-    monthlyVerticals[ym] = {};
-    (appData.months[ym].income || []).forEach(inc => {
-      if (allKeys.includes(inc.category)) {
-        monthlyVerticals[ym][inc.category] = (monthlyVerticals[ym][inc.category] || 0) + inc.amount;
-        verticalTotals[inc.category] = (verticalTotals[inc.category] || 0) + inc.amount;
-        grandTotal += inc.amount;
-      }
-      // Track per-person totals
-      if (INCOME_STREAMS.carly.keys.includes(inc.category)) carlyTotal += inc.amount;
-      if (INCOME_STREAMS.matt.keys.includes(inc.category)) mattTotal += inc.amount;
-    });
-  });
-
-  const activeVerticals = allKeys.filter(k => verticalTotals[k] > 0);
-
-  // Build toggle
-  let html = `
-    <div class="revenue-toggle-row">
-      <div class="revenue-toggles">
-        <button class="revenue-toggle ${revenueView === 'everyone' ? 'active' : ''}" onclick="switchRevenueView('everyone')">Everyone</button>
-        <button class="revenue-toggle ${revenueView === 'carly' ? 'active' : ''}" onclick="switchRevenueView('carly')">Carly</button>
-        <button class="revenue-toggle ${revenueView === 'partner' ? 'active' : ''}" onclick="switchRevenueView('partner')">${partnerName}</button>
-      </div>
-    </div>
-  `;
+  let html = renderPersonToggle(revenueView, 'switchRevenueView');
 
   // Summary cards
   html += '<div class="revenue-summary-row">';
 
   if (revenueView === 'everyone') {
+    const total = agg.carly.incomeTotal + agg.matt.incomeTotal;
     html += `<div class="revenue-total-card">
       <div class="stat-label">Household Income</div>
-      <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(carlyTotal + mattTotal)}</div>
-      <div class="stat-change neutral">${allMonths.length} months tracked</div>
+      <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(agg.everyone.incomeTotal)}</div>
+      <div class="stat-change neutral">${agg.monthCount} months tracked</div>
     </div>`;
     html += `<div class="revenue-vertical-card">
       <div class="revenue-vertical-dot" style="background:var(--accent-pink);"></div>
       <div>
         <div class="revenue-vertical-name">Carly</div>
-        <div class="revenue-vertical-amount">${formatCurrency(carlyTotal)}</div>
-        <div class="revenue-vertical-pct">${(carlyTotal + mattTotal) > 0 ? ((carlyTotal / (carlyTotal + mattTotal)) * 100).toFixed(0) : 0}% of household</div>
+        <div class="revenue-vertical-amount">${formatCurrency(agg.carly.incomeTotal)}</div>
+        <div class="revenue-vertical-pct">${agg.everyone.incomeTotal > 0 ? ((agg.carly.incomeTotal / agg.everyone.incomeTotal) * 100).toFixed(0) : 0}%</div>
       </div>
     </div>`;
     html += `<div class="revenue-vertical-card">
       <div class="revenue-vertical-dot" style="background:var(--accent-blue);"></div>
       <div>
         <div class="revenue-vertical-name">${partnerName}</div>
-        <div class="revenue-vertical-amount">${formatCurrency(mattTotal)}</div>
-        <div class="revenue-vertical-pct">${(carlyTotal + mattTotal) > 0 ? ((mattTotal / (carlyTotal + mattTotal)) * 100).toFixed(0) : 0}% of household</div>
+        <div class="revenue-vertical-amount">${formatCurrency(agg.matt.incomeTotal)}</div>
+        <div class="revenue-vertical-pct">${agg.everyone.incomeTotal > 0 ? ((agg.matt.incomeTotal / agg.everyone.incomeTotal) * 100).toFixed(0) : 0}%</div>
       </div>
     </div>`;
+    if (agg.shared.incomeTotal > 0) {
+      html += `<div class="revenue-vertical-card">
+        <div class="revenue-vertical-dot" style="background:var(--text-muted);"></div>
+        <div>
+          <div class="revenue-vertical-name">Other</div>
+          <div class="revenue-vertical-amount">${formatCurrency(agg.shared.incomeTotal)}</div>
+          <div class="revenue-vertical-pct">${((agg.shared.incomeTotal / agg.everyone.incomeTotal) * 100).toFixed(0)}%</div>
+        </div>
+      </div>`;
+    }
   } else {
-    const viewTotal = revenueView === 'carly' ? carlyTotal : mattTotal;
+    const who = revenueView === 'carly' ? 'carly' : 'matt';
+    const cfg = OWNERSHIP[who];
+    const personAgg = agg[who];
     const viewLabel = revenueView === 'carly' ? "Carly's Revenue" : `${partnerName}'s Income`;
+
     html += `<div class="revenue-total-card">
       <div class="stat-label">${viewLabel}</div>
-      <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(viewTotal)}</div>
-      <div class="stat-change neutral">${allMonths.length} months tracked</div>
+      <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(personAgg.incomeTotal)}</div>
+      <div class="stat-change neutral">${agg.monthCount} months tracked</div>
     </div>`;
 
-    activeVerticals.forEach(key => {
-      const total = verticalTotals[key];
-      const pct = viewTotal > 0 ? (total / viewTotal * 100) : 0;
+    cfg.incomeKeys.forEach(key => {
+      const total = personAgg.incomeByCategory[key] || 0;
+      if (total <= 0) return;
+      const pct = personAgg.incomeTotal > 0 ? (total / personAgg.incomeTotal * 100) : 0;
       html += `
         <div class="revenue-vertical-card">
-          <div class="revenue-vertical-dot" style="background:${allColors[key]};"></div>
+          <div class="revenue-vertical-dot" style="background:${cfg.incomeColors[key]};"></div>
           <div>
-            <div class="revenue-vertical-name">${allLabels[key]}</div>
+            <div class="revenue-vertical-name">${cfg.incomeLabels[key]}</div>
             <div class="revenue-vertical-amount">${formatCurrency(total)}</div>
             <div class="revenue-vertical-pct">${pct.toFixed(0)}%</div>
           </div>
         </div>
       `;
     });
+
+    // Show expenses total for this person
+    if (personAgg.expenseTotal > 0) {
+      html += `<div class="revenue-total-card">
+        <div class="stat-label">${revenueView === 'carly' ? "Carly's" : `${partnerName}'s`} Expenses</div>
+        <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(personAgg.expenseTotal)}</div>
+      </div>`;
+    }
   }
   html += '</div>';
 
   // Monthly table
   if (revenueView !== 'everyone') {
+    const who = revenueView === 'carly' ? 'carly' : 'matt';
+    const cfg = OWNERSHIP[who];
+    const activeKeys = cfg.incomeKeys.filter(k => agg[who].incomeByCategory[k] > 0);
+
     html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th>';
-    activeVerticals.forEach(key => {
-      html += `<th style="text-align:right;">${allLabels[key]}</th>`;
+    activeKeys.forEach(key => {
+      html += `<th style="text-align:right;">${cfg.incomeLabels[key]}</th>`;
     });
-    html += '<th style="text-align:right;">Total</th></tr></thead><tbody>';
+    html += '<th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th></tr></thead><tbody>';
 
     allMonths.forEach(ym => {
-      let monthTotal = 0;
+      const split = splitMonthByOwner(appData.months[ym]);
+      if (!split) return;
       html += `<tr><td>${getMonthName(ym)}</td>`;
-      activeVerticals.forEach(key => {
-        const val = monthlyVerticals[ym][key] || 0;
-        monthTotal += val;
+      activeKeys.forEach(key => {
+        const val = split[who].income.filter(i => i.category === key).reduce((s, i) => s + i.amount, 0);
         html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${val === 0 ? 'color:var(--text-light);' : ''}">${val > 0 ? formatCurrency(val) : '--'}</td>`;
       });
-      html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${monthTotal > 0 ? formatCurrency(monthTotal) : '--'}</td>`;
+      html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${split[who].incomeTotal > 0 ? formatCurrency(split[who].incomeTotal) : '--'}</td>`;
+      html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; color:var(--text-muted);">${split[who].expenseTotal > 0 ? formatCurrency(split[who].expenseTotal) : '--'}</td>`;
       html += '</tr>';
     });
     html += '</tbody></table></div>';
   } else {
-    // Everyone view: show combined monthly table with Carly total + Matt total
     html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th>';
     html += '<th style="text-align:right;">Carly</th>';
     html += `<th style="text-align:right;">${partnerName}</th>`;
     html += '<th style="text-align:right;">Household</th></tr></thead><tbody>';
 
     allMonths.forEach(ym => {
-      let cMonth = 0, mMonth = 0;
-      (appData.months[ym].income || []).forEach(inc => {
-        if (INCOME_STREAMS.carly.keys.includes(inc.category)) cMonth += inc.amount;
-        if (INCOME_STREAMS.matt.keys.includes(inc.category)) mMonth += inc.amount;
-      });
-      const household = cMonth + mMonth;
+      const split = splitMonthByOwner(appData.months[ym]);
+      if (!split) return;
       html += `<tr>
         <td>${getMonthName(ym)}</td>
-        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${cMonth === 0 ? 'color:var(--text-light);' : ''}">${cMonth > 0 ? formatCurrency(cMonth) : '--'}</td>
-        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${mMonth === 0 ? 'color:var(--text-light);' : ''}">${mMonth > 0 ? formatCurrency(mMonth) : '--'}</td>
-        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${household > 0 ? formatCurrency(household) : '--'}</td>
+        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${split.carly.incomeTotal === 0 ? 'color:var(--text-light);' : ''}">${split.carly.incomeTotal > 0 ? formatCurrency(split.carly.incomeTotal) : '--'}</td>
+        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${split.matt.incomeTotal === 0 ? 'color:var(--text-light);' : ''}">${split.matt.incomeTotal > 0 ? formatCurrency(split.matt.incomeTotal) : '--'}</td>
+        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${split.everyone.incomeTotal > 0 ? formatCurrency(split.everyone.incomeTotal) : '--'}</td>
       </tr>`;
     });
     html += '</tbody></table></div>';

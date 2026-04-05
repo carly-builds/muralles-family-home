@@ -3,15 +3,77 @@
    ============================================ */
 
 let currentQuarter = getQuarterFromDate(new Date());
+let quarterlyBreakdownView = 'everyone';
 
 function render_quarterly() {
   document.getElementById('quarterly-current').textContent = currentQuarter;
+  renderQuarterlyBreakdown();
   renderQuarterStats();
   renderMonthBreakdown();
   renderCategoryAnalysis();
   renderLifestyleCreep();
   renderQuarterGoals();
   loadQuarterlyReflection();
+}
+
+function switchQuarterlyBreakdownView(view) {
+  quarterlyBreakdownView = view;
+  renderQuarterlyBreakdown();
+}
+
+function renderQuarterlyBreakdown() {
+  const container = document.getElementById('quarterly-breakdown');
+  const cardEl = document.getElementById('quarterly-breakdown-card');
+  const months = getMonthsInQuarter(currentQuarter);
+  const hasData = months.some(function(m) { return appData.months[m]; });
+
+  if (!hasData) {
+    cardEl.style.display = 'none';
+    return;
+  }
+  cardEl.style.display = 'block';
+
+  const agg = aggregateSplits(months);
+  const partnerName = appData.settings.partnerName || 'Matt';
+
+  let html = renderPersonToggle(quarterlyBreakdownView, 'switchQuarterlyBreakdownView');
+
+  // Build a virtual split from the aggregate for the shared renderers
+  var split = {
+    carly: { income: [], incomeTotal: agg.carly.incomeTotal, expenses: agg.carly.expenses, expenseTotal: agg.carly.expenseTotal },
+    matt: { income: [], incomeTotal: agg.matt.incomeTotal, expenses: agg.matt.expenses, expenseTotal: agg.matt.expenseTotal },
+    shared: { income: agg.shared.income, incomeTotal: agg.shared.incomeTotal, expenses: agg.shared.expenses, expenseTotal: agg.shared.expenseTotal },
+    everyone: agg.everyone
+  };
+
+  // Build income items from category totals
+  ['carly', 'matt'].forEach(function(who) {
+    var cats = agg[who].incomeByCategory;
+    for (var cat in cats) {
+      split[who].income.push({ category: cat, amount: cats[cat] });
+    }
+  });
+
+  // Consolidate expenses by name for cleaner display
+  ['carly', 'matt', 'shared'].forEach(function(who) {
+    var consolidated = {};
+    split[who].expenses.forEach(function(exp) {
+      consolidated[exp.name] = (consolidated[exp.name] || 0) + exp.amount;
+    });
+    split[who].expenses = Object.keys(consolidated).map(function(name) {
+      return { name: name, amount: consolidated[name] };
+    }).sort(function(a, b) { return b.amount - a.amount; });
+  });
+
+  if (quarterlyBreakdownView === 'everyone') {
+    html += renderSplitEveryone(split, partnerName);
+  } else {
+    var who = quarterlyBreakdownView === 'carly' ? 'carly' : 'matt';
+    var name = quarterlyBreakdownView === 'carly' ? 'Carly' : partnerName;
+    html += renderSplitPerson(split, who, name);
+  }
+
+  container.innerHTML = html;
 }
 
 function changeQuarter(delta) {
