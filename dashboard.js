@@ -518,18 +518,18 @@ const INCOME_STREAMS = {
     }
   },
   matt: {
-    keys: ['Salary (Matt/Flywire)', 'RSU/Stock Sales', 'Bonus', 'Wire Transfer'],
+    keys: ['Salary (Matt/Flywire)', 'Bonus (Flywire)', 'RSU/Stock Sales', 'ESPP (Flywire)'],
     labels: {
       'Salary (Matt/Flywire)': 'Flywire Salary',
+      'Bonus (Flywire)': 'Bonus',
       'RSU/Stock Sales': 'RSU / Stock Sales',
-      'Bonus': 'Bonus',
-      'Wire Transfer': 'Wire Transfer'
+      'ESPP (Flywire)': 'ESPP'
     },
     colors: {
       'Salary (Matt/Flywire)': 'var(--accent-blue)',
+      'Bonus (Flywire)': 'var(--accent-butter)',
       'RSU/Stock Sales': 'var(--accent-sage)',
-      'Bonus': 'var(--accent-butter)',
-      'Wire Transfer': 'var(--accent-lavender)'
+      'ESPP (Flywire)': 'var(--accent-lavender)'
     }
   }
 };

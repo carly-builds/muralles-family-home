@@ -4,16 +4,6 @@
       "yearMonth": "2026-01",
       "income": [
         {
-          "category": "Wire Transfer",
-          "amount": 23800.0,
-          "notes": ""
-        },
-        {
-          "category": "Salary (Matt/Flywire)",
-          "amount": 7572.9,
-          "notes": ""
-        },
-        {
           "category": "TETHER (Stripe)",
           "amount": 1460.12,
           "notes": "[Stripe] Auto-imported"
@@ -35,6 +25,16 @@
         },
         {
           "category": "Other",
+          "amount": 11800,
+          "notes": "Prince Hassan move-out payment"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3786.45,
+          "notes": ""
+        },
+        {
+          "category": "Other",
           "amount": 4000,
           "notes": "Prince Hassan move-out payment"
         },
@@ -42,6 +42,11 @@
           "category": "Other",
           "amount": 8000,
           "notes": "Prince Hassan move-out payment"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3786.45,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -219,20 +224,15 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 51368.95,
+        "totalIncome": 39368.95,
         "totalExpenses": 11742.61,
-        "totalSaved": 39626.34,
-        "savingsRate": 77.1
+        "totalSaved": 27626.34,
+        "savingsRate": 70.2
       }
     },
     "2026-02": {
       "yearMonth": "2026-02",
       "income": [
-        {
-          "category": "Salary (Matt/Flywire)",
-          "amount": 9322.9,
-          "notes": ""
-        },
         {
           "category": "Reach Out Party (Stripe)",
           "amount": 10071.55,
@@ -257,6 +257,21 @@
           "category": "Venmo",
           "amount": 885.44,
           "notes": "VENMO DES:CASHOUT ID:XXXXX52624513 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3786.45,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 1750,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3786.45,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -439,16 +454,6 @@
       "yearMonth": "2026-03",
       "income": [
         {
-          "category": "Salary (Matt/Flywire)",
-          "amount": 31627.64,
-          "notes": ""
-        },
-        {
-          "category": "RSU/Stock Sales",
-          "amount": 25727.29,
-          "notes": ""
-        },
-        {
           "category": "TETHER (Stripe)",
           "amount": 1361.93,
           "notes": "[Stripe] Auto-imported"
@@ -462,6 +467,41 @@
           "category": "Substack (Stripe)",
           "amount": 173.05,
           "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 4976.44,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 20750.85,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "Bonus (Flywire)",
+          "amount": 21293.54,
+          "notes": "[BofA] Bonus"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3786.46,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 1582.87,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 960.19,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 4004.58,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -679,7 +719,23 @@
     },
     "2025-01": {
       "yearMonth": "2025-01",
-      "income": [],
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3517.91,
+          "notes": ""
+        },
+        {
+          "category": "Other",
+          "amount": 1000,
+          "notes": "Mobile deposit"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3525.48,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Zelle",
@@ -714,15 +770,41 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 8043.39,
         "totalExpenses": 4960.28,
-        "totalSaved": -4960.28,
-        "savingsRate": 0
+        "totalSaved": 3083.11,
+        "savingsRate": 38.3
       }
     },
     "2025-02": {
       "yearMonth": "2025-02",
-      "income": [],
+      "income": [
+        {
+          "category": "Other",
+          "amount": 100,
+          "notes": "Mobile deposit"
+        },
+        {
+          "category": "Other",
+          "amount": 100,
+          "notes": "Mobile deposit"
+        },
+        {
+          "category": "Other",
+          "amount": 36,
+          "notes": "Mobile deposit"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3517.91,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3517.92,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "ATM Withdrawal",
@@ -762,15 +844,41 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 7271.83,
         "totalExpenses": 5519.06,
-        "totalSaved": -5519.06,
-        "savingsRate": 0
+        "totalSaved": 1752.77,
+        "savingsRate": 24.1
       }
     },
     "2025-03": {
       "yearMonth": "2025-03",
-      "income": [],
+      "income": [
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 14419.45,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "Bonus (Flywire)",
+          "amount": 13531.19,
+          "notes": "[BofA] Bonus"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3517.92,
+          "notes": ""
+        },
+        {
+          "category": "Other",
+          "amount": 11009,
+          "notes": "IRS tax refund"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3888.37,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Water/Sewer (Fort Lauderdale)",
@@ -820,15 +928,26 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 46365.93,
         "totalExpenses": 6457.19,
-        "totalSaved": -6457.19,
-        "savingsRate": 0
+        "totalSaved": 39908.74,
+        "savingsRate": 86.1
       }
     },
     "2025-04": {
       "yearMonth": "2025-04",
-      "income": [],
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3676.03,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3736.03,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Electric (FPL)",
@@ -868,10 +987,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 7412.06,
         "totalExpenses": 4965.96,
-        "totalSaved": -4965.96,
-        "savingsRate": 0
+        "totalSaved": 2446.1,
+        "savingsRate": 33.0
       }
     },
     "2025-05": {
@@ -881,6 +1000,16 @@
           "category": "Zelle",
           "amount": 20,
           "notes": "Zelle payment from ARNOLDO MURALLES Conf# zl8cd5z5r"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3676.03,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3736.04,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -922,10 +1051,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 20,
+        "totalIncome": 7432.07,
         "totalExpenses": 5408.08,
-        "totalSaved": -5388.08,
-        "savingsRate": -26940.4
+        "totalSaved": 2023.99,
+        "savingsRate": 27.2
       }
     },
     "2025-06": {
@@ -940,6 +1069,26 @@
           "category": "Zelle",
           "amount": 165,
           "notes": "Zelle payment from MICHAEL MURALLES for Mom\"; Conf# nl46vz5w"
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 4019.68,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3676.03,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 567.01,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3736.03,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -976,15 +1125,31 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 205,
+        "totalIncome": 12203.75,
         "totalExpenses": 5136.25,
-        "totalSaved": -4931.25,
-        "savingsRate": -2405.5
+        "totalSaved": 7067.5,
+        "savingsRate": 57.9
       }
     },
     "2025-07": {
       "yearMonth": "2025-07",
-      "income": [],
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3684.24,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 1581.97,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3736.04,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Water/Sewer (Fort Lauderdale)",
@@ -1034,10 +1199,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 9002.25,
         "totalExpenses": 5738.11,
-        "totalSaved": -5738.11,
-        "savingsRate": 0
+        "totalSaved": 3264.14,
+        "savingsRate": 36.3
       }
     },
     "2025-08": {
@@ -1047,6 +1212,21 @@
           "category": "Zelle",
           "amount": 37,
           "notes": "Zelle payment from MICHAEL MURALLES for Wings\"; Conf# jgkr1j"
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 9395.98,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3676.03,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3736.03,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -1088,15 +1268,31 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 37,
+        "totalIncome": 16845.04,
         "totalExpenses": 1256.3,
-        "totalSaved": -1219.3,
-        "savingsRate": -3295.4
+        "totalSaved": 15588.74,
+        "savingsRate": 92.5
       }
     },
     "2025-09": {
       "yearMonth": "2025-09",
-      "income": [],
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3676.03,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 227.81,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3736.04,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Zelle",
@@ -1196,15 +1392,26 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 7639.88,
         "totalExpenses": 10526.63,
-        "totalSaved": -10526.63,
-        "savingsRate": 0
+        "totalSaved": -2886.75,
+        "savingsRate": -37.8
       }
     },
     "2025-10": {
       "yearMonth": "2025-10",
-      "income": [],
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3834.15,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3894.15,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Zelle",
@@ -1249,15 +1456,36 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 7728.3,
         "totalExpenses": 5334.06,
-        "totalSaved": -5334.06,
-        "savingsRate": 0
+        "totalSaved": 2394.24,
+        "savingsRate": 31.0
       }
     },
     "2025-11": {
       "yearMonth": "2025-11",
-      "income": [],
+      "income": [
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 5305.92,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 3954.74,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 1374.85,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 4298.37,
+          "notes": ""
+        }
+      ],
       "fixedExpenses": [
         {
           "name": "Groceries (Publix)",
@@ -1302,10 +1530,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 0,
+        "totalIncome": 14933.88,
         "totalExpenses": 5173.76,
-        "totalSaved": -5173.76,
-        "savingsRate": 0
+        "totalSaved": 9760.12,
+        "savingsRate": 65.4
       }
     },
     "2025-12": {
@@ -1315,6 +1543,31 @@
           "category": "Zelle",
           "amount": 37,
           "notes": "Zelle payment from MICHAEL MURALLES Conf# ly5r1ace1"
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 5842.59,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 8933.08,
+          "notes": "[BofA] Fidelity"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 4238.36,
+          "notes": ""
+        },
+        {
+          "category": "ESPP (Flywire)",
+          "amount": 1850,
+          "notes": "[BofA] ESPP proceeds"
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 4250.57,
+          "notes": ""
         }
       ],
       "fixedExpenses": [
@@ -1381,10 +1634,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 37,
+        "totalIncome": 25151.6,
         "totalExpenses": 9215.88,
-        "totalSaved": -9178.88,
-        "savingsRate": -24807.8
+        "totalSaved": 15935.72,
+        "savingsRate": 63.4
       }
     }
   },
@@ -1507,7 +1760,9 @@
       "Coaching (Stripe)",
       "Venmo",
       "Zelle",
-      "Wire Transfer"
+      "Wire Transfer",
+      "Bonus (Flywire)",
+      "ESPP (Flywire)"
     ],
     "spendCategories": [
       "Groceries",
