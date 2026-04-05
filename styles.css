@@ -1848,6 +1848,48 @@ tr:last-child td {
    ============================================ */
 
 /* ============================================
+   CLOUD SYNC STATUS
+   ============================================ */
+
+.sync-status {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.4);
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+}
+
+.sync-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.sync-dot.connected {
+  background: var(--accent-green);
+  box-shadow: 0 0 4px rgba(123, 168, 123, 0.5);
+}
+
+.sync-dot.syncing {
+  background: var(--accent-butter);
+  animation: syncPulse 1s ease-in-out infinite;
+}
+
+.sync-dot.error {
+  background: var(--accent-red);
+}
+
+@keyframes syncPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ============================================
    SELECTION & GLOBAL POLISH
    ============================================ */
 

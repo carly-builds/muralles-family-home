@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Franklin:wght@300;400;500;600&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="app">
@@ -81,6 +82,14 @@
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
         <button class="import-btn" onclick="if(confirm('Reset and reload seed data?')){localStorage.removeItem('family-command-center');location.reload()}" style="color:var(--accent-red); margin-top:4px;">
           Reset Data
+        </button>
+        <div class="divider" style="margin:8px 0; background:rgba(255,255,255,0.06);"></div>
+        <div id="sync-status" class="sync-status">
+          <span id="sync-indicator"><span class="sync-dot"></span> Not connected</span>
+        </div>
+        <button class="export-btn" id="sync-login-btn" onclick="showSyncLogin()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Cloud Sync
         </button>
       </div>
     </nav>
@@ -901,6 +910,7 @@
   <script src="stripe.js"></script>
   <script src="seed-data.js"></script>
   <script src="seed-loader.js"></script>
+  <script src="supabase-sync.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

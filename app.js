@@ -204,7 +204,7 @@ document.addEventListener('keydown', (e) => {
 // INIT
 // ============================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Try to load seed data on first run
   const seeded = loadSeedData();
   if (seeded) {
@@ -214,5 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   if (!seeded) {
     checkFirstRun();
+  }
+
+  // Cloud sync
+  if (typeof initSupabase === 'function') {
+    initSupabase();
+    await startupSync();
   }
 });

@@ -102,6 +102,10 @@ function saveData(data) {
   try {
     data.lastUpdated = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    // Cloud sync (fire-and-forget)
+    if (typeof syncToCloud === 'function') {
+      syncToCloud(data).catch(err => console.warn('Cloud sync:', err));
+    }
     return true;
   } catch (e) {
     console.error('Error saving data:', e);
