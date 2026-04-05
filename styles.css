@@ -1282,6 +1282,47 @@ tr:last-child td {
 }
 
 /* Revenue by Vertical */
+.revenue-toggle-row {
+  margin-bottom: 20px;
+}
+
+.revenue-toggles {
+  display: inline-flex;
+  background: var(--bg-warm-gray);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.revenue-toggle {
+  padding: 8px 20px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-right: 1px solid var(--border-light);
+}
+
+.revenue-toggle:last-child {
+  border-right: none;
+}
+
+.revenue-toggle:hover {
+  color: var(--text-body);
+  background: rgba(184, 201, 163, 0.1);
+}
+
+.revenue-toggle.active {
+  background: var(--accent-sage);
+  color: var(--sidebar-bg);
+  font-weight: 500;
+}
+
 .revenue-summary-row {
   display: flex;
   gap: 16px;

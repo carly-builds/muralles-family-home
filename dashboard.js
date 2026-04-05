@@ -498,104 +498,211 @@ function renderDashMilestones() {
 // Revenue by Vertical
 // ============================================
 
+let revenueView = 'everyone'; // 'everyone', 'carly', 'partner'
+
+// Define income stream configs
+const INCOME_STREAMS = {
+  carly: {
+    keys: ['Reach Out Party (Stripe)', 'TETHER (Stripe)', 'Coaching (Stripe)', 'Substack (Stripe)'],
+    labels: {
+      'Reach Out Party (Stripe)': 'Reach Out Party',
+      'TETHER (Stripe)': 'TETHER',
+      'Coaching (Stripe)': 'Coaching',
+      'Substack (Stripe)': 'Substack'
+    },
+    colors: {
+      'Reach Out Party (Stripe)': 'var(--accent-sage)',
+      'TETHER (Stripe)': 'var(--accent-lavender)',
+      'Coaching (Stripe)': 'var(--accent-butter)',
+      'Substack (Stripe)': 'var(--accent-orange)'
+    }
+  },
+  matt: {
+    keys: ['Salary (Matt/Flywire)', 'RSU/Stock Sales', 'Bonus', 'Wire Transfer'],
+    labels: {
+      'Salary (Matt/Flywire)': 'Flywire Salary',
+      'RSU/Stock Sales': 'RSU / Stock Sales',
+      'Bonus': 'Bonus',
+      'Wire Transfer': 'Wire Transfer'
+    },
+    colors: {
+      'Salary (Matt/Flywire)': 'var(--accent-blue)',
+      'RSU/Stock Sales': 'var(--accent-sage)',
+      'Bonus': 'var(--accent-butter)',
+      'Wire Transfer': 'var(--accent-lavender)'
+    }
+  }
+};
+
+function switchRevenueView(view) {
+  revenueView = view;
+  renderRevenueVerticals();
+}
+
 function renderRevenueVerticals() {
   const container = document.getElementById('dash-revenue-verticals');
   if (!container) return;
 
-  // Define Carly's verticals (Stripe-based income)
-  const verticalKeys = ['Reach Out Party (Stripe)', 'TETHER (Stripe)', 'Coaching (Stripe)', 'Substack (Stripe)'];
-  const verticalLabels = {
-    'Reach Out Party (Stripe)': 'Reach Out Party',
-    'TETHER (Stripe)': 'TETHER',
-    'Coaching (Stripe)': 'Coaching',
-    'Substack (Stripe)': 'Substack'
-  };
-  const verticalColors = {
-    'Reach Out Party (Stripe)': 'var(--accent-sage)',
-    'TETHER (Stripe)': 'var(--accent-lavender)',
-    'Coaching (Stripe)': 'var(--accent-butter)',
-    'Substack (Stripe)': 'var(--accent-orange)'
-  };
-
+  const partnerName = appData.settings.partnerName || 'Matt';
   const allMonths = Object.keys(appData.months).sort();
+
   if (allMonths.length === 0) {
     container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>No income data yet.</p></div>';
     return;
   }
 
-  // Build monthly data per vertical
+  // Determine which streams to show based on view
+  let streamConfigs = [];
+  if (revenueView === 'carly') {
+    streamConfigs = [INCOME_STREAMS.carly];
+  } else if (revenueView === 'partner') {
+    streamConfigs = [INCOME_STREAMS.matt];
+  } else {
+    streamConfigs = [INCOME_STREAMS.carly, INCOME_STREAMS.matt];
+  }
+
+  // Gather all keys, labels, colors
+  const allKeys = [];
+  const allLabels = {};
+  const allColors = {};
+  streamConfigs.forEach(cfg => {
+    cfg.keys.forEach(k => {
+      allKeys.push(k);
+      allLabels[k] = cfg.labels[k];
+      allColors[k] = cfg.colors[k];
+    });
+  });
+
+  // Build monthly data
   const monthlyVerticals = {};
   let grandTotal = 0;
   const verticalTotals = {};
+  allKeys.forEach(k => { verticalTotals[k] = 0; });
 
-  verticalKeys.forEach(k => { verticalTotals[k] = 0; });
+  // Also track totals per person for "everyone" view
+  let carlyTotal = 0, mattTotal = 0;
 
   allMonths.forEach(ym => {
     monthlyVerticals[ym] = {};
     (appData.months[ym].income || []).forEach(inc => {
-      if (verticalKeys.includes(inc.category)) {
+      if (allKeys.includes(inc.category)) {
         monthlyVerticals[ym][inc.category] = (monthlyVerticals[ym][inc.category] || 0) + inc.amount;
         verticalTotals[inc.category] = (verticalTotals[inc.category] || 0) + inc.amount;
         grandTotal += inc.amount;
       }
+      // Track per-person totals
+      if (INCOME_STREAMS.carly.keys.includes(inc.category)) carlyTotal += inc.amount;
+      if (INCOME_STREAMS.matt.keys.includes(inc.category)) mattTotal += inc.amount;
     });
   });
 
-  // Only show verticals that have data
-  const activeVerticals = verticalKeys.filter(k => verticalTotals[k] > 0);
+  const activeVerticals = allKeys.filter(k => verticalTotals[k] > 0);
 
-  if (activeVerticals.length === 0) {
-    container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>No Stripe revenue data yet.</p></div>';
-    return;
-  }
-
-  // Summary cards row
-  let html = '<div class="revenue-summary-row">';
-  html += `<div class="revenue-total-card">
-    <div class="stat-label">Total Revenue</div>
-    <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(grandTotal)}</div>
-    <div class="stat-change neutral">${allMonths.length} months tracked</div>
-  </div>`;
-
-  activeVerticals.forEach(key => {
-    const label = verticalLabels[key];
-    const total = verticalTotals[key];
-    const pct = grandTotal > 0 ? (total / grandTotal * 100) : 0;
-    const color = verticalColors[key];
-    html += `
-      <div class="revenue-vertical-card">
-        <div class="revenue-vertical-dot" style="background:${color};"></div>
-        <div>
-          <div class="revenue-vertical-name">${label}</div>
-          <div class="revenue-vertical-amount">${formatCurrency(total)}</div>
-          <div class="revenue-vertical-pct">${pct.toFixed(0)}% of revenue</div>
-        </div>
+  // Build toggle
+  let html = `
+    <div class="revenue-toggle-row">
+      <div class="revenue-toggles">
+        <button class="revenue-toggle ${revenueView === 'everyone' ? 'active' : ''}" onclick="switchRevenueView('everyone')">Everyone</button>
+        <button class="revenue-toggle ${revenueView === 'carly' ? 'active' : ''}" onclick="switchRevenueView('carly')">Carly</button>
+        <button class="revenue-toggle ${revenueView === 'partner' ? 'active' : ''}" onclick="switchRevenueView('partner')">${partnerName}</button>
       </div>
-    `;
-  });
+    </div>
+  `;
+
+  // Summary cards
+  html += '<div class="revenue-summary-row">';
+
+  if (revenueView === 'everyone') {
+    html += `<div class="revenue-total-card">
+      <div class="stat-label">Household Income</div>
+      <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(carlyTotal + mattTotal)}</div>
+      <div class="stat-change neutral">${allMonths.length} months tracked</div>
+    </div>`;
+    html += `<div class="revenue-vertical-card">
+      <div class="revenue-vertical-dot" style="background:var(--accent-pink);"></div>
+      <div>
+        <div class="revenue-vertical-name">Carly</div>
+        <div class="revenue-vertical-amount">${formatCurrency(carlyTotal)}</div>
+        <div class="revenue-vertical-pct">${(carlyTotal + mattTotal) > 0 ? ((carlyTotal / (carlyTotal + mattTotal)) * 100).toFixed(0) : 0}% of household</div>
+      </div>
+    </div>`;
+    html += `<div class="revenue-vertical-card">
+      <div class="revenue-vertical-dot" style="background:var(--accent-blue);"></div>
+      <div>
+        <div class="revenue-vertical-name">${partnerName}</div>
+        <div class="revenue-vertical-amount">${formatCurrency(mattTotal)}</div>
+        <div class="revenue-vertical-pct">${(carlyTotal + mattTotal) > 0 ? ((mattTotal / (carlyTotal + mattTotal)) * 100).toFixed(0) : 0}% of household</div>
+      </div>
+    </div>`;
+  } else {
+    const viewTotal = revenueView === 'carly' ? carlyTotal : mattTotal;
+    const viewLabel = revenueView === 'carly' ? "Carly's Revenue" : `${partnerName}'s Income`;
+    html += `<div class="revenue-total-card">
+      <div class="stat-label">${viewLabel}</div>
+      <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(viewTotal)}</div>
+      <div class="stat-change neutral">${allMonths.length} months tracked</div>
+    </div>`;
+
+    activeVerticals.forEach(key => {
+      const total = verticalTotals[key];
+      const pct = viewTotal > 0 ? (total / viewTotal * 100) : 0;
+      html += `
+        <div class="revenue-vertical-card">
+          <div class="revenue-vertical-dot" style="background:${allColors[key]};"></div>
+          <div>
+            <div class="revenue-vertical-name">${allLabels[key]}</div>
+            <div class="revenue-vertical-amount">${formatCurrency(total)}</div>
+            <div class="revenue-vertical-pct">${pct.toFixed(0)}%</div>
+          </div>
+        </div>
+      `;
+    });
+  }
   html += '</div>';
 
-  // Monthly breakdown table
-  html += '<div class="revenue-table-wrap">';
-  html += '<table><thead><tr><th>Month</th>';
-  activeVerticals.forEach(key => {
-    html += `<th style="text-align:right;">${verticalLabels[key]}</th>`;
-  });
-  html += '<th style="text-align:right;">Total</th></tr></thead><tbody>';
-
-  allMonths.forEach(ym => {
-    let monthTotal = 0;
-    html += `<tr><td>${getMonthName(ym)}</td>`;
+  // Monthly table
+  if (revenueView !== 'everyone') {
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th>';
     activeVerticals.forEach(key => {
-      const val = monthlyVerticals[ym][key] || 0;
-      monthTotal += val;
-      html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${val === 0 ? 'color:var(--text-light);' : ''}">${val > 0 ? formatCurrency(val) : '--'}</td>`;
+      html += `<th style="text-align:right;">${allLabels[key]}</th>`;
     });
-    html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${monthTotal > 0 ? formatCurrency(monthTotal) : '--'}</td>`;
-    html += '</tr>';
-  });
+    html += '<th style="text-align:right;">Total</th></tr></thead><tbody>';
 
-  html += '</tbody></table></div>';
+    allMonths.forEach(ym => {
+      let monthTotal = 0;
+      html += `<tr><td>${getMonthName(ym)}</td>`;
+      activeVerticals.forEach(key => {
+        const val = monthlyVerticals[ym][key] || 0;
+        monthTotal += val;
+        html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${val === 0 ? 'color:var(--text-light);' : ''}">${val > 0 ? formatCurrency(val) : '--'}</td>`;
+      });
+      html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${monthTotal > 0 ? formatCurrency(monthTotal) : '--'}</td>`;
+      html += '</tr>';
+    });
+    html += '</tbody></table></div>';
+  } else {
+    // Everyone view: show combined monthly table with Carly total + Matt total
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th>';
+    html += '<th style="text-align:right;">Carly</th>';
+    html += `<th style="text-align:right;">${partnerName}</th>`;
+    html += '<th style="text-align:right;">Household</th></tr></thead><tbody>';
+
+    allMonths.forEach(ym => {
+      let cMonth = 0, mMonth = 0;
+      (appData.months[ym].income || []).forEach(inc => {
+        if (INCOME_STREAMS.carly.keys.includes(inc.category)) cMonth += inc.amount;
+        if (INCOME_STREAMS.matt.keys.includes(inc.category)) mMonth += inc.amount;
+      });
+      const household = cMonth + mMonth;
+      html += `<tr>
+        <td>${getMonthName(ym)}</td>
+        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${cMonth === 0 ? 'color:var(--text-light);' : ''}">${cMonth > 0 ? formatCurrency(cMonth) : '--'}</td>
+        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${mMonth === 0 ? 'color:var(--text-light);' : ''}">${mMonth > 0 ? formatCurrency(mMonth) : '--'}</td>
+        <td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${household > 0 ? formatCurrency(household) : '--'}</td>
+      </tr>`;
+    });
+    html += '</tbody></table></div>';
+  }
 
   container.innerHTML = html;
 }
