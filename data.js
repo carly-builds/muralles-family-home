@@ -385,9 +385,10 @@ function splitMonthByOwner(monthData) {
     shared: { income: [], incomeTotal: 0, expenses: [], expenseTotal: 0 },
   };
 
-  // Income
+  // Income: [WF] tagged = Carly (Wells Fargo), otherwise use category-based ownership
   (monthData.income || []).forEach(inc => {
-    const owner = getIncomeOwner(inc.category);
+    const notes = inc.notes || '';
+    const owner = notes.includes('[WF]') ? 'carly' : getIncomeOwner(inc.category);
     result[owner].income.push(inc);
     result[owner].incomeTotal += inc.amount || 0;
   });
@@ -399,10 +400,12 @@ function splitMonthByOwner(monthData) {
     result[owner].expenseTotal += card.total || 0;
   });
 
-  // Fixed expenses (all from BofA = Matt)
+  // Fixed expenses: [WF] tagged = Carly (Wells Fargo), rest = Matt (BofA)
   (monthData.fixedExpenses || []).forEach(exp => {
-    result.matt.expenses.push({ name: exp.name, amount: exp.amount || 0, type: 'fixed' });
-    result.matt.expenseTotal += exp.amount || 0;
+    const notes = exp.notes || '';
+    const owner = notes.includes('[WF]') ? 'carly' : 'matt';
+    result[owner].expenses.push({ name: exp.name, amount: exp.amount || 0, type: 'fixed' });
+    result[owner].expenseTotal += exp.amount || 0;
   });
 
   // Surprise spend (shared)

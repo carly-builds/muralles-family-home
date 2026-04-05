@@ -47,6 +47,11 @@
           "category": "Salary (Matt/Flywire)",
           "amount": 3786.45,
           "notes": ""
+        },
+        {
+          "category": "Other",
+          "amount": 45.11,
+          "notes": "[WF] ROAR STATION PAYROLL 260109 9395383585936GT VALANCY,CARLY"
         }
       ],
       "fixedExpenses": [
@@ -99,6 +104,41 @@
           "name": "Zelle",
           "amount": 2910,
           "notes": "Zelle payment to SUNSHINE WITH MARIA LLC Conf# ywdn581y2"
+        },
+        {
+          "name": "Zelle - VIVIAN NAILS",
+          "amount": 90.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - MARIA NEW CONTACT",
+          "amount": 572.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - MARIA NEW CONTACT",
+          "amount": 610.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - LUISA",
+          "amount": 200.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - LUISA",
+          "amount": 180.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - ANDREA",
+          "amount": 220.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - MARIA NEW CONTACT",
+          "amount": 560.0,
+          "notes": "[WF] "
         }
       ],
       "creditCards": [
@@ -224,10 +264,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 39368.95,
-        "totalExpenses": 11742.61,
-        "totalSaved": 27626.34,
-        "savingsRate": 70.2
+        "totalIncome": 39414.06,
+        "totalExpenses": 14174.61,
+        "totalSaved": 25239.45,
+        "savingsRate": 64.0
       }
     },
     "2026-02": {
@@ -272,6 +312,11 @@
           "category": "Salary (Matt/Flywire)",
           "amount": 3786.45,
           "notes": ""
+        },
+        {
+          "category": "Other",
+          "amount": 3581.21,
+          "notes": "[WF] Bank deposit (Wells Fargo)"
         }
       ],
       "fixedExpenses": [
@@ -319,6 +364,11 @@
           "name": "Sertifi",
           "amount": 1,
           "notes": ""
+        },
+        {
+          "name": "Zelle - DAVO GRACI",
+          "amount": 85.0,
+          "notes": "[WF] "
         }
       ],
       "creditCards": [
@@ -444,10 +494,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 22553.78,
-        "totalExpenses": 18538.78,
-        "totalSaved": 4015.0,
-        "savingsRate": 17.8
+        "totalIncome": 26134.99,
+        "totalExpenses": 18623.78,
+        "totalSaved": 7511.21,
+        "savingsRate": 28.7
       }
     },
     "2026-03": {
@@ -524,6 +574,26 @@
           "name": "USPS",
           "amount": 152.55,
           "notes": ""
+        },
+        {
+          "name": "Zelle - LIEN",
+          "amount": 10.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - MARTINA MIAMI PHOTO",
+          "amount": 800.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - GRACIE DAVO HAIR",
+          "amount": 325.0,
+          "notes": "[WF] "
+        },
+        {
+          "name": "Zelle - LUISA",
+          "amount": 300.0,
+          "notes": "[WF] "
         }
       ],
       "creditCards": [
@@ -650,9 +720,9 @@
       },
       "totals": {
         "totalIncome": 65427.33,
-        "totalExpenses": 22757.59,
-        "totalSaved": 42669.74,
-        "savingsRate": 65.2
+        "totalExpenses": 24192.59,
+        "totalSaved": 41234.74,
+        "savingsRate": 63.0
       }
     },
     "2026-04": {
@@ -1651,7 +1721,7 @@
       },
       {
         "id": "chk2",
-        "name": "Chase Checking",
+        "name": "Wells Fargo Checking",
         "owner": "Carly",
         "balance": 37642.02
       }
