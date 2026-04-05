@@ -204,11 +204,11 @@ document.addEventListener('keydown', (e) => {
 // INIT
 // ============================================
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Try to load seed data on first run
-  const seeded = await loadSeedData();
+  const seeded = loadSeedData();
   if (seeded) {
-    appData = loadData(); // reload after seed
+    appData = loadData();
   }
 
   initNavigation();

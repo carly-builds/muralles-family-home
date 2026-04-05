@@ -80,6 +80,9 @@
           Import Data
         </button>
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        <button class="import-btn" onclick="if(confirm('Reset and reload seed data?')){localStorage.removeItem('family-command-center');location.reload()}" style="color:var(--accent-red); margin-top:4px;">
+          Reset Data
+        </button>
       </div>
     </nav>
 
@@ -888,6 +891,7 @@
   <script src="yearly.js"></script>
   <script src="whatif.js"></script>
   <script src="stripe.js"></script>
+  <script src="seed-data.js"></script>
   <script src="seed-loader.js"></script>
   <script src="app.js"></script>
 </body>
