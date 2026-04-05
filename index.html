@@ -246,6 +246,16 @@
           <div id="monthly-breakdown"></div>
         </div>
 
+        <!-- Spending Breakdown (what was charged on cards vs what was paid) -->
+        <div class="card" id="monthly-spending-card" style="display:none;">
+          <div class="card-header" style="cursor:pointer;" onclick="toggleSpendingBreakdown()">
+            <h3>Spending Breakdown</h3>
+            <button class="btn btn-ghost btn-sm" id="spending-toggle-btn">Show Details</button>
+          </div>
+          <div id="monthly-spending-summary"></div>
+          <div id="monthly-spending-detail" style="display:none;"></div>
+        </div>
+
         <!-- Step 1: Income -->
         <div class="card" id="monthly-income-card">
           <div class="card-header">

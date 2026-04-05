@@ -268,7 +268,21 @@
         "totalExpenses": 14174.61,
         "totalSaved": 25239.45,
         "savingsRate": 64.0
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2425.76
+        },
+        {
+          "name": "Chase Business (Carly)",
+          "amount": 3470.96
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 6287.21
+        }
+      ]
     },
     "2026-02": {
       "yearMonth": "2026-02",
@@ -498,7 +512,21 @@
         "totalExpenses": 18623.78,
         "totalSaved": 7511.21,
         "savingsRate": 28.7
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 8615.21
+        },
+        {
+          "name": "Chase Business (Carly)",
+          "amount": 1524.08
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 4362.88
+        }
+      ]
     },
     "2026-03": {
       "yearMonth": "2026-03",
@@ -723,7 +751,21 @@
         "totalExpenses": 24192.59,
         "totalSaved": 41234.74,
         "savingsRate": 63.0
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 8731.43
+        },
+        {
+          "name": "Chase Business (Carly)",
+          "amount": 4680.49
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 5277.14
+        }
+      ]
     },
     "2026-04": {
       "yearMonth": "2026-04",
@@ -785,7 +827,17 @@
         "totalExpenses": 190.91,
         "totalSaved": 1715.67,
         "savingsRate": 90.0
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "Chase Business (Carly)",
+          "amount": 5749.32
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 6729.03
+        }
+      ]
     },
     "2025-01": {
       "yearMonth": "2025-01",
@@ -844,7 +896,17 @@
         "totalExpenses": 4960.28,
         "totalSaved": 3083.11,
         "savingsRate": 38.3
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2098.45
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 6180.63
+        }
+      ]
     },
     "2025-02": {
       "yearMonth": "2025-02",
@@ -918,7 +980,17 @@
         "totalExpenses": 5519.06,
         "totalSaved": 1752.77,
         "savingsRate": 24.1
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 634.2
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 3500.0
+        }
+      ]
     },
     "2025-03": {
       "yearMonth": "2025-03",
@@ -1002,7 +1074,17 @@
         "totalExpenses": 6457.19,
         "totalSaved": 39908.74,
         "savingsRate": 86.1
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 5204.18
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 5010.61
+        }
+      ]
     },
     "2025-04": {
       "yearMonth": "2025-04",
@@ -1061,7 +1143,17 @@
         "totalExpenses": 4965.96,
         "totalSaved": 2446.1,
         "savingsRate": 33.0
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 5895.67
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 4392.37
+        }
+      ]
     },
     "2025-05": {
       "yearMonth": "2025-05",
@@ -1125,7 +1217,17 @@
         "totalExpenses": 5408.08,
         "totalSaved": 2023.99,
         "savingsRate": 27.2
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2398.07
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 2896.08
+        }
+      ]
     },
     "2025-06": {
       "yearMonth": "2025-06",
@@ -1199,7 +1301,17 @@
         "totalExpenses": 5136.25,
         "totalSaved": 7067.5,
         "savingsRate": 57.9
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2000.68
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 5898.05
+        }
+      ]
     },
     "2025-07": {
       "yearMonth": "2025-07",
@@ -1273,7 +1385,17 @@
         "totalExpenses": 5738.11,
         "totalSaved": 3264.14,
         "savingsRate": 36.3
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2120.6
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 6386.02
+        }
+      ]
     },
     "2025-08": {
       "yearMonth": "2025-08",
@@ -1342,7 +1464,17 @@
         "totalExpenses": 1256.3,
         "totalSaved": 15588.74,
         "savingsRate": 92.5
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2176.33
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 8744.26
+        }
+      ]
     },
     "2025-09": {
       "yearMonth": "2025-09",
@@ -1466,7 +1598,17 @@
         "totalExpenses": 10526.63,
         "totalSaved": -2886.75,
         "savingsRate": -37.8
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2852.95
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 3311.79
+        }
+      ]
     },
     "2025-10": {
       "yearMonth": "2025-10",
@@ -1530,7 +1672,17 @@
         "totalExpenses": 5334.06,
         "totalSaved": 2394.24,
         "savingsRate": 31.0
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 1296.95
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 9000.0
+        }
+      ]
     },
     "2025-11": {
       "yearMonth": "2025-11",
@@ -1604,7 +1756,17 @@
         "totalExpenses": 5173.76,
         "totalSaved": 9760.12,
         "savingsRate": 65.4
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 2904.18
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 5149.38
+        }
+      ]
     },
     "2025-12": {
       "yearMonth": "2025-12",
@@ -1708,7 +1870,17 @@
         "totalExpenses": 9215.88,
         "totalSaved": 15935.72,
         "savingsRate": 63.4
-      }
+      },
+      "cardPayments": [
+        {
+          "name": "AMEX Blue Cash",
+          "amount": 1889.31
+        },
+        {
+          "name": "Chase Sapphire",
+          "amount": 6221.47
+        }
+      ]
     }
   },
   "accounts": {

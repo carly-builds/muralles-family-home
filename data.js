@@ -58,7 +58,8 @@ function getMonthTemplate(yearMonth) {
     yearMonth: yearMonth,
     income: [],        // { category, amount, notes }
     fixedExpenses: [],  // { name, amount, notes }
-    creditCards: [],    // { name, total, categories: [{ category, amount }] }
+    creditCards: [],    // { name, total, categories: [{ category, amount }] } - what was charged
+    cardPayments: [],  // { name, amount } - what was actually paid from bank accounts
     surpriseSpend: 0,
     surpriseNotes: '',
     savingsAllocations: [],  // { account, amount }
@@ -220,18 +221,30 @@ function getNextYearMonth(yearMonth) {
 }
 
 // Calculate totals for a monthly entry
+// Calculate totals for a monthly entry
+// Uses cardPayments (actual cash paid to cards from bank accounts) if available,
+// falls back to creditCards statement totals if no payment data exists.
 function calculateMonthTotals(monthData) {
   const totalIncome = (monthData.income || []).reduce((sum, i) => sum + (parseFloat(i.amount) || 0), 0);
 
   const fixedTotal = (monthData.fixedExpenses || []).reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-  const cardTotal = (monthData.creditCards || []).reduce((sum, c) => sum + (parseFloat(c.total) || 0), 0);
+
+  // Prefer actual card payments from bank statements over statement totals
+  const hasPayments = (monthData.cardPayments || []).length > 0;
+  const cardTotal = hasPayments
+    ? (monthData.cardPayments || []).reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0)
+    : (monthData.creditCards || []).reduce((sum, c) => sum + (parseFloat(c.total) || 0), 0);
+
   const surprise = parseFloat(monthData.surpriseSpend) || 0;
   const totalExpenses = fixedTotal + cardTotal + surprise;
+
+  // Also calculate statement total for reference
+  const statementTotal = (monthData.creditCards || []).reduce((sum, c) => sum + (parseFloat(c.total) || 0), 0);
 
   const totalSaved = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? (totalSaved / totalIncome) * 100 : 0;
 
-  return { totalIncome, totalExpenses, totalSaved, savingsRate };
+  return { totalIncome, totalExpenses, totalSaved, savingsRate, cardTotal, statementTotal };
 }
 
 // Calculate net worth from accounts and debts
@@ -393,12 +406,21 @@ function splitMonthByOwner(monthData) {
     result[owner].incomeTotal += inc.amount || 0;
   });
 
-  // Credit cards
-  (monthData.creditCards || []).forEach(card => {
-    const owner = getCardOwner(card.name);
-    result[owner].expenses.push({ name: card.name, amount: card.total || 0, type: 'card', categories: card.categories });
-    result[owner].expenseTotal += card.total || 0;
-  });
+  // Card expenses: use actual payments from bank if available, else statement totals
+  const hasPayments = (monthData.cardPayments || []).length > 0;
+  if (hasPayments) {
+    (monthData.cardPayments || []).forEach(payment => {
+      const owner = getCardOwner(payment.name);
+      result[owner].expenses.push({ name: payment.name + ' (paid)', amount: payment.amount || 0, type: 'cardPayment' });
+      result[owner].expenseTotal += payment.amount || 0;
+    });
+  } else {
+    (monthData.creditCards || []).forEach(card => {
+      const owner = getCardOwner(card.name);
+      result[owner].expenses.push({ name: card.name, amount: card.total || 0, type: 'card', categories: card.categories });
+      result[owner].expenseTotal += card.total || 0;
+    });
+  }
 
   // Fixed expenses: [WF] tagged = Carly (Wells Fargo), rest = Matt (BofA)
   (monthData.fixedExpenses || []).forEach(exp => {

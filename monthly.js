@@ -9,6 +9,7 @@ function render_monthly() {
   document.getElementById('monthly-current-month').textContent = getMonthName(currentViewMonth);
   loadMonthData(currentViewMonth);
   renderMonthlyBreakdown();
+  renderSpendingBreakdown();
 }
 
 function changeMonth(delta) {
@@ -429,6 +430,7 @@ function saveMonthlyUpdate() {
 
   showMonthlySummary(monthData);
   renderMonthlyBreakdown();
+  renderSpendingBreakdown();
   showToast(getMonthName(currentViewMonth) + ' saved!');
 }
 
@@ -443,4 +445,101 @@ function clearMonthlyForm() {
     loadMonthData(currentViewMonth);
     showToast('Month cleared', 'success');
   });
+}
+
+// ============================================
+// Spending Breakdown (Paid vs Charged)
+// ============================================
+
+function renderSpendingBreakdown() {
+  var card = document.getElementById('monthly-spending-card');
+  var summary = document.getElementById('monthly-spending-summary');
+  var monthData = appData.months[currentViewMonth];
+
+  if (!monthData || ((monthData.creditCards || []).length === 0 && (monthData.cardPayments || []).length === 0)) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'block';
+
+  var payments = monthData.cardPayments || [];
+  var statements = monthData.creditCards || [];
+  var hasPayments = payments.length > 0;
+
+  var totalPaid = payments.reduce(function(s, p) { return s + (p.amount || 0); }, 0);
+  var totalCharged = statements.reduce(function(s, c) { return s + (c.total || 0); }, 0);
+  var diff = totalPaid - totalCharged;
+
+  var html = '';
+
+  if (hasPayments) {
+    // Summary: paid vs charged
+    html += '<div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px;">';
+    html += '<div class="revenue-total-card" style="flex:1; min-width:140px;"><div class="stat-label">Paid from Banks</div><div class="stat-value" style="font-size:1.3rem;">' + formatCurrency(totalPaid) + '</div><div class="card-label" style="margin-top:4px;">Cash out the door</div></div>';
+    html += '<div class="revenue-total-card" style="flex:1; min-width:140px;"><div class="stat-label">Charged on Cards</div><div class="stat-value" style="font-size:1.3rem;">' + formatCurrency(totalCharged) + '</div><div class="card-label" style="margin-top:4px;">Statement totals</div></div>';
+    html += '<div class="revenue-total-card" style="flex:1; min-width:140px;"><div class="stat-label">Difference</div><div class="stat-value" style="font-size:1.3rem; color:' + (diff > 0 ? 'var(--accent-green)' : diff < 0 ? 'var(--accent-red)' : 'var(--text-muted)') + ';">' + (diff >= 0 ? '+' : '') + formatCurrency(diff) + '</div><div class="card-label" style="margin-top:4px;">' + (diff > 0 ? 'Paying down balance' : diff < 0 ? 'Balance growing' : 'Even') + '</div></div>';
+    html += '</div>';
+
+    // Per-card comparison
+    var allCards = {};
+    payments.forEach(function(p) { allCards[p.name] = allCards[p.name] || {}; allCards[p.name].paid = (allCards[p.name].paid || 0) + p.amount; });
+    statements.forEach(function(c) { allCards[c.name] = allCards[c.name] || {}; allCards[c.name].charged = (allCards[c.name].charged || 0) + c.total; });
+
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Card</th><th style="text-align:right;">Paid</th><th style="text-align:right;">Charged</th><th style="text-align:right;">Diff</th></tr></thead><tbody>';
+    Object.keys(allCards).sort().forEach(function(name) {
+      var c = allCards[name];
+      var p = c.paid || 0;
+      var ch = c.charged || 0;
+      var d = p - ch;
+      html += '<tr><td>' + name + '</td>';
+      html += '<td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(p) + '</td>';
+      html += '<td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(ch) + '</td>';
+      html += '<td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (d > 0 ? 'var(--accent-green)' : d < 0 ? 'var(--accent-red)' : 'var(--text-muted)') + ';">' + (d >= 0 ? '+' : '') + formatCurrency(d) + '</td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table></div>';
+  } else {
+    html += '<p style="font-size:0.82rem; color:var(--text-muted);">No bank payment data for this month. Showing statement totals only.</p>';
+  }
+
+  summary.innerHTML = html;
+}
+
+function toggleSpendingBreakdown() {
+  var el = document.getElementById('monthly-spending-detail');
+  var btn = document.getElementById('spending-toggle-btn');
+  var monthData = appData.months[currentViewMonth];
+
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    btn.textContent = 'Hide Details';
+
+    // Render category breakdown from card statements
+    var statements = (monthData && monthData.creditCards) || [];
+    var html = '<div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">';
+    html += '<div class="card-label" style="margin-bottom:12px;">What was charged (by category)</div>';
+
+    statements.forEach(function(card) {
+      var cats = card.categories || [];
+      if (cats.length === 0) return;
+
+      html += '<div style="margin-bottom:16px;">';
+      html += '<div style="font-size:0.85rem; font-weight:500; margin-bottom:8px;">' + card.name + ' <span style="color:var(--text-muted); font-family:\'Roboto Mono\',monospace; font-size:0.78rem;">' + formatCurrency(card.total) + '</span></div>';
+
+      cats.sort(function(a, b) { return b.amount - a.amount; }).forEach(function(cat) {
+        var pct = card.total > 0 ? (cat.amount / card.total * 100) : 0;
+        html += '<div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0 4px 12px; font-size:0.82rem;">';
+        html += '<span style="color:var(--text-body);">' + (cat.category || 'Uncategorized') + '</span>';
+        html += '<span style="font-family:\'Roboto Mono\',monospace; font-size:0.78rem; color:var(--text-muted);">' + formatCurrency(cat.amount) + ' <span style="color:var(--text-light);">(' + pct.toFixed(0) + '%)</span></span>';
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+
+    html += '</div>';
+    el.innerHTML = html;
+  } else {
+    el.style.display = 'none';
+    btn.textContent = 'Show Details';
+  }
 }
