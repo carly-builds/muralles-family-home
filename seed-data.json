@@ -32,9 +32,70 @@
           "category": "Coaching (Stripe)",
           "amount": 363.82,
           "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Other",
+          "amount": 4000,
+          "notes": "Prince Hassan move-out payment"
+        },
+        {
+          "category": "Other",
+          "amount": 8000,
+          "notes": "Prince Hassan move-out payment"
         }
       ],
-      "fixedExpenses": [],
+      "fixedExpenses": [
+        {
+          "name": "Check",
+          "amount": 190,
+          "notes": "Check 194"
+        },
+        {
+          "name": "Venmo",
+          "amount": 100,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX43326888 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Zelle",
+          "amount": 80,
+          "notes": "Zelle payment to FLAVIO SANTOS SILVEIRA for Cleaning\"; Conf#"
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 260.69,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 359.78,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX81029331 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 132.32,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 570,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX30249191 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 15,
+          "notes": "Zelle payment to Michael Conf# wl3nusve5"
+        },
+        {
+          "name": "Zelle",
+          "amount": 2910,
+          "notes": "Zelle payment to SUNSHINE WITH MARIA LLC Conf# ywdn581y2"
+        }
+      ],
       "creditCards": [
         {
           "name": "Chase Sapphire",
@@ -158,10 +219,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 39368.95,
-        "totalExpenses": 6625.56,
-        "totalSaved": 32743.39,
-        "savingsRate": 83.2
+        "totalIncome": 51368.95,
+        "totalExpenses": 11742.61,
+        "totalSaved": 39626.34,
+        "savingsRate": 77.1
       }
     },
     "2026-02": {
@@ -170,11 +231,6 @@
         {
           "category": "Salary (Matt/Flywire)",
           "amount": 9322.9,
-          "notes": ""
-        },
-        {
-          "category": "Other",
-          "amount": 885.44,
           "notes": ""
         },
         {
@@ -196,9 +252,60 @@
           "category": "Coaching (Stripe)",
           "amount": 703.37,
           "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Venmo",
+          "amount": 885.44,
+          "notes": "VENMO DES:CASHOUT ID:XXXXX52624513 INDN:MATTHEW MURALLES CO "
         }
       ],
-      "fixedExpenses": [],
+      "fixedExpenses": [
+        {
+          "name": "Zelle",
+          "amount": 600,
+          "notes": "Zelle payment to GARY SARACENI for Appreciate it\"; Conf# tl0"
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 113.29,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 91.46,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 34,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX63471872 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Sertifi",
+          "amount": 1,
+          "notes": ""
+        },
+        {
+          "name": "Sertifi",
+          "amount": 1,
+          "notes": ""
+        },
+        {
+          "name": "Sertifi",
+          "amount": 1,
+          "notes": ""
+        },
+        {
+          "name": "Sertifi",
+          "amount": 1,
+          "notes": ""
+        }
+      ],
       "creditCards": [
         {
           "name": "Chase Sapphire",
@@ -323,9 +430,9 @@
       },
       "totals": {
         "totalIncome": 22553.78,
-        "totalExpenses": 17196.77,
-        "totalSaved": 5357.01,
-        "savingsRate": 23.8
+        "totalExpenses": 18538.78,
+        "totalSaved": 4015.0,
+        "savingsRate": 17.8
       }
     },
     "2026-03": {
@@ -357,7 +464,28 @@
           "notes": "[Stripe] Auto-imported"
         }
       ],
-      "fixedExpenses": [],
+      "fixedExpenses": [
+        {
+          "name": "Zelle",
+          "amount": 8,
+          "notes": "Zelle payment to ANGEL PERAZA Conf# s2hb4a5hm"
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 54,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX16627876 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "USPS",
+          "amount": 152.55,
+          "notes": ""
+        }
+      ],
       "creditCards": [
         {
           "name": "Chase Sapphire",
@@ -482,9 +610,9 @@
       },
       "totals": {
         "totalIncome": 65427.33,
-        "totalExpenses": 22043.78,
-        "totalSaved": 43383.55,
-        "savingsRate": 66.3
+        "totalExpenses": 22757.59,
+        "totalSaved": 42669.74,
+        "savingsRate": 65.2
       }
     },
     "2026-04": {
@@ -547,6 +675,716 @@
         "totalExpenses": 190.91,
         "totalSaved": 1715.67,
         "savingsRate": 90.0
+      }
+    },
+    "2025-01": {
+      "yearMonth": "2025-01",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Zelle",
+          "amount": 50,
+          "notes": "Zelle payment to Dad Conf# u5hz3otz2"
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 111.02,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 4960.28,
+        "totalSaved": -4960.28,
+        "savingsRate": 0
+      }
+    },
+    "2025-02": {
+      "yearMonth": "2025-02",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "ATM Withdrawal",
+          "amount": 400,
+          "notes": ""
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 194.41,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 125.39,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 5519.06,
+        "totalSaved": -5519.06,
+        "savingsRate": 0
+      }
+    },
+    "2025-03": {
+      "yearMonth": "2025-03",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 218.68,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 127.11,
+          "notes": ""
+        },
+        {
+          "name": "State Tax (MA)",
+          "amount": 1102,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 40,
+          "notes": "Zelle payment to Michael for dinner\"; Conf# mcjj14eym\""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 170.14,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 6457.19,
+        "totalSaved": -6457.19,
+        "savingsRate": 0
+      }
+    },
+    "2025-04": {
+      "yearMonth": "2025-04",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Electric (FPL)",
+          "amount": 131.7,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 35,
+          "notes": "Zelle payment to Dad Conf# tsghgnwmk"
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 100,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4200,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 4965.96,
+        "totalSaved": -4965.96,
+        "savingsRate": 0
+      }
+    },
+    "2025-05": {
+      "yearMonth": "2025-05",
+      "income": [
+        {
+          "category": "Zelle",
+          "amount": 20,
+          "notes": "Zelle payment from ARNOLDO MURALLES Conf# zl8cd5z5r"
+        }
+      ],
+      "fixedExpenses": [
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 170.14,
+          "notes": ""
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 218.68,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 220,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX18745227 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 20,
+        "totalExpenses": 5408.08,
+        "totalSaved": -5388.08,
+        "savingsRate": -26940.4
+      }
+    },
+    "2025-06": {
+      "yearMonth": "2025-06",
+      "income": [
+        {
+          "category": "Zelle",
+          "amount": 40,
+          "notes": "Zelle payment from ARNOLDO MURALLES Conf# xq3fu872q"
+        },
+        {
+          "category": "Zelle",
+          "amount": 165,
+          "notes": "Zelle payment from MICHAEL MURALLES for Mom\"; Conf# nl46vz5w"
+        }
+      ],
+      "fixedExpenses": [
+        {
+          "name": "Electric (FPL)",
+          "amount": 158.93,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 178.06,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 205,
+        "totalExpenses": 5136.25,
+        "totalSaved": -4931.25,
+        "savingsRate": -2405.5
+      }
+    },
+    "2025-07": {
+      "yearMonth": "2025-07",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 218.68,
+          "notes": ""
+        },
+        {
+          "name": "Birdie Gift",
+          "amount": 255,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 192.17,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 23,
+          "notes": "Zelle payment to Michael Conf# v7ntjqlyd"
+        },
+        {
+          "name": "Robinhood",
+          "amount": 250,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 5738.11,
+        "totalSaved": -5738.11,
+        "savingsRate": 0
+      }
+    },
+    "2025-08": {
+      "yearMonth": "2025-08",
+      "income": [
+        {
+          "category": "Zelle",
+          "amount": 37,
+          "notes": "Zelle payment from MICHAEL MURALLES for Wings\"; Conf# jgkr1j"
+        }
+      ],
+      "fixedExpenses": [
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 194.41,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 202.63,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 110,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX67734793 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 250,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX53584819 INDN:MATTHEW MURALLES CO "
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 37,
+        "totalExpenses": 1256.3,
+        "totalSaved": -1219.3,
+        "savingsRate": -3295.4
+      }
+    },
+    "2025-09": {
+      "yearMonth": "2025-09",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Zelle",
+          "amount": 17,
+          "notes": "Zelle payment to Michael for Movies\"; Conf# zbq96kqjq\""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 179.36,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 100,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX32886078 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 14,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX66768202 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 8,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX52585216 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 29,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX42827329 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 15,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX42269509 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 590,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX67164465 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 266,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX68621487 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 20,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX47629185 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 11,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX96591504 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 10,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX97683773 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Venmo",
+          "amount": 40,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX21247974 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 128.01,
+          "notes": ""
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 10526.63,
+        "totalSaved": -10526.63,
+        "savingsRate": 0
+      }
+    },
+    "2025-10": {
+      "yearMonth": "2025-10",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Zelle",
+          "amount": 160,
+          "notes": "Zelle payment to FLAVIO SANTOS SILVEIRA Conf# twemi8e4q"
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 146.6,
+          "notes": ""
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 148.2,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 80,
+          "notes": "Zelle payment to FLAVIO SANTOS SILVEIRA Conf# watfm7q3u"
+        },
+        {
+          "name": "Rent (Prince Hassan)",
+          "amount": 4300,
+          "notes": ""
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 5334.06,
+        "totalSaved": -5334.06,
+        "savingsRate": 0
+      }
+    },
+    "2025-11": {
+      "yearMonth": "2025-11",
+      "income": [],
+      "fixedExpenses": [
+        {
+          "name": "Groceries (Publix)",
+          "amount": 223.25,
+          "notes": ""
+        },
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 223.36,
+          "notes": ""
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 147.89,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 80,
+          "notes": "Zelle payment to FLAVIO SANTOS SILVEIRA for Cleaning\"; Conf#"
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 4000,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX51811452 INDN:MATTHEW MURALLES CO "
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 0,
+        "totalExpenses": 5173.76,
+        "totalSaved": -5173.76,
+        "savingsRate": 0
+      }
+    },
+    "2025-12": {
+      "yearMonth": "2025-12",
+      "income": [
+        {
+          "category": "Zelle",
+          "amount": 37,
+          "notes": "Zelle payment from MICHAEL MURALLES Conf# ly5r1ace1"
+        }
+      ],
+      "fixedExpenses": [
+        {
+          "name": "Water/Sewer (Fort Lauderdale)",
+          "amount": 234.24,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 4000,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX52858093 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Zelle",
+          "amount": 160,
+          "notes": "Zelle payment to FLAVIO SANTOS SILVEIRA Conf# wop24jwsy"
+        },
+        {
+          "name": "Electric (FPL)",
+          "amount": 116.38,
+          "notes": ""
+        },
+        {
+          "name": "Venmo",
+          "amount": 4000,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX03267678 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Car Payment (Kia)",
+          "amount": 499.26,
+          "notes": ""
+        },
+        {
+          "name": "Zelle",
+          "amount": 10,
+          "notes": "Zelle payment to ROLAND ARKI Conf# t6p7y8gq0"
+        },
+        {
+          "name": "Venmo",
+          "amount": 138,
+          "notes": "VENMO DES:PAYMENT ID:XXXXX34826936 INDN:MATTHEW MURALLES CO "
+        },
+        {
+          "name": "Zelle",
+          "amount": 50,
+          "notes": "Zelle payment to Dad for Golf clubs fund\"; Conf# v7jolwo40\""
+        },
+        {
+          "name": "Zelle",
+          "amount": 8,
+          "notes": "Zelle payment to ROLAND ARKI Conf# xlzdv3ncg"
+        }
+      ],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 37,
+        "totalExpenses": 9215.88,
+        "totalSaved": -9178.88,
+        "savingsRate": -24807.8
       }
     }
   },
@@ -666,7 +1504,10 @@
       "Bonus",
       "Other",
       "Substack (Stripe)",
-      "Coaching (Stripe)"
+      "Coaching (Stripe)",
+      "Venmo",
+      "Zelle",
+      "Wire Transfer"
     ],
     "spendCategories": [
       "Groceries",
