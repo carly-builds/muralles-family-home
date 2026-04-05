@@ -3,10 +3,212 @@
    ============================================ */
 
 let currentViewMonth = getCurrentYearMonth();
+let monthlyBreakdownView = 'everyone'; // 'everyone', 'carly', 'partner'
 
 function render_monthly() {
   document.getElementById('monthly-current-month').textContent = getMonthName(currentViewMonth);
   loadMonthData(currentViewMonth);
+  renderMonthlyBreakdown();
+}
+
+function switchMonthlyBreakdownView(view) {
+  monthlyBreakdownView = view;
+  renderMonthlyBreakdown();
+}
+
+// ============================================
+// Revenue/Expense Breakdown by Person
+// ============================================
+
+function renderMonthlyBreakdown() {
+  const container = document.getElementById('monthly-breakdown');
+  const card = document.getElementById('monthly-breakdown-card');
+  const monthData = appData.months[currentViewMonth];
+
+  if (!monthData || (monthData.income.length === 0 && monthData.fixedExpenses.length === 0 && monthData.creditCards.length === 0)) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'block';
+
+  const partnerName = appData.settings.partnerName || 'Matt';
+
+  // Categorize income by person
+  let carlyIncome = 0, mattIncome = 0, sharedIncome = 0;
+  const carlyIncomeItems = [];
+  const mattIncomeItems = [];
+  const sharedIncomeItems = [];
+
+  (monthData.income || []).forEach(inc => {
+    const cat = inc.category || '';
+    if (INCOME_STREAMS.carly.keys.includes(cat)) {
+      carlyIncome += inc.amount;
+      carlyIncomeItems.push(inc);
+    } else if (INCOME_STREAMS.matt.keys.includes(cat)) {
+      mattIncome += inc.amount;
+      mattIncomeItems.push(inc);
+    } else {
+      sharedIncome += inc.amount;
+      sharedIncomeItems.push(inc);
+    }
+  });
+
+  // Categorize expenses by person
+  // Credit cards: Chase Business (Carly) is Carly's, rest are shared/Matt
+  let carlyExpenses = 0, mattExpenses = 0, sharedExpenses = 0;
+  const carlyExpenseItems = [];
+  const mattExpenseItems = [];
+  const sharedExpenseItems = [];
+
+  (monthData.creditCards || []).forEach(card => {
+    const name = (card.name || '').toLowerCase();
+    if (name.includes('carly') || name.includes('business')) {
+      carlyExpenses += card.total;
+      carlyExpenseItems.push({ name: card.name, amount: card.total });
+    } else {
+      sharedExpenses += card.total;
+      sharedExpenseItems.push({ name: card.name, amount: card.total });
+    }
+  });
+
+  (monthData.fixedExpenses || []).forEach(exp => {
+    // Most fixed expenses come from BofA (Matt's account) so treat as shared
+    sharedExpenses += exp.amount;
+    sharedExpenseItems.push({ name: exp.name, amount: exp.amount });
+  });
+
+  const surprise = parseFloat(monthData.surpriseSpend) || 0;
+  if (surprise > 0) {
+    sharedExpenses += surprise;
+    sharedExpenseItems.push({ name: 'Surprise Spend', amount: surprise });
+  }
+
+  const totalIncome = carlyIncome + mattIncome + sharedIncome;
+  const totalExpenses = carlyExpenses + mattExpenses + sharedExpenses;
+
+  // Build toggle
+  let html = `
+    <div class="revenue-toggle-row">
+      <div class="revenue-toggles">
+        <button class="revenue-toggle ${monthlyBreakdownView === 'everyone' ? 'active' : ''}" onclick="switchMonthlyBreakdownView('everyone')">Everyone</button>
+        <button class="revenue-toggle ${monthlyBreakdownView === 'carly' ? 'active' : ''}" onclick="switchMonthlyBreakdownView('carly')">Carly</button>
+        <button class="revenue-toggle ${monthlyBreakdownView === 'partner' ? 'active' : ''}" onclick="switchMonthlyBreakdownView('partner')">${partnerName}</button>
+      </div>
+    </div>
+  `;
+
+  if (monthlyBreakdownView === 'everyone') {
+    html += renderBreakdownEveryone(partnerName, carlyIncome, mattIncome, sharedIncome, totalIncome, carlyExpenses, mattExpenses, sharedExpenses, totalExpenses);
+  } else if (monthlyBreakdownView === 'carly') {
+    html += renderBreakdownPerson('Carly', carlyIncomeItems, carlyIncome, carlyExpenseItems, carlyExpenses, sharedIncomeItems, sharedIncome, sharedExpenseItems, sharedExpenses);
+  } else {
+    html += renderBreakdownPerson(partnerName, mattIncomeItems, mattIncome, mattExpenseItems, mattExpenses, sharedIncomeItems, sharedIncome, sharedExpenseItems, sharedExpenses);
+  }
+
+  container.innerHTML = html;
+}
+
+function renderBreakdownEveryone(partnerName, carlyIncome, mattIncome, sharedIncome, totalIncome, carlyExpenses, mattExpenses, sharedExpenses, totalExpenses) {
+  const totalSaved = totalIncome - totalExpenses;
+  let html = '<div class="revenue-summary-row">';
+
+  html += `<div class="revenue-total-card">
+    <div class="stat-label">Total Income</div>
+    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(totalIncome)}</div>
+  </div>`;
+  html += `<div class="revenue-total-card">
+    <div class="stat-label">Total Expenses</div>
+    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(totalExpenses)}</div>
+  </div>`;
+  html += `<div class="revenue-total-card">
+    <div class="stat-label">Saved</div>
+    <div class="stat-value" style="font-size:1.4rem; color: ${totalSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">${formatCurrency(totalSaved)}</div>
+  </div>`;
+
+  html += '</div>';
+
+  // Income breakdown
+  html += '<div class="revenue-table-wrap"><table><thead><tr><th>Income</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+  html += `<tr><td style="color:var(--accent-pink);">Carly</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(carlyIncome)}</td></tr>`;
+  html += `<tr><td style="color:var(--accent-blue);">${partnerName}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(mattIncome)}</td></tr>`;
+  if (sharedIncome > 0) {
+    html += `<tr><td style="color:var(--text-muted);">Other</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(sharedIncome)}</td></tr>`;
+  }
+  html += '</tbody></table></div>';
+
+  // Expense breakdown
+  html += '<div class="revenue-table-wrap"><table><thead><tr><th>Expenses</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+  if (carlyExpenses > 0) {
+    html += `<tr><td style="color:var(--accent-pink);">Carly (cards)</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(carlyExpenses)}</td></tr>`;
+  }
+  html += `<tr><td style="color:var(--text-muted);">Shared</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(sharedExpenses)}</td></tr>`;
+  html += '</tbody></table></div>';
+
+  return html;
+}
+
+function renderBreakdownPerson(name, incomeItems, personalIncome, expenseItems, personalExpenses, sharedIncomeItems, sharedIncome, sharedExpenseItems, sharedExpenses) {
+  const totalPersonIncome = personalIncome + sharedIncome;
+  const totalPersonExpenses = personalExpenses + sharedExpenses;
+  const saved = totalPersonIncome - totalPersonExpenses;
+
+  let html = '<div class="revenue-summary-row">';
+  html += `<div class="revenue-total-card">
+    <div class="stat-label">${name}'s Income</div>
+    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(personalIncome)}</div>
+  </div>`;
+  html += `<div class="revenue-total-card">
+    <div class="stat-label">${name}'s Expenses</div>
+    <div class="stat-value" style="font-size:1.4rem;">${formatCurrency(personalExpenses)}</div>
+  </div>`;
+  html += '</div>';
+
+  // Income detail
+  if (incomeItems.length > 0) {
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Income</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+    incomeItems.forEach(inc => {
+      const label = INCOME_STREAMS.carly.labels?.[inc.category] || INCOME_STREAMS.matt.labels?.[inc.category] || inc.category;
+      html += `<tr><td>${label}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(inc.amount)}</td></tr>`;
+    });
+    html += `<tr style="font-weight:600;"><td>Total</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(personalIncome)}</td></tr>`;
+    html += '</tbody></table></div>';
+  }
+
+  // Expense detail
+  if (expenseItems.length > 0) {
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Expenses</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+    expenseItems.forEach(exp => {
+      html += `<tr><td>${exp.name}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(exp.amount)}</td></tr>`;
+    });
+    html += `<tr style="font-weight:600;"><td>Total</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(personalExpenses)}</td></tr>`;
+    html += '</tbody></table></div>';
+  }
+
+  // Shared section
+  if (sharedIncomeItems.length > 0 || sharedExpenseItems.length > 0) {
+    html += `<div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">`;
+    html += `<div class="card-label" style="margin-bottom:10px;">Shared / Household</div>`;
+
+    if (sharedIncomeItems.length > 0) {
+      html += '<div class="revenue-table-wrap"><table><thead><tr><th>Shared Income</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+      sharedIncomeItems.forEach(inc => {
+        html += `<tr><td>${inc.category}${inc.notes ? ' — ' + inc.notes : ''}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(inc.amount)}</td></tr>`;
+      });
+      html += '</tbody></table></div>';
+    }
+
+    if (sharedExpenseItems.length > 0) {
+      html += '<div class="revenue-table-wrap"><table><thead><tr><th>Shared Expenses</th><th style="text-align:right;">Amount</th></tr></thead><tbody>';
+      sharedExpenseItems.forEach(exp => {
+        html += `<tr><td>${exp.name}</td><td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem;">${formatCurrency(exp.amount)}</td></tr>`;
+      });
+      html += '</tbody></table></div>';
+    }
+
+    html += '</div>';
+  }
+
+  return html;
 }
 
 function changeMonth(delta) {
@@ -405,6 +607,7 @@ function saveMonthlyUpdate() {
   saveData(appData);
 
   showMonthlySummary(monthData);
+  renderMonthlyBreakdown();
   showToast(`${getMonthName(currentViewMonth)} saved!`);
 }
 
