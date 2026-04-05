@@ -515,67 +515,130 @@ function renderDashSavingsBreakdown() {
     return;
   }
 
-  const agg = aggregateSplits(allMonths);
   const partnerName = appData.settings.partnerName || 'Matt';
+  const mono = "font-family:'Roboto Mono',monospace; font-size:0.82rem;";
+  const right = 'text-align:right; ' + mono;
 
-  let html = renderPersonToggle(savingsView, 'switchSavingsView');
-
-  if (savingsView === 'everyone') {
-    const saved = agg.everyone.incomeTotal - agg.everyone.expenseTotal;
-    const rate = agg.everyone.incomeTotal > 0 ? (saved / agg.everyone.incomeTotal * 100) : 0;
-
-    html += '<div class="revenue-summary-row">';
-    html += '<div class="revenue-total-card"><div class="stat-label">Total Income</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(agg.everyone.incomeTotal) + '</div><div class="stat-change neutral">' + agg.monthCount + ' months</div></div>';
-    html += '<div class="revenue-total-card"><div class="stat-label">Total Expenses</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(agg.everyone.expenseTotal) + '</div></div>';
-    html += '<div class="revenue-total-card"><div class="stat-label">Total Saved</div><div class="stat-value" style="font-size:1.5rem; color:' + (saved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(saved) + '</div><div class="stat-change neutral">' + rate.toFixed(1) + '% savings rate</div></div>';
-    html += '</div>';
-
-    // Per-person savings row
-    var carlySaved = agg.carly.incomeTotal - agg.carly.expenseTotal;
-    var mattSaved = agg.matt.incomeTotal - agg.matt.expenseTotal;
-    html += '<div class="revenue-table-wrap"><table><thead><tr><th></th><th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th><th style="text-align:right;">Saved</th></tr></thead><tbody>';
-    html += '<tr><td style="color:var(--accent-pink);">Carly</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.carly.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.carly.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (carlySaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(carlySaved) + '</td></tr>';
-    html += '<tr><td style="color:var(--accent-blue);">' + partnerName + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.matt.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.matt.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (mattSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(mattSaved) + '</td></tr>';
-    if (agg.shared.incomeTotal > 0 || agg.shared.expenseTotal > 0) {
-      var sharedSaved = agg.shared.incomeTotal - agg.shared.expenseTotal;
-      html += '<tr><td style="color:var(--text-muted);">Other</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.shared.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.shared.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(sharedSaved) + '</td></tr>';
-    }
-    html += '</tbody></table></div>';
-
-    // Monthly savings trend
-    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th><th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th><th style="text-align:right;">Saved</th><th style="text-align:right;">Rate</th></tr></thead><tbody>';
-    allMonths.forEach(function(ym) {
-      var s = splitMonthByOwner(appData.months[ym]);
-      if (!s) return;
-      var sv = s.everyone.saved;
-      var rt = s.everyone.incomeTotal > 0 ? (sv / s.everyone.incomeTotal * 100) : 0;
-      html += '<tr><td>' + getMonthName(ym) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(s.everyone.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(s.everyone.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (sv >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(sv) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + rt.toFixed(1) + '%</td></tr>';
-    });
-    html += '</tbody></table></div>';
-  } else {
-    var who = savingsView === 'carly' ? 'carly' : 'matt';
-    var name = savingsView === 'carly' ? 'Carly' : partnerName;
-    var personAgg = agg[who];
-    var personSaved = personAgg.incomeTotal - personAgg.expenseTotal;
-    var personRate = personAgg.incomeTotal > 0 ? (personSaved / personAgg.incomeTotal * 100) : 0;
-
-    html += '<div class="revenue-summary-row">';
-    html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Income</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(personAgg.incomeTotal) + '</div></div>';
-    html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Expenses</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(personAgg.expenseTotal) + '</div></div>';
-    html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Saved</div><div class="stat-value" style="font-size:1.5rem; color:' + (personSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(personSaved) + '</div><div class="stat-change neutral">' + personRate.toFixed(1) + '% rate</div></div>';
-    html += '</div>';
-
-    // Monthly trend for this person
-    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th><th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th><th style="text-align:right;">Saved</th></tr></thead><tbody>';
-    allMonths.forEach(function(ym) {
-      var s = splitMonthByOwner(appData.months[ym]);
-      if (!s) return;
-      var p = s[who];
-      var sv = p.incomeTotal - p.expenseTotal;
-      html += '<tr><td>' + getMonthName(ym) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(p.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(p.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (sv >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(sv) + '</td></tr>';
-    });
-    html += '</tbody></table></div>';
+  // Get savings for each month for the selected view
+  function getMonthSaved(ym, viewWho) {
+    var s = splitMonthByOwner(appData.months[ym]);
+    if (!s) return { income: 0, expenses: 0, saved: 0 };
+    if (viewWho === 'everyone') return { income: s.everyone.incomeTotal, expenses: s.everyone.expenseTotal, saved: s.everyone.saved };
+    var p = s[viewWho];
+    return { income: p.incomeTotal, expenses: p.expenseTotal, saved: p.incomeTotal - p.expenseTotal };
   }
+
+  var who = savingsView === 'carly' ? 'carly' : savingsView === 'partner' ? 'matt' : 'everyone';
+
+  var html = renderPersonToggle(savingsView, 'switchSavingsView');
+
+  // Group months by year, then by quarter
+  var years = {};
+  allMonths.forEach(function(ym) {
+    var year = ym.split('-')[0];
+    if (!years[year]) years[year] = [];
+    years[year].push(ym);
+  });
+
+  var grandIncome = 0, grandExpenses = 0, grandSaved = 0;
+  var prevSaved = null;
+
+  // Build table
+  html += '<div class="revenue-table-wrap"><table><thead><tr>';
+  html += '<th>Period</th><th style="' + right + '">Income</th><th style="' + right + '">Expenses</th><th style="' + right + '">Saved</th><th style="' + right + '">Change</th>';
+  html += '</tr></thead><tbody>';
+
+  var sortedYears = Object.keys(years).sort();
+
+  sortedYears.forEach(function(year) {
+    var yearMonths = years[year];
+    var yearIncome = 0, yearExpenses = 0, yearSaved = 0;
+
+    // Group by quarter
+    var quarters = {};
+    yearMonths.forEach(function(ym) {
+      var m = parseInt(ym.split('-')[1]);
+      var q = Math.ceil(m / 3);
+      var qKey = 'Q' + q;
+      if (!quarters[qKey]) quarters[qKey] = [];
+      quarters[qKey].push(ym);
+    });
+
+    var sortedQs = Object.keys(quarters).sort();
+
+    sortedQs.forEach(function(qKey) {
+      var qMonths = quarters[qKey];
+      var qIncome = 0, qExpenses = 0, qSaved = 0;
+
+      qMonths.forEach(function(ym) {
+        var d = getMonthSaved(ym, who);
+        var change = prevSaved !== null ? d.saved - prevSaved : null;
+        var changeStr = change !== null
+          ? '<span style="color:' + (change >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + (change >= 0 ? '+' : '') + formatCurrency(change) + '</span>'
+          : '--';
+
+        var monthLabel = new Date(ym + '-15').toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        html += '<tr>';
+        html += '<td style="padding-left:24px;">' + monthLabel + '</td>';
+        html += '<td style="' + right + '">' + formatCurrency(d.income) + '</td>';
+        html += '<td style="' + right + '">' + formatCurrency(d.expenses) + '</td>';
+        html += '<td style="' + right + ' color:' + (d.saved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(d.saved) + '</td>';
+        html += '<td style="' + right + '">' + changeStr + '</td>';
+        html += '</tr>';
+
+        qIncome += d.income;
+        qExpenses += d.expenses;
+        qSaved += d.saved;
+        prevSaved = d.saved;
+      });
+
+      // Quarter subtotal
+      html += '<tr style="background:var(--bg-warm-gray); font-weight:600;">';
+      html += '<td style="padding-left:12px;">' + year + ' ' + qKey + '</td>';
+      html += '<td style="' + right + '">' + formatCurrency(qIncome) + '</td>';
+      html += '<td style="' + right + '">' + formatCurrency(qExpenses) + '</td>';
+      html += '<td style="' + right + ' color:' + (qSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(qSaved) + '</td>';
+      html += '<td style="' + right + '"></td>';
+      html += '</tr>';
+
+      yearIncome += qIncome;
+      yearExpenses += qExpenses;
+      yearSaved += qSaved;
+    });
+
+    // Year total
+    html += '<tr style="background:var(--bg-cream); font-weight:700; border-top:2px solid var(--border);">';
+    html += '<td>' + year + ' Total</td>';
+    html += '<td style="' + right + '">' + formatCurrency(yearIncome) + '</td>';
+    html += '<td style="' + right + '">' + formatCurrency(yearExpenses) + '</td>';
+    html += '<td style="' + right + ' color:' + (yearSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(yearSaved) + '</td>';
+    var yearRate = yearIncome > 0 ? (yearSaved / yearIncome * 100) : 0;
+    html += '<td style="' + right + '">' + yearRate.toFixed(1) + '% rate</td>';
+    html += '</tr>';
+
+    // Spacer between years
+    if (year !== sortedYears[sortedYears.length - 1]) {
+      html += '<tr><td colspan="5" style="height:8px; border:none;"></td></tr>';
+    }
+
+    grandIncome += yearIncome;
+    grandExpenses += yearExpenses;
+    grandSaved += yearSaved;
+  });
+
+  // Grand total if multiple years
+  if (sortedYears.length > 1) {
+    html += '<tr style="background:var(--text-heading); color:white; font-weight:700;">';
+    html += '<td>All Time</td>';
+    html += '<td style="' + right + ' color:white;">' + formatCurrency(grandIncome) + '</td>';
+    html += '<td style="' + right + ' color:white;">' + formatCurrency(grandExpenses) + '</td>';
+    html += '<td style="' + right + ' color:white;">' + formatCurrency(grandSaved) + '</td>';
+    var grandRate = grandIncome > 0 ? (grandSaved / grandIncome * 100) : 0;
+    html += '<td style="' + right + ' color:white;">' + grandRate.toFixed(1) + '% rate</td>';
+    html += '</tr>';
+  }
+
+  html += '</tbody></table></div>';
 
   container.innerHTML = html;
 }
