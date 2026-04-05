@@ -226,6 +226,33 @@ h4 { font-size: 1.05rem; }
   color: var(--sidebar-active);
 }
 
+/* Sidebar tools collapsible */
+.sidebar-tools-toggle {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar-tools-chevron {
+  transition: transform 0.2s ease;
+}
+
+.sidebar-tools-toggle.open .sidebar-tools-chevron {
+  transform: rotate(180deg);
+}
+
+.sidebar-tools-panel {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255,255,255,0.06);
+  margin-left: 8px;
+}
+
+.sidebar-tools-panel.open {
+  display: flex;
+}
+
 /* ============================================
    MOBILE HEADER
    ============================================ */

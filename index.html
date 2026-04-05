@@ -62,28 +62,6 @@
         </a></li>
       </ul>
       <div class="sidebar-footer">
-        <button class="export-btn" onclick="showStripeSettings()" style="color:#635bff;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-          Stripe Sync
-        </button>
-        <button class="export-btn" onclick="showStripeCSVImport()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Import Stripe CSV
-        </button>
-        <div class="divider" style="margin:8px 0; background:rgba(255,255,255,0.06);"></div>
-        <button class="export-btn" onclick="exportData()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export Data
-        </button>
-        <button class="import-btn" onclick="document.getElementById('importFile').click()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Import Data
-        </button>
-        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-        <button class="import-btn" onclick="if(confirm('Reset and reload seed data?')){localStorage.removeItem('family-command-center');location.reload()}" style="color:var(--accent-red); margin-top:4px;">
-          Reset Data
-        </button>
-        <div class="divider" style="margin:8px 0; background:rgba(255,255,255,0.06);"></div>
         <div id="sync-status" class="sync-status">
           <span id="sync-indicator"><span class="sync-dot"></span> Not connected</span>
         </div>
@@ -91,6 +69,29 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           Cloud Sync
         </button>
+        <button class="export-btn sidebar-tools-toggle" onclick="toggleSidebarTools()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Tools
+          <svg class="sidebar-tools-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto;"><polyline points="6,9 12,15 18,9"/></svg>
+        </button>
+        <div class="sidebar-tools-panel" id="sidebar-tools-panel">
+          <button class="export-btn" onclick="showStripeSettings()" style="color:#635bff;">
+            Stripe Sync
+          </button>
+          <button class="export-btn" onclick="showStripeCSVImport()">
+            Import Stripe CSV
+          </button>
+          <button class="export-btn" onclick="exportData()">
+            Export Data
+          </button>
+          <button class="import-btn" onclick="document.getElementById('importFile').click()">
+            Import Data
+          </button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+          <button class="import-btn" onclick="if(confirm('Reset and reload seed data?')){localStorage.removeItem('family-command-center');location.reload()}" style="color:var(--accent-red);">
+            Reset Data
+          </button>
+        </div>
       </div>
     </nav>
 

@@ -51,6 +51,15 @@ function toggleSidebar() {
   document.querySelector('.sidebar')?.classList.toggle('open');
 }
 
+function toggleSidebarTools() {
+  const panel = document.getElementById('sidebar-tools-panel');
+  const btn = document.querySelector('.sidebar-tools-toggle');
+  if (panel) {
+    panel.classList.toggle('open');
+    btn?.classList.toggle('open');
+  }
+}
+
 // ============================================
 // WELCOME / FIRST RUN
 // ============================================
