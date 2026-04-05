@@ -22,6 +22,16 @@
           "category": "Reach Out Party (Stripe)",
           "amount": 4609.37,
           "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Substack (Stripe)",
+          "amount": 1562.74,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Coaching (Stripe)",
+          "amount": 363.82,
+          "notes": "[Stripe] Auto-imported"
         }
       ],
       "fixedExpenses": [],
@@ -148,10 +158,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 37442.39,
+        "totalIncome": 39368.95,
         "totalExpenses": 6625.56,
-        "totalSaved": 30816.83,
-        "savingsRate": 82.3
+        "totalSaved": 32743.39,
+        "savingsRate": 83.2
       }
     },
     "2026-02": {
@@ -175,6 +185,16 @@
         {
           "category": "TETHER (Stripe)",
           "amount": 1354.19,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Substack (Stripe)",
+          "amount": 216.33,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Coaching (Stripe)",
+          "amount": 703.37,
           "notes": "[Stripe] Auto-imported"
         }
       ],
@@ -302,10 +322,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 21634.08,
+        "totalIncome": 22553.78,
         "totalExpenses": 17196.77,
-        "totalSaved": 4437.31,
-        "savingsRate": 20.5
+        "totalSaved": 5357.01,
+        "savingsRate": 23.8
       }
     },
     "2026-03": {
@@ -329,6 +349,11 @@
         {
           "category": "Reach Out Party (Stripe)",
           "amount": 6537.42,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Substack (Stripe)",
+          "amount": 173.05,
           "notes": "[Stripe] Auto-imported"
         }
       ],
@@ -456,10 +481,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 65254.28,
+        "totalIncome": 65427.33,
         "totalExpenses": 22043.78,
-        "totalSaved": 43210.5,
-        "savingsRate": 66.2
+        "totalSaved": 43383.55,
+        "savingsRate": 66.3
       }
     },
     "2026-04": {
@@ -473,6 +498,16 @@
         {
           "category": "TETHER (Stripe)",
           "amount": 170.38,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Substack (Stripe)",
+          "amount": 8.1,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Coaching (Stripe)",
+          "amount": 242.45,
           "notes": "[Stripe] Auto-imported"
         }
       ],
@@ -508,10 +543,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 1656.03,
+        "totalIncome": 1906.58,
         "totalExpenses": 190.91,
-        "totalSaved": 1465.12,
-        "savingsRate": 88.5
+        "totalSaved": 1715.67,
+        "savingsRate": 90.0
       }
     }
   },
@@ -629,7 +664,9 @@
       "RSU/Stock Sales",
       "Consulting",
       "Bonus",
-      "Other"
+      "Other",
+      "Substack (Stripe)",
+      "Coaching (Stripe)"
     ],
     "spendCategories": [
       "Groceries",
