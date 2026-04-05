@@ -593,11 +593,104 @@
       <!-- Yearly Review Section -->
       <section id="yearly" class="section">
         <div class="section-header">
-          <h2>Yearly Review</h2>
-          <p class="section-subtitle">The big picture</p>
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2>Yearly Review</h2>
+              <p class="section-subtitle">The big picture</p>
+            </div>
+            <div class="month-selector">
+              <button onclick="changeYear(-1)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15,18 9,12 15,6"/></svg>
+              </button>
+              <span class="current-month" id="yearly-current"></span>
+              <button onclick="changeYear(1)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,6 15,12 9,18"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="placeholder-message">
-          <p>Yearly review coming soon.</p>
+
+        <!-- Year Financial Summary -->
+        <div class="grid-4 mb-lg">
+          <div class="stat-card">
+            <div class="stat-label">Total Income</div>
+            <div class="stat-value" id="y-income">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Expenses</div>
+            <div class="stat-value" id="y-expenses">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Saved</div>
+            <div class="stat-value" id="y-saved">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg Savings Rate</div>
+            <div class="stat-value" id="y-rate">0%</div>
+          </div>
+        </div>
+
+        <!-- Month by Month Chart -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Month by Month</h3>
+          </div>
+          <div id="y-month-chart" class="dash-bar-chart" style="height:220px;"></div>
+          <div id="y-month-table" class="mt-md"></div>
+        </div>
+
+        <!-- Year over Year -->
+        <div class="card" id="y-yoy-card" style="display:none;">
+          <div class="card-header">
+            <h3>Year over Year</h3>
+          </div>
+          <div id="y-yoy"></div>
+        </div>
+
+        <!-- Goal Scorecard -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Goal Scorecard</h3>
+          </div>
+          <div id="y-scorecard"></div>
+        </div>
+
+        <!-- Subscription Audit Prompt -->
+        <div class="card" style="background: var(--accent-butter-light); border:none;">
+          <div class="card-header">
+            <h3>Annual Subscription Audit</h3>
+          </div>
+          <p style="font-size:0.85rem; margin-bottom:16px;">Take 10 minutes to list every recurring charge and decide: keep, cancel, or downgrade.</p>
+          <div id="y-subscriptions"></div>
+          <button class="btn btn-ghost btn-sm mt-md" onclick="addSubscriptionAuditRow()">+ Add Subscription</button>
+        </div>
+
+        <!-- Yearly Reflection -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Yearly Reflection</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Biggest financial win</label>
+            <textarea class="form-textarea" id="y-biggest-win" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Biggest surprise expense</label>
+            <textarea class="form-textarea" id="y-biggest-surprise" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Family highlight reel (milestones, memories, what mattered)</label>
+            <textarea class="form-textarea" id="y-highlights" rows="4" placeholder="First steps, trips, achievements, moments..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Goals for next year</label>
+            <textarea class="form-textarea" id="y-next-goals" rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Save -->
+        <div style="display:flex; justify-content:flex-end; margin-top:24px;">
+          <button class="btn btn-primary" style="padding: 14px 32px;" onclick="saveYearlyReview()">Save Yearly Review</button>
         </div>
       </section>
 
@@ -620,6 +713,7 @@
   <script src="goals.js"></script>
   <script src="accounts.js"></script>
   <script src="quarterly.js"></script>
+  <script src="yearly.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
