@@ -134,10 +134,11 @@ function addIncomeRow(category, amount, notes) {
       <option value="">Category</option>
       ${categories.map(c => `<option value="${c}" ${c === category ? 'selected' : ''}>${c}</option>`).join('')}
     </select>
-    <div class="currency-input">
-      <input type="number" class="form-input" value="${amount || ''}" placeholder="0" onchange="updateMonthlyTotals()">
+    <div class="amount-input-wrap">
+      <span class="amount-prefix">$</span>
+      <input type="number" class="form-input amount-field" value="${amount || ''}" placeholder="0" onchange="updateMonthlyTotals()">
     </div>
-    <input type="text" class="form-input name-input" value="${notes || ''}" placeholder="Notes (optional)">
+    <input type="text" class="form-input notes-input" value="${notes || ''}" placeholder="Notes">
     <button class="row-delete" onclick="this.parentElement.remove(); updateMonthlyTotals();">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
@@ -156,10 +157,11 @@ function addFixedExpenseRow(name, amount, notes) {
   row.className = 'monthly-row';
   row.innerHTML = `
     <input type="text" class="form-input name-input" value="${name || ''}" placeholder="Expense name (e.g., Rent, Electric)">
-    <div class="currency-input">
-      <input type="number" class="form-input" value="${amount || ''}" placeholder="0" onchange="updateMonthlyTotals()">
+    <div class="amount-input-wrap">
+      <span class="amount-prefix">$</span>
+      <input type="number" class="form-input amount-field" value="${amount || ''}" placeholder="0" onchange="updateMonthlyTotals()">
     </div>
-    <input type="text" class="form-input" style="width:160px; flex-shrink:0;" value="${notes || ''}" placeholder="Notes">
+    <input type="text" class="form-input notes-input" value="${notes || ''}" placeholder="Notes">
     <button class="row-delete" onclick="this.parentElement.remove(); updateMonthlyTotals();">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
@@ -233,8 +235,9 @@ function addSavingsAllocationRow(account, amount) {
   row.className = 'monthly-row';
   row.innerHTML = `
     <input type="text" class="form-input name-input" value="${account || ''}" placeholder="Account or goal (e.g., Emergency Fund, 401k)">
-    <div class="currency-input">
-      <input type="number" class="form-input" value="${amount || ''}" placeholder="0">
+    <div class="amount-input-wrap">
+      <span class="amount-prefix">$</span>
+      <input type="number" class="form-input amount-field" value="${amount || ''}" placeholder="0">
     </div>
     <button class="row-delete" onclick="this.parentElement.remove();">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -295,7 +298,7 @@ function updateMonthlyTotals() {
   // Income
   let totalIncome = 0;
   document.querySelectorAll('#monthly-income-rows .monthly-row').forEach(row => {
-    const val = parseFloat(row.querySelector('.currency-input input')?.value) || 0;
+    const val = parseFloat(row.querySelector('.amount-field')?.value) || 0;
     totalIncome += val;
   });
   document.getElementById('monthly-income-total').textContent = formatCurrency(totalIncome);
@@ -303,7 +306,7 @@ function updateMonthlyTotals() {
   // Fixed expenses
   let totalFixed = 0;
   document.querySelectorAll('#monthly-fixed-rows .monthly-row').forEach(row => {
-    const val = parseFloat(row.querySelector('.currency-input input')?.value) || 0;
+    const val = parseFloat(row.querySelector('.amount-field')?.value) || 0;
     totalFixed += val;
   });
   document.getElementById('monthly-fixed-total').textContent = formatCurrency(totalFixed);
@@ -340,8 +343,8 @@ function saveMonthlyUpdate() {
   // Collect income
   document.querySelectorAll('#monthly-income-rows .monthly-row').forEach(row => {
     const category = row.querySelector('.category-select')?.value || '';
-    const amount = parseFloat(row.querySelector('.currency-input input')?.value) || 0;
-    const notes = row.querySelector('.name-input')?.value || '';
+    const amount = parseFloat(row.querySelector('.amount-field')?.value) || 0;
+    const notes = row.querySelector('.notes-input')?.value || '';
     if (amount > 0 || category) {
       monthData.income.push({ category, amount, notes });
     }
@@ -349,10 +352,9 @@ function saveMonthlyUpdate() {
 
   // Collect fixed expenses
   document.querySelectorAll('#monthly-fixed-rows .monthly-row').forEach(row => {
-    const inputs = row.querySelectorAll('.form-input');
-    const name = inputs[0]?.value || '';
-    const amount = parseFloat(row.querySelector('.currency-input input')?.value) || 0;
-    const notes = inputs[2]?.value || '';
+    const name = row.querySelector('.name-input')?.value || '';
+    const amount = parseFloat(row.querySelector('.amount-field')?.value) || 0;
+    const notes = row.querySelector('.notes-input')?.value || '';
     if (amount > 0 || name) {
       monthData.fixedExpenses.push({ name, amount, notes });
     }
@@ -380,7 +382,7 @@ function saveMonthlyUpdate() {
   // Savings allocations
   document.querySelectorAll('#monthly-allocations-rows .monthly-row').forEach(row => {
     const account = row.querySelector('.name-input')?.value || '';
-    const amount = parseFloat(row.querySelector('.currency-input input')?.value) || 0;
+    const amount = parseFloat(row.querySelector('.amount-field')?.value) || 0;
     if (account || amount > 0) {
       monthData.savingsAllocations.push({ account, amount });
     }

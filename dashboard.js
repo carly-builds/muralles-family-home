@@ -6,6 +6,7 @@ function render_dashboard() {
   renderDashIntention();
   renderDashNudge();
   renderDashStats();
+  renderRevenueVerticals();
   renderDashBarChart();
   renderDashGoals();
   renderDashPulse();
@@ -491,4 +492,110 @@ function renderDashMilestones() {
       </div>
     </div>
   `).join('');
+}
+
+// ============================================
+// Revenue by Vertical
+// ============================================
+
+function renderRevenueVerticals() {
+  const container = document.getElementById('dash-revenue-verticals');
+  if (!container) return;
+
+  // Define Carly's verticals (Stripe-based income)
+  const verticalKeys = ['Reach Out Party (Stripe)', 'TETHER (Stripe)', 'Coaching (Stripe)', 'Substack (Stripe)'];
+  const verticalLabels = {
+    'Reach Out Party (Stripe)': 'Reach Out Party',
+    'TETHER (Stripe)': 'TETHER',
+    'Coaching (Stripe)': 'Coaching',
+    'Substack (Stripe)': 'Substack'
+  };
+  const verticalColors = {
+    'Reach Out Party (Stripe)': 'var(--accent-sage)',
+    'TETHER (Stripe)': 'var(--accent-lavender)',
+    'Coaching (Stripe)': 'var(--accent-butter)',
+    'Substack (Stripe)': 'var(--accent-orange)'
+  };
+
+  const allMonths = Object.keys(appData.months).sort();
+  if (allMonths.length === 0) {
+    container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>No income data yet.</p></div>';
+    return;
+  }
+
+  // Build monthly data per vertical
+  const monthlyVerticals = {};
+  let grandTotal = 0;
+  const verticalTotals = {};
+
+  verticalKeys.forEach(k => { verticalTotals[k] = 0; });
+
+  allMonths.forEach(ym => {
+    monthlyVerticals[ym] = {};
+    (appData.months[ym].income || []).forEach(inc => {
+      if (verticalKeys.includes(inc.category)) {
+        monthlyVerticals[ym][inc.category] = (monthlyVerticals[ym][inc.category] || 0) + inc.amount;
+        verticalTotals[inc.category] = (verticalTotals[inc.category] || 0) + inc.amount;
+        grandTotal += inc.amount;
+      }
+    });
+  });
+
+  // Only show verticals that have data
+  const activeVerticals = verticalKeys.filter(k => verticalTotals[k] > 0);
+
+  if (activeVerticals.length === 0) {
+    container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>No Stripe revenue data yet.</p></div>';
+    return;
+  }
+
+  // Summary cards row
+  let html = '<div class="revenue-summary-row">';
+  html += `<div class="revenue-total-card">
+    <div class="stat-label">Total Revenue</div>
+    <div class="stat-value" style="font-size:1.6rem;">${formatCurrency(grandTotal)}</div>
+    <div class="stat-change neutral">${allMonths.length} months tracked</div>
+  </div>`;
+
+  activeVerticals.forEach(key => {
+    const label = verticalLabels[key];
+    const total = verticalTotals[key];
+    const pct = grandTotal > 0 ? (total / grandTotal * 100) : 0;
+    const color = verticalColors[key];
+    html += `
+      <div class="revenue-vertical-card">
+        <div class="revenue-vertical-dot" style="background:${color};"></div>
+        <div>
+          <div class="revenue-vertical-name">${label}</div>
+          <div class="revenue-vertical-amount">${formatCurrency(total)}</div>
+          <div class="revenue-vertical-pct">${pct.toFixed(0)}% of revenue</div>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+
+  // Monthly breakdown table
+  html += '<div class="revenue-table-wrap">';
+  html += '<table><thead><tr><th>Month</th>';
+  activeVerticals.forEach(key => {
+    html += `<th style="text-align:right;">${verticalLabels[key]}</th>`;
+  });
+  html += '<th style="text-align:right;">Total</th></tr></thead><tbody>';
+
+  allMonths.forEach(ym => {
+    let monthTotal = 0;
+    html += `<tr><td>${getMonthName(ym)}</td>`;
+    activeVerticals.forEach(key => {
+      const val = monthlyVerticals[ym][key] || 0;
+      monthTotal += val;
+      html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; ${val === 0 ? 'color:var(--text-light);' : ''}">${val > 0 ? formatCurrency(val) : '--'}</td>`;
+    });
+    html += `<td style="text-align:right; font-family:'Roboto Mono',monospace; font-size:0.82rem; font-weight:500;">${monthTotal > 0 ? formatCurrency(monthTotal) : '--'}</td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+
+  container.innerHTML = html;
 }
