@@ -68,6 +68,13 @@ function maybeEnableCalendar() {
         onCalendarConnected();
       } catch (e) {
         // Token expired, need re-auth
+        connectGoogleCalendar();
+      }
+    } else {
+      // First time: auto-trigger sign-in after scripts load
+      const settings = getCalendarSettings();
+      if (settings.apiKey && settings.clientId && !settings.connected) {
+        connectGoogleCalendar();
       }
     }
   }
