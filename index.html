@@ -87,12 +87,100 @@
       <!-- Dashboard Section -->
       <section id="dashboard" class="section active">
         <div class="section-header">
-          <h2>Dashboard</h2>
-          <p class="section-subtitle">Your family's financial snapshot</p>
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <h2>Dashboard</h2>
+              <p class="section-subtitle">Your family's financial snapshot</p>
+            </div>
+            <div id="dash-intention" class="dash-intention"></div>
+          </div>
         </div>
-        <div class="placeholder-message">
-          <p>Dashboard coming soon. This will show your net worth, savings rate, and goal progress at a glance.</p>
+
+        <!-- Last Updated Nudge -->
+        <div id="dash-nudge" class="dash-nudge"></div>
+
+        <!-- Top Stats Row -->
+        <div class="grid-4" id="dash-stats">
+          <div class="stat-card">
+            <div class="stat-label">Net Worth</div>
+            <div class="stat-value" id="dash-net-worth">$0</div>
+            <div class="stat-change neutral" id="dash-nw-change"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">This Month's Savings</div>
+            <div class="stat-value" id="dash-savings">$0</div>
+            <div class="stat-change neutral" id="dash-savings-change"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Savings Rate</div>
+            <div class="stat-value" id="dash-rate">0%</div>
+            <div class="stat-change neutral" id="dash-rate-change"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Emergency Runway</div>
+            <div class="stat-value" id="dash-runway">--</div>
+            <div class="stat-change neutral" id="dash-runway-sub">months of expenses</div>
+          </div>
         </div>
+
+        <!-- Middle Row: Income vs Spend + Goal Progress -->
+        <div class="grid-2 section-gap">
+          <!-- Income vs Expenses Chart -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Income vs. Expenses</h3>
+              <span class="card-label">Last 6 months</span>
+            </div>
+            <div id="dash-bar-chart" class="dash-bar-chart"></div>
+            <div id="dash-bar-empty" class="empty-state" style="display:none;">
+              <p>Start logging monthly updates to see your trends here.</p>
+              <button class="btn btn-primary btn-sm" onclick="navigateTo('monthly')">Log First Month</button>
+            </div>
+          </div>
+
+          <!-- Top Goals -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Goal Progress</h3>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('goals')">View All</button>
+            </div>
+            <div id="dash-goals"></div>
+            <div id="dash-goals-empty" class="empty-state" style="display:none;">
+              <p>No goals yet. What are you two working toward?</p>
+              <button class="btn btn-primary btn-sm" onclick="navigateTo('goals')">Add a Goal</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Row: Monthly Pulse + Quick Actions -->
+        <div class="grid-2 section-gap">
+          <!-- Last Month Pulse -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Last Month's Pulse</h3>
+            </div>
+            <div id="dash-pulse"></div>
+            <div id="dash-pulse-empty" class="empty-state" style="display:none;">
+              <p>Complete a monthly update to see your pulse check here.</p>
+            </div>
+          </div>
+
+          <!-- Accounts Summary -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Accounts Snapshot</h3>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('accounts')">Manage</button>
+            </div>
+            <div id="dash-accounts"></div>
+            <div id="dash-accounts-empty" class="empty-state" style="display:none;">
+              <p>Add your accounts to see a snapshot here.</p>
+              <button class="btn btn-primary btn-sm" onclick="navigateTo('accounts')">Add Accounts</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestones / Celebrations -->
+        <div id="dash-milestones" class="section-gap"></div>
       </section>
 
       <!-- Monthly Update Section -->
@@ -164,6 +252,7 @@
   </div>
 
   <script src="data.js"></script>
+  <script src="dashboard.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
