@@ -144,13 +144,18 @@
           </div>
         </div>
 
-        <!-- Revenue by Vertical -->
+        <!-- Savings Breakdown -->
         <div class="card section-gap">
-          <div class="card-header">
+          <div id="dash-savings-breakdown"></div>
+        </div>
+
+        <!-- Revenue by Vertical (collapsible) -->
+        <div class="card section-gap">
+          <div class="card-header" style="cursor:pointer;" onclick="toggleRevenueVerticals()">
             <h3>Revenue by Vertical</h3>
-            <span class="card-label">Carly's income streams</span>
+            <button class="btn btn-ghost btn-sm" id="revenue-toggle-btn">Show</button>
           </div>
-          <div id="dash-revenue-verticals"></div>
+          <div id="dash-revenue-verticals" style="display:none;"></div>
         </div>
 
         <!-- Middle Row: Income vs Spend + Goal Progress -->

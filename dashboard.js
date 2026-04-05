@@ -6,7 +6,7 @@ function render_dashboard() {
   renderDashIntention();
   renderDashNudge();
   renderDashStats();
-  renderRevenueVerticals();
+  renderDashSavingsBreakdown();
   renderDashBarChart();
   renderDashGoals();
   renderDashPulse();
@@ -495,13 +495,114 @@ function renderDashMilestones() {
 }
 
 // ============================================
-// Revenue by Vertical
+// Savings Breakdown (main dashboard card)
+// ============================================
+
+let savingsView = 'everyone';
+
+function switchSavingsView(view) {
+  savingsView = view;
+  renderDashSavingsBreakdown();
+}
+
+function renderDashSavingsBreakdown() {
+  const container = document.getElementById('dash-savings-breakdown');
+  if (!container) return;
+
+  const allMonths = Object.keys(appData.months).sort();
+  if (allMonths.length === 0) {
+    container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>No data yet. Log your first month to see savings here.</p></div>';
+    return;
+  }
+
+  const agg = aggregateSplits(allMonths);
+  const partnerName = appData.settings.partnerName || 'Matt';
+
+  let html = renderPersonToggle(savingsView, 'switchSavingsView');
+
+  if (savingsView === 'everyone') {
+    const saved = agg.everyone.incomeTotal - agg.everyone.expenseTotal;
+    const rate = agg.everyone.incomeTotal > 0 ? (saved / agg.everyone.incomeTotal * 100) : 0;
+
+    html += '<div class="revenue-summary-row">';
+    html += '<div class="revenue-total-card"><div class="stat-label">Total Income</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(agg.everyone.incomeTotal) + '</div><div class="stat-change neutral">' + agg.monthCount + ' months</div></div>';
+    html += '<div class="revenue-total-card"><div class="stat-label">Total Expenses</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(agg.everyone.expenseTotal) + '</div></div>';
+    html += '<div class="revenue-total-card"><div class="stat-label">Total Saved</div><div class="stat-value" style="font-size:1.5rem; color:' + (saved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(saved) + '</div><div class="stat-change neutral">' + rate.toFixed(1) + '% savings rate</div></div>';
+    html += '</div>';
+
+    // Per-person savings row
+    var carlySaved = agg.carly.incomeTotal - agg.carly.expenseTotal;
+    var mattSaved = agg.matt.incomeTotal - agg.matt.expenseTotal;
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th></th><th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th><th style="text-align:right;">Saved</th></tr></thead><tbody>';
+    html += '<tr><td style="color:var(--accent-pink);">Carly</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.carly.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.carly.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (carlySaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(carlySaved) + '</td></tr>';
+    html += '<tr><td style="color:var(--accent-blue);">' + partnerName + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.matt.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.matt.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (mattSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(mattSaved) + '</td></tr>';
+    if (agg.shared.incomeTotal > 0 || agg.shared.expenseTotal > 0) {
+      var sharedSaved = agg.shared.incomeTotal - agg.shared.expenseTotal;
+      html += '<tr><td style="color:var(--text-muted);">Other</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.shared.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(agg.shared.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(sharedSaved) + '</td></tr>';
+    }
+    html += '</tbody></table></div>';
+
+    // Monthly savings trend
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th><th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th><th style="text-align:right;">Saved</th><th style="text-align:right;">Rate</th></tr></thead><tbody>';
+    allMonths.forEach(function(ym) {
+      var s = splitMonthByOwner(appData.months[ym]);
+      if (!s) return;
+      var sv = s.everyone.saved;
+      var rt = s.everyone.incomeTotal > 0 ? (sv / s.everyone.incomeTotal * 100) : 0;
+      html += '<tr><td>' + getMonthName(ym) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(s.everyone.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(s.everyone.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (sv >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(sv) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + rt.toFixed(1) + '%</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  } else {
+    var who = savingsView === 'carly' ? 'carly' : 'matt';
+    var name = savingsView === 'carly' ? 'Carly' : partnerName;
+    var personAgg = agg[who];
+    var personSaved = personAgg.incomeTotal - personAgg.expenseTotal;
+    var personRate = personAgg.incomeTotal > 0 ? (personSaved / personAgg.incomeTotal * 100) : 0;
+
+    html += '<div class="revenue-summary-row">';
+    html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Income</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(personAgg.incomeTotal) + '</div></div>';
+    html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Expenses</div><div class="stat-value" style="font-size:1.5rem;">' + formatCurrency(personAgg.expenseTotal) + '</div></div>';
+    html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Saved</div><div class="stat-value" style="font-size:1.5rem; color:' + (personSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(personSaved) + '</div><div class="stat-change neutral">' + personRate.toFixed(1) + '% rate</div></div>';
+    html += '</div>';
+
+    // Monthly trend for this person
+    html += '<div class="revenue-table-wrap"><table><thead><tr><th>Month</th><th style="text-align:right;">Income</th><th style="text-align:right;">Expenses</th><th style="text-align:right;">Saved</th></tr></thead><tbody>';
+    allMonths.forEach(function(ym) {
+      var s = splitMonthByOwner(appData.months[ym]);
+      if (!s) return;
+      var p = s[who];
+      var sv = p.incomeTotal - p.expenseTotal;
+      html += '<tr><td>' + getMonthName(ym) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(p.incomeTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem;">' + formatCurrency(p.expenseTotal) + '</td><td style="text-align:right; font-family:\'Roboto Mono\',monospace; font-size:0.82rem; color:' + (sv >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(sv) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+
+  container.innerHTML = html;
+}
+
+// ============================================
+// Revenue by Vertical (collapsible)
 // ============================================
 
 let revenueView = 'everyone'; // 'everyone', 'carly', 'partner'
+let revenueExpanded = false;
 
 // Backwards-compat alias for monthly.js references
 const INCOME_STREAMS = { carly: OWNERSHIP.carly, matt: OWNERSHIP.matt };
+
+function toggleRevenueVerticals() {
+  revenueExpanded = !revenueExpanded;
+  var el = document.getElementById('dash-revenue-verticals');
+  var btn = document.getElementById('revenue-toggle-btn');
+  if (revenueExpanded) {
+    el.style.display = 'block';
+    btn.textContent = 'Hide';
+    renderRevenueVerticals();
+  } else {
+    el.style.display = 'none';
+    btn.textContent = 'Show';
+  }
+}
 
 function switchRevenueView(view) {
   revenueView = view;
