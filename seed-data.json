@@ -1,0 +1,1687 @@
+{
+  "months": {
+    "2025-01": {
+      "yearMonth": "2025-01",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7043.39,
+          "notes": ""
+        },
+        {
+          "category": "Other",
+          "amount": 1000.0,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 4275.88,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 1430.3
+            },
+            {
+              "category": "Shopping",
+              "amount": 1403.15
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 686.42
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 489.81
+            },
+            {
+              "category": "Personal",
+              "amount": 163.2
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 103.0
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 1127.42,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 540.93
+            },
+            {
+              "category": "Business Services",
+              "amount": 393.92
+            },
+            {
+              "category": "Restaurant",
+              "amount": 105.44
+            },
+            {
+              "category": "Transportation",
+              "amount": 56.59
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 8043.39,
+        "totalExpenses": 5403.3,
+        "totalSaved": 2640.09,
+        "savingsRate": 32.8
+      }
+    },
+    "2025-02": {
+      "yearMonth": "2025-02",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7035.83,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 3905.69,
+          "categories": [
+            {
+              "category": "Food & Drink",
+              "amount": 1694.4
+            },
+            {
+              "category": "Shopping",
+              "amount": 1275.61
+            },
+            {
+              "category": "Travel",
+              "amount": 510.36
+            },
+            {
+              "category": "Groceries",
+              "amount": 189.06
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 123.26
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 103.0
+            },
+            {
+              "category": "Professional Services",
+              "amount": 10.0
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2271.53,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1710.9
+            },
+            {
+              "category": "Business Services",
+              "amount": 265.09
+            },
+            {
+              "category": "Entertainment",
+              "amount": 265.0
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 7035.83,
+        "totalExpenses": 6177.22,
+        "totalSaved": 858.61,
+        "savingsRate": 12.2
+      }
+    },
+    "2025-03": {
+      "yearMonth": "2025-03",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 20937.48,
+          "notes": ""
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 14419.45,
+          "notes": ""
+        },
+        {
+          "category": "Tax Refund",
+          "amount": 11009.0,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 4365.96,
+          "categories": [
+            {
+              "category": "Food & Drink",
+              "amount": 1289.47
+            },
+            {
+              "category": "Travel",
+              "amount": 1126.38
+            },
+            {
+              "category": "Shopping",
+              "amount": 861.74
+            },
+            {
+              "category": "Personal",
+              "amount": 605.58
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 227.0
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 103.0
+            },
+            {
+              "category": "Entertainment",
+              "amount": 98.85
+            },
+            {
+              "category": "Groceries",
+              "amount": 34.73
+            },
+            {
+              "category": "Gas",
+              "amount": 19.21
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 7879.78,
+          "categories": [
+            {
+              "category": "Business Services",
+              "amount": 5412.17
+            },
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1893.51
+            },
+            {
+              "category": "Entertainment",
+              "amount": 463.0
+            },
+            {
+              "category": "Transportation",
+              "amount": 70.56
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            },
+            {
+              "category": "Other",
+              "amount": 10.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 46365.93,
+        "totalExpenses": 12245.74,
+        "totalSaved": 34120.19,
+        "savingsRate": 73.6
+      }
+    },
+    "2025-04": {
+      "yearMonth": "2025-04",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7412.06,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 9425.9,
+          "categories": [
+            {
+              "category": "Health & Wellness",
+              "amount": 6661.1
+            },
+            {
+              "category": "Shopping",
+              "amount": 1088.53
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1075.46
+            },
+            {
+              "category": "Professional Services",
+              "amount": 264.07
+            },
+            {
+              "category": "Personal",
+              "amount": 120.35
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 103.0
+            },
+            {
+              "category": "Gas",
+              "amount": 38.79
+            },
+            {
+              "category": "Travel",
+              "amount": 28.85
+            },
+            {
+              "category": "Gifts & Donations",
+              "amount": 25.0
+            },
+            {
+              "category": "Entertainment",
+              "amount": 19.99
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2506.96,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1949.25
+            },
+            {
+              "category": "Business Services",
+              "amount": 233.92
+            },
+            {
+              "category": "Entertainment",
+              "amount": 134.0
+            },
+            {
+              "category": "Restaurant",
+              "amount": 101.65
+            },
+            {
+              "category": "Transportation",
+              "amount": 47.6
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            },
+            {
+              "category": "Other",
+              "amount": 10.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 7412.06,
+        "totalExpenses": 11932.86,
+        "totalSaved": -4520.8,
+        "savingsRate": -61.0
+      }
+    },
+    "2025-05": {
+      "yearMonth": "2025-05",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7412.07,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 4587.28,
+          "categories": [
+            {
+              "category": "Shopping",
+              "amount": 1556.83
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1065.05
+            },
+            {
+              "category": "Travel",
+              "amount": 870.52
+            },
+            {
+              "category": "Entertainment",
+              "amount": 488.51
+            },
+            {
+              "category": "Personal",
+              "amount": 336.77
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 120.02
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 103.0
+            },
+            {
+              "category": "Gifts & Donations",
+              "amount": 35.0
+            },
+            {
+              "category": "Fees & Adjustments",
+              "amount": 11.58
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 3113.6,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1850.02
+            },
+            {
+              "category": "Entertainment",
+              "amount": 598.6
+            },
+            {
+              "category": "Business Services",
+              "amount": 270.52
+            },
+            {
+              "category": "Restaurant",
+              "amount": 241.36
+            },
+            {
+              "category": "Transportation",
+              "amount": 112.56
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            },
+            {
+              "category": "Other",
+              "amount": 10.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 7412.07,
+        "totalExpenses": 7700.88,
+        "totalSaved": -288.81,
+        "savingsRate": -3.9
+      }
+    },
+    "2025-06": {
+      "yearMonth": "2025-06",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7979.07,
+          "notes": ""
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 4019.68,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 7071.89,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 2172.85
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1856.23
+            },
+            {
+              "category": "Shopping",
+              "amount": 1090.67
+            },
+            {
+              "category": "Personal",
+              "amount": 690.69
+            },
+            {
+              "category": "Entertainment",
+              "amount": 647.45
+            },
+            {
+              "category": "Fees & Adjustments",
+              "amount": 300.0
+            },
+            {
+              "category": "Groceries",
+              "amount": 179.89
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 93.0
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 21.11
+            },
+            {
+              "category": "Home",
+              "amount": 20.0
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2458.67,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1768.77
+            },
+            {
+              "category": "Other",
+              "amount": 207.15
+            },
+            {
+              "category": "Entertainment",
+              "amount": 129.0
+            },
+            {
+              "category": "Business Services",
+              "amount": 108.92
+            },
+            {
+              "category": "Transportation",
+              "amount": 100.4
+            },
+            {
+              "category": "Travel",
+              "amount": 98.31
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            },
+            {
+              "category": "Restaurant",
+              "amount": 15.58
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 11998.75,
+        "totalExpenses": 9530.56,
+        "totalSaved": 2468.19,
+        "savingsRate": 20.6
+      }
+    },
+    "2025-07": {
+      "yearMonth": "2025-07",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 9002.25,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 6900.69,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 3014.77
+            },
+            {
+              "category": "Shopping",
+              "amount": 1659.66
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1056.47
+            },
+            {
+              "category": "Fees & Adjustments",
+              "amount": 625.0
+            },
+            {
+              "category": "Groceries",
+              "amount": 273.16
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 103.0
+            },
+            {
+              "category": "Personal",
+              "amount": 93.7
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 45.0
+            },
+            {
+              "category": "Entertainment",
+              "amount": 29.93
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2199.26,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1815.35
+            },
+            {
+              "category": "Entertainment",
+              "amount": 159.0
+            },
+            {
+              "category": "Transportation",
+              "amount": 101.95
+            },
+            {
+              "category": "Restaurant",
+              "amount": 59.82
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            },
+            {
+              "category": "Other",
+              "amount": 20.0
+            },
+            {
+              "category": "Business Services",
+              "amount": 12.6
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 9002.25,
+        "totalExpenses": 9099.95,
+        "totalSaved": -97.7,
+        "savingsRate": -1.1
+      }
+    },
+    "2025-08": {
+      "yearMonth": "2025-08",
+      "income": [
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 9395.98,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7412.06,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 4526.47,
+          "categories": [
+            {
+              "category": "Food & Drink",
+              "amount": 2529.88
+            },
+            {
+              "category": "Travel",
+              "amount": 721.5
+            },
+            {
+              "category": "Personal",
+              "amount": 474.53
+            },
+            {
+              "category": "Shopping",
+              "amount": 358.39
+            },
+            {
+              "category": "Groceries",
+              "amount": 141.32
+            },
+            {
+              "category": "Home",
+              "amount": 105.56
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 80.64
+            },
+            {
+              "category": "Entertainment",
+              "amount": 79.99
+            },
+            {
+              "category": "Gas",
+              "amount": 34.66
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 1662.93,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1276.25
+            },
+            {
+              "category": "Entertainment",
+              "amount": 325.0
+            },
+            {
+              "category": "Transportation",
+              "amount": 31.14
+            },
+            {
+              "category": "Communications",
+              "amount": 30.54
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 16808.04,
+        "totalExpenses": 6189.4,
+        "totalSaved": 10618.64,
+        "savingsRate": 63.2
+      }
+    },
+    "2025-09": {
+      "yearMonth": "2025-09",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7639.88,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 7731.44,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 2907.31
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 2144.64
+            },
+            {
+              "category": "Shopping",
+              "amount": 1704.99
+            },
+            {
+              "category": "Groceries",
+              "amount": 271.23
+            },
+            {
+              "category": "Personal",
+              "amount": 245.09
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 232.78
+            },
+            {
+              "category": "Home",
+              "amount": 150.82
+            },
+            {
+              "category": "Entertainment",
+              "amount": 74.58
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2236.97,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1062.42
+            },
+            {
+              "category": "Business Services",
+              "amount": 386.65
+            },
+            {
+              "category": "Communications",
+              "amount": 248.54
+            },
+            {
+              "category": "Restaurant",
+              "amount": 156.71
+            },
+            {
+              "category": "Other",
+              "amount": 140.0
+            },
+            {
+              "category": "Entertainment",
+              "amount": 124.0
+            },
+            {
+              "category": "Transportation",
+              "amount": 118.65
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 7639.88,
+        "totalExpenses": 9968.41,
+        "totalSaved": -2328.53,
+        "savingsRate": -30.5
+      }
+    },
+    "2025-10": {
+      "yearMonth": "2025-10",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7728.3,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 7982.86,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 5224.19
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1271.73
+            },
+            {
+              "category": "Shopping",
+              "amount": 817.82
+            },
+            {
+              "category": "Personal",
+              "amount": 345.62
+            },
+            {
+              "category": "Groceries",
+              "amount": 170.13
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 134.42
+            },
+            {
+              "category": "Gas",
+              "amount": 17.51
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 3069.18,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1347.74
+            },
+            {
+              "category": "Business Services",
+              "amount": 1076.0
+            },
+            {
+              "category": "Other",
+              "amount": 280.0
+            },
+            {
+              "category": "Communications",
+              "amount": 138.94
+            },
+            {
+              "category": "Entertainment",
+              "amount": 129.0
+            },
+            {
+              "category": "Transportation",
+              "amount": 97.48
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 7728.3,
+        "totalExpenses": 11052.04,
+        "totalSaved": -3323.74,
+        "savingsRate": -43.0
+      }
+    },
+    "2025-11": {
+      "yearMonth": "2025-11",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 9627.96,
+          "notes": ""
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 5305.92,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 5602.68,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 1640.37
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1454.06
+            },
+            {
+              "category": "Shopping",
+              "amount": 1325.96
+            },
+            {
+              "category": "Entertainment",
+              "amount": 565.38
+            },
+            {
+              "category": "Home",
+              "amount": 227.6
+            },
+            {
+              "category": "Groceries",
+              "amount": 204.99
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 112.18
+            },
+            {
+              "category": "Personal",
+              "amount": 37.86
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 25.18
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2268.49,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1405.3
+            },
+            {
+              "category": "Entertainment",
+              "amount": 274.66
+            },
+            {
+              "category": "Communications",
+              "amount": 138.94
+            },
+            {
+              "category": "Transportation",
+              "amount": 131.39
+            },
+            {
+              "category": "Other",
+              "amount": 122.66
+            },
+            {
+              "category": "Business Services",
+              "amount": 100.54
+            },
+            {
+              "category": "Fees & Adjustments",
+              "amount": 95.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 14933.88,
+        "totalExpenses": 7871.17,
+        "totalSaved": 7062.71,
+        "savingsRate": 47.3
+      }
+    },
+    "2025-12": {
+      "yearMonth": "2025-12",
+      "income": [
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 14775.67,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 10338.93,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 8372.67,
+          "categories": [
+            {
+              "category": "Personal",
+              "amount": 3050.66
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1968.13
+            },
+            {
+              "category": "Shopping",
+              "amount": 1525.13
+            },
+            {
+              "category": "Travel",
+              "amount": 766.46
+            },
+            {
+              "category": "Professional Services",
+              "amount": 308.0
+            },
+            {
+              "category": "Education",
+              "amount": 218.0
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 173.63
+            },
+            {
+              "category": "Groceries",
+              "amount": 161.48
+            },
+            {
+              "category": "Fees & Adjustments",
+              "amount": 150.0
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 47.66
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2278.64,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1843.59
+            },
+            {
+              "category": "Entertainment",
+              "amount": 179.0
+            },
+            {
+              "category": "Communications",
+              "amount": 138.94
+            },
+            {
+              "category": "Transportation",
+              "amount": 107.11
+            },
+            {
+              "category": "Other",
+              "amount": 10.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 25114.6,
+        "totalExpenses": 10651.31,
+        "totalSaved": 14463.29,
+        "savingsRate": 57.6
+      }
+    },
+    "2026-01": {
+      "yearMonth": "2026-01",
+      "income": [
+        {
+          "category": "Wire Transfer",
+          "amount": 23800.0,
+          "notes": ""
+        },
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 7572.9,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 3008.76,
+          "categories": [
+            {
+              "category": "Food & Drink",
+              "amount": 1892.85
+            },
+            {
+              "category": "Shopping",
+              "amount": 366.23
+            },
+            {
+              "category": "Groceries",
+              "amount": 229.64
+            },
+            {
+              "category": "Travel",
+              "amount": 189.11
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 141.93
+            },
+            {
+              "category": "Entertainment",
+              "amount": 98.0
+            },
+            {
+              "category": "Gas",
+              "amount": 53.57
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 20.36
+            },
+            {
+              "category": "Personal",
+              "amount": 17.07
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 2214.72,
+          "categories": [
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1013.21
+            },
+            {
+              "category": "Travel",
+              "amount": 490.78
+            },
+            {
+              "category": "Other",
+              "amount": 277.46
+            },
+            {
+              "category": "Business Services",
+              "amount": 151.44
+            },
+            {
+              "category": "Communications",
+              "amount": 138.94
+            },
+            {
+              "category": "Transportation",
+              "amount": 103.89
+            },
+            {
+              "category": "Entertainment",
+              "amount": 39.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 31372.9,
+        "totalExpenses": 5223.48,
+        "totalSaved": 26149.42,
+        "savingsRate": 83.4
+      }
+    },
+    "2026-02": {
+      "yearMonth": "2026-02",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 9322.9,
+          "notes": ""
+        },
+        {
+          "category": "Other",
+          "amount": 885.44,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 4279.12,
+          "categories": [
+            {
+              "category": "Entertainment",
+              "amount": 1771.32
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1527.34
+            },
+            {
+              "category": "Shopping",
+              "amount": 382.13
+            },
+            {
+              "category": "Travel",
+              "amount": 293.65
+            },
+            {
+              "category": "Gifts & Donations",
+              "amount": 154.5
+            },
+            {
+              "category": "Personal",
+              "amount": 60.3
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 43.48
+            },
+            {
+              "category": "Gas",
+              "amount": 26.04
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 20.36
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 8126.16,
+          "categories": [
+            {
+              "category": "Other",
+              "amount": 4788.6
+            },
+            {
+              "category": "Business Services",
+              "amount": 1803.0
+            },
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1132.59
+            },
+            {
+              "category": "Transportation",
+              "amount": 296.97
+            },
+            {
+              "category": "Communications",
+              "amount": 105.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 10208.34,
+        "totalExpenses": 12405.28,
+        "totalSaved": -2196.94,
+        "savingsRate": -21.5
+      }
+    },
+    "2026-03": {
+      "yearMonth": "2026-03",
+      "income": [
+        {
+          "category": "Salary (Matt/Flywire)",
+          "amount": 31627.64,
+          "notes": ""
+        },
+        {
+          "category": "RSU/Stock Sales",
+          "amount": 25727.29,
+          "notes": ""
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [
+        {
+          "name": "Chase Sapphire",
+          "total": 8506.63,
+          "categories": [
+            {
+              "category": "Travel",
+              "amount": 5113.63
+            },
+            {
+              "category": "Food & Drink",
+              "amount": 1517.03
+            },
+            {
+              "category": "Shopping",
+              "amount": 440.98
+            },
+            {
+              "category": "Professional Services",
+              "amount": 425.0
+            },
+            {
+              "category": "Groceries",
+              "amount": 397.86
+            },
+            {
+              "category": "Personal",
+              "amount": 227.18
+            },
+            {
+              "category": "Health & Wellness",
+              "amount": 169.28
+            },
+            {
+              "category": "Education",
+              "amount": 69.0
+            },
+            {
+              "category": "Gas",
+              "amount": 66.61
+            },
+            {
+              "category": "Entertainment",
+              "amount": 59.7
+            },
+            {
+              "category": "Bills & Utilities",
+              "amount": 20.36
+            }
+          ]
+        },
+        {
+          "name": "AMEX Blue Cash",
+          "total": 7366.03,
+          "categories": [
+            {
+              "category": "Other",
+              "amount": 5241.07
+            },
+            {
+              "category": "Merchandise & Supplies",
+              "amount": 1483.78
+            },
+            {
+              "category": "Transportation",
+              "amount": 365.2
+            },
+            {
+              "category": "Business Services",
+              "amount": 247.98
+            },
+            {
+              "category": "Entertainment",
+              "amount": 28.0
+            }
+          ]
+        }
+      ],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 57354.93,
+        "totalExpenses": 15872.66,
+        "totalSaved": 41482.27,
+        "savingsRate": 72.3
+      }
+    }
+  },
+  "accounts": {
+    "checking": [
+      {
+        "id": "chk1",
+        "name": "BofA Checking",
+        "owner": "Matt",
+        "balance": 1182.1
+      }
+    ],
+    "savings": [
+      {
+        "id": "sav1",
+        "name": "BofA Savings",
+        "owner": "Matt",
+        "balance": 6487.19,
+        "purpose": "General"
+      },
+      {
+        "id": "sav2",
+        "name": "Marcus (Goldman Sachs)",
+        "owner": "Matt",
+        "balance": 117783,
+        "purpose": "High-Yield Savings"
+      }
+    ],
+    "investment": [
+      {
+        "id": "inv1",
+        "name": "401(k)",
+        "owner": "Matt",
+        "balance": 120998,
+        "type": "401k"
+      },
+      {
+        "id": "inv2",
+        "name": "Schwab Roth IRA",
+        "owner": "Matt",
+        "balance": 18612,
+        "type": "Roth IRA"
+      },
+      {
+        "id": "inv3",
+        "name": "Schwab Trading",
+        "owner": "Matt",
+        "balance": 37265,
+        "type": "Brokerage"
+      },
+      {
+        "id": "inv4",
+        "name": "Flywire Shares (sellable)",
+        "owner": "Matt",
+        "balance": 123897,
+        "type": "Brokerage"
+      },
+      {
+        "id": "inv5",
+        "name": "Flywire Options (sellable)",
+        "owner": "Matt",
+        "balance": 115889,
+        "type": "Brokerage"
+      },
+      {
+        "id": "inv6",
+        "name": "ESPP",
+        "owner": "Matt",
+        "balance": 4000,
+        "type": "Brokerage"
+      },
+      {
+        "id": "inv7",
+        "name": "iBond",
+        "owner": "Matt",
+        "balance": 5830,
+        "type": "Other"
+      },
+      {
+        "id": "inv8",
+        "name": "Flywire RSU (unvested)",
+        "owner": "Matt",
+        "balance": 187360,
+        "type": "Other"
+      }
+    ],
+    "property": [],
+    "vehicles": [],
+    "other": []
+  },
+  "debts": [],
+  "goals": {
+    "financial": [],
+    "family": [],
+    "personal": {
+      "carly": [],
+      "partner": []
+    }
+  },
+  "quarterlyReviews": {},
+  "yearlyReviews": {},
+  "settings": {
+    "partnerName": "Matt",
+    "currency": "USD",
+    "incomeCategories": [
+      "Salary (Matt/Flywire)",
+      "Stripe (Carly)",
+      "RSU/Stock Sales",
+      "Consulting",
+      "Bonus",
+      "Other"
+    ],
+    "spendCategories": [
+      "Groceries",
+      "Dining Out",
+      "Shopping",
+      "Travel",
+      "Health & Wellness",
+      "Entertainment",
+      "Subscriptions",
+      "Transportation",
+      "Business Expenses",
+      "Home",
+      "Personal",
+      "Education",
+      "Gifts",
+      "Gas",
+      "Other"
+    ],
+    "quarterIntention": "",
+    "createdAt": "2026-04-05T00:00:00.000Z"
+  },
+  "lastUpdated": "2026-04-05T00:00:00.000Z"
+}
