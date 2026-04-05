@@ -5,6 +5,7 @@
 function render_dashboard() {
   renderDashIntention();
   renderDashNudge();
+  if (typeof initCalendar === 'function') initCalendar();
   renderDashStats();
   renderDashSavingsBreakdown();
   renderDashBarChart();

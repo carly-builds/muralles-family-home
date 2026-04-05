@@ -2155,6 +2155,359 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-left: 8px;
 }
 
+/* ============================================
+   CALENDAR
+   ============================================ */
+
+.calendar-views {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+}
+
+/* Empty / setup state */
+.calendar-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.calendar-empty-icon {
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+/* ---- Monthly Grid ---- */
+
+.calendar-monthly {
+  min-width: 0;
+}
+
+.cal-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cal-month-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cal-month-title h4 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.cal-nav-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.cal-nav-btn:hover {
+  background: var(--bg-warm-gray);
+  color: var(--text-body);
+  border-color: var(--text-light);
+}
+
+.cal-today-pill {
+  background: var(--accent-sage-light);
+  border: none;
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-sage-dark);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cal-today-pill:hover {
+  background: var(--accent-sage);
+  color: white;
+}
+
+.cal-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  margin-bottom: 4px;
+}
+
+.cal-day-name {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+  text-align: center;
+  padding: 6px 0;
+}
+
+.cal-grid-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border-light);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.cal-day {
+  background: var(--bg-white);
+  min-height: 80px;
+  padding: 4px 6px;
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.cal-day:hover {
+  background: var(--bg-warm-gray);
+}
+
+.cal-day.other-month {
+  background: var(--bg-cream);
+}
+
+.cal-day.other-month .cal-day-num {
+  color: var(--text-light);
+}
+
+.cal-day-num {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  margin-bottom: 2px;
+}
+
+.cal-day-num.today-num {
+  background: var(--accent-sage);
+  color: white;
+  font-weight: 500;
+}
+
+.cal-day.today {
+  background: rgba(184, 201, 163, 0.06);
+}
+
+.cal-day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cal-event-bar {
+  font-size: 0.62rem;
+  font-family: 'Libre Franklin', sans-serif;
+  padding: 1px 4px;
+  border-radius: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  color: var(--text-body);
+}
+
+.cal-event-line {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6rem;
+  font-family: 'Libre Franklin', sans-serif;
+  color: var(--text-body);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.cal-event-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cal-event-time {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.cal-event-more {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  padding-top: 1px;
+}
+
+/* ---- Weekly Upcoming List ---- */
+
+.calendar-weekly {
+  border-left: 1px solid var(--border-light);
+  padding-left: 28px;
+}
+
+.cal-weekly-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cal-weekly-header h4 {
+  margin: 0;
+}
+
+.cal-weekly-empty {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-style: italic;
+  padding: 20px 0;
+}
+
+.cal-weekly-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cal-weekly-day {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.cal-weekly-day:last-child {
+  border-bottom: none;
+}
+
+.cal-weekly-day.is-today {
+  background: rgba(184, 201, 163, 0.06);
+  margin: 0 -12px;
+  padding: 12px 12px;
+  border-radius: var(--radius-sm);
+  border-bottom-color: transparent;
+}
+
+.cal-weekly-day-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cal-weekly-day-name {
+  font-family: 'Ibarra Real Nova', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--text-heading);
+}
+
+.cal-weekly-day-date {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+}
+
+.cal-weekly-events {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cal-weekly-event {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.cal-weekly-event-color {
+  width: 3px;
+  border-radius: 2px;
+  min-height: 32px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cal-weekly-event-details {
+  min-width: 0;
+}
+
+.cal-weekly-event-title {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-body);
+  line-height: 1.3;
+}
+
+.cal-weekly-event-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 2px;
+}
+
+.cal-weekly-event-time {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.cal-weekly-location {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ---- Calendar Responsive ---- */
+
+@media (max-width: 900px) {
+  .calendar-views {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .calendar-weekly {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--border-light);
+    padding-top: 20px;
+  }
+
+  .cal-day {
+    min-height: 50px;
+    padding: 2px 3px;
+  }
+
+  .cal-event-line,
+  .cal-event-bar {
+    font-size: 0.5rem;
+  }
+
+  .cal-event-time {
+    display: none;
+  }
+}
+
 @media print {
   .sidebar, .mobile-header { display: none !important; }
   .content { margin-left: 0; padding: 20px; }
