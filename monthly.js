@@ -87,10 +87,12 @@ function renderSplitEveryone(split, partnerName) {
 
 function renderSplitPerson(split, who, name) {
   const person = split[who];
+  const personSaved = person.incomeTotal - person.expenseTotal;
 
   let html = '<div class="revenue-summary-row">';
   html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Income</div><div class="stat-value" style="font-size:1.4rem;">' + formatCurrency(person.incomeTotal) + '</div></div>';
   html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Expenses</div><div class="stat-value" style="font-size:1.4rem;">' + formatCurrency(person.expenseTotal) + '</div></div>';
+  html += '<div class="revenue-total-card"><div class="stat-label">' + name + '\'s Saved</div><div class="stat-value" style="font-size:1.4rem; color:' + (personSaved >= 0 ? 'var(--accent-green)' : 'var(--accent-red)') + ';">' + formatCurrency(personSaved) + '</div></div>';
   html += '</div>';
 
   if (person.income.length > 0) {
