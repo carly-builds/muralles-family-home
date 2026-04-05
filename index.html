@@ -407,8 +407,85 @@
           <h2>Accounts & Assets</h2>
           <p class="section-subtitle">Everything you own and owe</p>
         </div>
-        <div class="placeholder-message">
-          <p>Accounts tracker coming soon.</p>
+
+        <!-- Net Worth Summary -->
+        <div class="grid-3 mb-lg" id="accounts-summary">
+          <div class="stat-card">
+            <div class="stat-label">Total Assets</div>
+            <div class="stat-value" id="acct-total-assets">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Debts</div>
+            <div class="stat-value" id="acct-total-debts" style="color:var(--accent-red);">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Net Worth</div>
+            <div class="stat-value" id="acct-net-worth">$0</div>
+          </div>
+        </div>
+
+        <!-- Checking Accounts -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Checking Accounts</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showAddAccount('checking')">+ Add</button>
+          </div>
+          <div id="acct-checking"></div>
+        </div>
+
+        <!-- Savings Accounts -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Savings Accounts</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showAddAccount('savings')">+ Add</button>
+          </div>
+          <div id="acct-savings"></div>
+        </div>
+
+        <!-- Investment Accounts -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Investments</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showAddAccount('investment')">+ Add</button>
+          </div>
+          <div id="acct-investment"></div>
+        </div>
+
+        <!-- Property -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Property</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showAddAccount('property')">+ Add</button>
+          </div>
+          <div id="acct-property"></div>
+        </div>
+
+        <!-- Vehicles & Other -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3>Vehicles</h3>
+              <button class="btn btn-ghost btn-sm" onclick="showAddAccount('vehicles')">+ Add</button>
+            </div>
+            <div id="acct-vehicles"></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Other Assets</h3>
+              <button class="btn btn-ghost btn-sm" onclick="showAddAccount('other')">+ Add</button>
+            </div>
+            <div id="acct-other"></div>
+          </div>
+        </div>
+
+        <!-- Debts -->
+        <div class="card" style="border-left: 3px solid var(--accent-pink);">
+          <div class="card-header">
+            <h3>Debts</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showAddDebt()">+ Add</button>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Credit card balances carried month-to-month, student loans, car loans, personal loans.</p>
+          <div id="acct-debts"></div>
         </div>
       </section>
 
@@ -451,6 +528,7 @@
   <script src="dashboard.js"></script>
   <script src="monthly.js"></script>
   <script src="goals.js"></script>
+  <script src="accounts.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
