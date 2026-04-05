@@ -258,16 +258,20 @@ function renderCalendarSetupState() {
   return `
     <div class="calendar-empty-state">
       <div class="calendar-empty-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="1">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-          <circle cx="12" cy="15" r="1.5"/>
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect x="6" y="10" width="40" height="36" rx="4" stroke="var(--text-light)" stroke-width="1.2"/>
+          <line x1="18" y1="6" x2="18" y2="14" stroke="var(--text-light)" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="34" y1="6" x2="34" y2="14" stroke="var(--text-light)" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="6" y1="22" x2="46" y2="22" stroke="var(--text-light)" stroke-width="1.2"/>
+          <circle cx="19" cy="30" r="2" fill="var(--accent-sage)" opacity="0.5"/>
+          <circle cx="26" cy="30" r="2" fill="var(--accent-butter)" opacity="0.5"/>
+          <circle cx="33" cy="30" r="2" fill="var(--accent-lavender)" opacity="0.5"/>
+          <circle cx="19" cy="38" r="2" fill="var(--accent-pink)" opacity="0.4"/>
+          <circle cx="26" cy="38" r="2" fill="var(--accent-sage)" opacity="0.3"/>
         </svg>
       </div>
-      <p style="font-size:0.92rem; color:var(--text-body); margin-bottom:4px;">See your family's schedule at a glance</p>
-      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:20px;">Connect Google Calendar to pull in events, birthdays, and plans.</p>
+      <p>See your family's schedule at a glance</p>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:24px;">Connect Google Calendar to pull in events, birthdays, and plans.</p>
       <button class="btn btn-primary btn-sm" onclick="showCalendarSetupModal()">Connect Google Calendar</button>
     </div>
   `;
@@ -329,8 +333,9 @@ function renderMonthlyGrid() {
       eventsHTML += `<div class="cal-event-more">+${dayEvents.length - maxShow} more</div>`;
     }
 
+    const hasEvents = dayEvents.length > 0 ? ' data-has-events' : '';
     gridHTML += `
-      <div class="cal-day${isToday ? ' today' : ''}" data-date="${dateStr}">
+      <div class="cal-day${isToday ? ' today' : ''}" data-date="${dateStr}"${hasEvents}>
         <span class="cal-day-num${isToday ? ' today-num' : ''}">${d}</span>
         <div class="cal-day-events">${eventsHTML}</div>
       </div>
@@ -390,7 +395,7 @@ function renderWeeklyList() {
           <span class="card-label">Next 7 days</span>
         </div>
         <div class="cal-weekly-empty">
-          <p>No events this week. Enjoy the calm.</p>
+          <p>Nothing on the books. Enjoy the breathing room.</p>
         </div>
       </div>
     `;
