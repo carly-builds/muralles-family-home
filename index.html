@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Franklin:wght@300;400;500;600&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">Family<br>Command<br>Center</h1>
+        <p class="logo-sub">Clarity, not complexity</p>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </span>
+          Dashboard
+        </a></li>
+        <li><a href="#monthly" class="nav-link" data-section="monthly">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </span>
+          Monthly Update
+        </a></li>
+        <li><a href="#goals" class="nav-link" data-section="goals">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </span>
+          Goals
+        </a></li>
+        <li><a href="#accounts" class="nav-link" data-section="accounts">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </span>
+          Accounts & Assets
+        </a></li>
+        <li><a href="#quarterly" class="nav-link" data-section="quarterly">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+          </span>
+          Quarterly Review
+        </a></li>
+        <li><a href="#yearly" class="nav-link" data-section="yearly">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </span>
+          Yearly Review
+        </a></li>
+        <li><a href="#whatif" class="nav-link" data-section="whatif">
+          <span class="nav-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="12" r="10"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </span>
+          What If Calculator
+        </a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <button class="export-btn" onclick="exportData()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Data
+        </button>
+        <button class="import-btn" onclick="document.getElementById('importFile').click()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import Data
+        </button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      </div>
+    </nav>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h1 class="mobile-logo">Family Command Center</h1>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="content">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="section active">
+        <div class="section-header">
+          <h2>Dashboard</h2>
+          <p class="section-subtitle">Your family's financial snapshot</p>
+        </div>
+        <div class="placeholder-message">
+          <p>Dashboard coming soon. This will show your net worth, savings rate, and goal progress at a glance.</p>
+        </div>
+      </section>
+
+      <!-- Monthly Update Section -->
+      <section id="monthly" class="section">
+        <div class="section-header">
+          <h2>Monthly Update</h2>
+          <p class="section-subtitle">Your monthly financial check-in</p>
+        </div>
+        <div class="placeholder-message">
+          <p>Monthly update flow coming soon.</p>
+        </div>
+      </section>
+
+      <!-- Goals Section -->
+      <section id="goals" class="section">
+        <div class="section-header">
+          <h2>Goals</h2>
+          <p class="section-subtitle">Financial, family, and personal goals</p>
+        </div>
+        <div class="placeholder-message">
+          <p>Goals system coming soon.</p>
+        </div>
+      </section>
+
+      <!-- Accounts & Assets Section -->
+      <section id="accounts" class="section">
+        <div class="section-header">
+          <h2>Accounts & Assets</h2>
+          <p class="section-subtitle">Everything you own and owe</p>
+        </div>
+        <div class="placeholder-message">
+          <p>Accounts tracker coming soon.</p>
+        </div>
+      </section>
+
+      <!-- Quarterly Review Section -->
+      <section id="quarterly" class="section">
+        <div class="section-header">
+          <h2>Quarterly Review</h2>
+          <p class="section-subtitle">The deeper check-in, every 3 months</p>
+        </div>
+        <div class="placeholder-message">
+          <p>Quarterly review coming soon.</p>
+        </div>
+      </section>
+
+      <!-- Yearly Review Section -->
+      <section id="yearly" class="section">
+        <div class="section-header">
+          <h2>Yearly Review</h2>
+          <p class="section-subtitle">The big picture</p>
+        </div>
+        <div class="placeholder-message">
+          <p>Yearly review coming soon.</p>
+        </div>
+      </section>
+
+      <!-- What If Calculator Section -->
+      <section id="whatif" class="section">
+        <div class="section-header">
+          <h2>What If Calculator</h2>
+          <p class="section-subtitle">Play with scenarios, see the impact</p>
+        </div>
+        <div class="placeholder-message">
+          <p>What If calculator coming soon.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
