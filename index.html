@@ -351,8 +351,53 @@
           <h2>Goals</h2>
           <p class="section-subtitle">Financial, family, and personal goals</p>
         </div>
-        <div class="placeholder-message">
-          <p>Goals system coming soon.</p>
+
+        <!-- Goal Type Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-goal-tab="financial" onclick="switchGoalTab('financial')">Financial</button>
+          <button class="tab" data-goal-tab="family" onclick="switchGoalTab('family')">Family</button>
+          <button class="tab" data-goal-tab="personal" onclick="switchGoalTab('personal')">Personal</button>
+        </div>
+
+        <!-- Financial Goals -->
+        <div id="goals-financial" class="goal-tab-content active">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <p style="font-size:0.85rem; color:var(--text-muted);">Track savings toward specific targets with auto-calculated projections.</p>
+            <button class="btn btn-primary btn-sm" onclick="showAddFinancialGoal()">+ New Goal</button>
+          </div>
+          <div id="financial-goals-list"></div>
+        </div>
+
+        <!-- Family Goals -->
+        <div id="goals-family" class="goal-tab-content">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <p style="font-size:0.85rem; color:var(--text-muted);">Non-financial goals you share as a family. Reviewed each quarter.</p>
+            <button class="btn btn-primary btn-sm" onclick="showAddFamilyGoal()">+ New Goal</button>
+          </div>
+          <div id="family-goals-list"></div>
+        </div>
+
+        <!-- Personal Goals -->
+        <div id="goals-personal" class="goal-tab-content">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <p style="font-size:0.85rem; color:var(--text-muted);">Your individual goals. Shared if you want, private by default.</p>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3>Carly</h3>
+                <button class="btn btn-ghost btn-sm" onclick="showAddPersonalGoal('carly')">+ Add</button>
+              </div>
+              <div id="personal-goals-carly"></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 id="personal-partner-heading">Partner</h3>
+                <button class="btn btn-ghost btn-sm" onclick="showAddPersonalGoal('partner')">+ Add</button>
+              </div>
+              <div id="personal-goals-partner"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -405,6 +450,7 @@
   <script src="data.js"></script>
   <script src="dashboard.js"></script>
   <script src="monthly.js"></script>
+  <script src="goals.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
