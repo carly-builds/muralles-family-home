@@ -186,12 +186,163 @@
       <!-- Monthly Update Section -->
       <section id="monthly" class="section">
         <div class="section-header">
-          <h2>Monthly Update</h2>
-          <p class="section-subtitle">Your monthly financial check-in</p>
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h2>Monthly Update</h2>
+              <p class="section-subtitle">Your monthly financial check-in</p>
+            </div>
+            <div class="month-selector">
+              <button onclick="changeMonth(-1)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15,18 9,12 15,6"/></svg>
+              </button>
+              <span class="current-month" id="monthly-current-month"></span>
+              <button onclick="changeMonth(1)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,6 15,12 9,18"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="placeholder-message">
-          <p>Monthly update flow coming soon.</p>
+
+        <!-- Monthly Summary Bar (shows when data exists) -->
+        <div id="monthly-summary-bar" class="monthly-summary-bar" style="display:none;"></div>
+
+        <!-- Step 1: Income -->
+        <div class="card" id="monthly-income-card">
+          <div class="card-header">
+            <h3>Income</h3>
+            <button class="btn btn-ghost btn-sm" onclick="addIncomeRow()">+ Add</button>
+          </div>
+          <div id="monthly-income-rows"></div>
+          <div class="divider"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="card-label">Total Income</span>
+            <span class="stat-value" style="font-size:1.3rem;" id="monthly-income-total">$0</span>
+          </div>
         </div>
+
+        <!-- Step 2: Fixed Expenses -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Fixed Expenses</h3>
+            <button class="btn btn-ghost btn-sm" onclick="addFixedExpenseRow()">+ Add</button>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Rent, utilities, insurance, childcare, subscriptions... the stuff that hits every month.</p>
+          <div id="monthly-fixed-rows"></div>
+          <div class="divider"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="card-label">Total Fixed</span>
+            <span class="stat-value" style="font-size:1.3rem;" id="monthly-fixed-total">$0</span>
+          </div>
+        </div>
+
+        <!-- Step 3: Credit Card Spend -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Credit Card Spend</h3>
+            <button class="btn btn-ghost btn-sm" onclick="addCreditCardRow()">+ Add Card</button>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Total spend per card this month. Break down by category if you want (optional).</p>
+          <div id="monthly-cc-rows"></div>
+          <div class="divider"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="card-label">Total Card Spend</span>
+            <span class="stat-value" style="font-size:1.3rem;" id="monthly-cc-total">$0</span>
+          </div>
+        </div>
+
+        <!-- Step 4: Surprise Spend -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Surprise Spend</h3>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Anything unplanned that popped up this month.</p>
+          <div class="form-row">
+            <div class="form-group" style="max-width:200px;">
+              <div class="currency-input">
+                <input type="number" class="form-input" id="monthly-surprise-amount" placeholder="0" onchange="updateMonthlyTotals()">
+              </div>
+            </div>
+            <div class="form-group" style="flex:2;">
+              <input type="text" class="form-input" id="monthly-surprise-notes" placeholder="What was it? (e.g., car repair, vet bill)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly Math -->
+        <div class="card" style="background: var(--bg-cream); border: 2px solid var(--border);">
+          <div class="card-header">
+            <h3>The Math</h3>
+          </div>
+          <div class="monthly-math-grid">
+            <div class="math-row">
+              <span>Total Income</span>
+              <span id="math-income">$0</span>
+            </div>
+            <div class="math-row">
+              <span>Total Expenses</span>
+              <span id="math-expenses">$0</span>
+            </div>
+            <div class="math-row total">
+              <span>Monthly Savings</span>
+              <span id="math-savings">$0</span>
+            </div>
+            <div class="math-row">
+              <span>Savings Rate</span>
+              <span id="math-rate">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Where Did Savings Go -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Where Did the Savings Go?</h3>
+            <button class="btn btn-ghost btn-sm" onclick="addSavingsAllocationRow()">+ Add</button>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">Which accounts or buckets received money this month?</p>
+          <div id="monthly-allocations-rows"></div>
+        </div>
+
+        <!-- Step 6: Pulse Check -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Monthly Pulse Check</h3>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:20px;">How did this month feel financially? Be honest. This is just for you two.</p>
+
+          <div class="pulse-feelings mb-lg">
+            <div class="pulse-person">
+              <div class="pulse-person-name">Carly</div>
+              <div class="feeling-scale" id="pulse-carly"></div>
+            </div>
+            <div class="pulse-person">
+              <div class="pulse-person-name" id="pulse-partner-name">Partner</div>
+              <div class="feeling-scale" id="pulse-partner"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">What went well this month?</label>
+            <textarea class="form-textarea" id="pulse-went-well" rows="2" placeholder="e.g., stayed under budget on dining, paid off the credit card"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">One thing to adjust next month</label>
+            <textarea class="form-textarea" id="pulse-to-adjust" rows="2" placeholder="e.g., too many impulse Amazon orders"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes (optional)</label>
+            <textarea class="form-textarea" id="pulse-notes" rows="2" placeholder="Context for future you (e.g., 'started daycare this month')"></textarea>
+          </div>
+        </div>
+
+        <!-- Save -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px;">
+          <button class="btn btn-secondary" onclick="clearMonthlyForm()">Reset Form</button>
+          <button class="btn btn-primary" style="padding: 14px 32px; font-size: 0.8rem;" onclick="saveMonthlyUpdate()">Save Monthly Update</button>
+        </div>
+
       </section>
 
       <!-- Goals Section -->
@@ -253,6 +404,7 @@
 
   <script src="data.js"></script>
   <script src="dashboard.js"></script>
+  <script src="monthly.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

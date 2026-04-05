@@ -1229,6 +1229,186 @@ tr:last-child td {
 }
 
 /* ============================================
+   MONTHLY UPDATE
+   ============================================ */
+
+.monthly-summary-bar {
+  display: flex;
+  gap: 24px;
+  padding: 16px 24px;
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  margin-bottom: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-stat .card-label {
+  margin-bottom: 0;
+}
+
+.summary-stat-value {
+  font-family: 'Ibarra Real Nova', Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--text-heading);
+}
+
+.monthly-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+  animation: fadeIn 0.15s ease;
+}
+
+.monthly-row .form-input,
+.monthly-row .form-select {
+  font-size: 0.88rem;
+  padding: 8px 12px;
+}
+
+.monthly-row .currency-input {
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.monthly-row .name-input {
+  flex: 1;
+}
+
+.monthly-row .category-select {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.row-delete {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.row-delete:hover {
+  color: var(--accent-red);
+}
+
+/* Credit card with category breakdown */
+.cc-card-block {
+  padding: 16px;
+  background: var(--bg-warm-gray);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+}
+
+.cc-card-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cc-card-header .name-input {
+  flex: 1;
+}
+
+.cc-categories {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.cc-category-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+.cc-category-row .form-select,
+.cc-category-row .form-input {
+  font-size: 0.82rem;
+  padding: 6px 10px;
+}
+
+.cc-add-category {
+  font-size: 0.72rem;
+  padding: 4px 0;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.cc-add-category:hover {
+  color: var(--text-body);
+}
+
+/* The Math section */
+.monthly-math-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.math-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.math-row:last-child {
+  border-bottom: none;
+}
+
+.math-row span:last-child {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.math-row.total {
+  border-top: 2px solid var(--border);
+  border-bottom: none;
+  padding-top: 14px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.math-row.total span:last-child {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-heading);
+}
+
+/* Comparison with last month */
+.month-comparison {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.month-comparison.positive { color: var(--accent-green); }
+.month-comparison.negative { color: var(--accent-red); }
+
+/* ============================================
    PRINT STYLES
    ============================================ */
 
