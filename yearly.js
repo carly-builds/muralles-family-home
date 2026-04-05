@@ -10,6 +10,7 @@ function render_yearly() {
   renderYearlyBreakdown();
   renderYearStats();
   renderYearChart();
+  renderYearLineChart();
   renderYearOverYear();
   renderYearScorecard();
   renderSubscriptionAudit();
@@ -177,6 +178,129 @@ function renderYearChart() {
       </tbody>
     </table>
   `;
+}
+
+// ============================================
+// Line Chart: Income / Expenses / Savings
+// ============================================
+
+function renderYearLineChart() {
+  var el = document.getElementById('y-line-chart');
+  if (!el) return;
+
+  var months = getMonthsInYear(currentYear);
+  var data = [];
+  var hasAny = false;
+
+  months.forEach(function(m) {
+    if (appData.months[m]) {
+      var t = calculateMonthTotals(appData.months[m]);
+      data.push({ month: m, income: t.totalIncome, expenses: t.totalExpenses, saved: t.totalSaved, exists: true });
+      hasAny = true;
+    } else {
+      data.push({ month: m, income: 0, expenses: 0, saved: 0, exists: false });
+    }
+  });
+
+  if (!hasAny) {
+    el.innerHTML = '<div class="empty-state" style="padding:40px;"><p>No data for this year yet.</p></div>';
+    return;
+  }
+
+  // SVG dimensions
+  var w = 1000, h = 260;
+  var padL = 70, padR = 20, padT = 20, padB = 40;
+  var chartW = w - padL - padR;
+  var chartH = h - padT - padB;
+
+  // Find max value for scaling
+  var maxVal = 0;
+  var minVal = 0;
+  data.forEach(function(d) {
+    if (d.exists) {
+      maxVal = Math.max(maxVal, d.income, d.expenses, d.saved);
+      minVal = Math.min(minVal, d.saved);
+    }
+  });
+  // Add padding
+  var range = maxVal - minVal;
+  if (range === 0) range = 1;
+  maxVal += range * 0.1;
+  minVal -= range * 0.05;
+  if (minVal > 0) minVal = 0;
+
+  function yPos(val) {
+    return padT + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
+  }
+
+  function xPos(i) {
+    return padL + (i / 11) * chartW;
+  }
+
+  // Build SVG
+  var svg = '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%; height:100%;" preserveAspectRatio="xMidYMid meet">';
+
+  // Grid lines
+  var gridSteps = 5;
+  for (var g = 0; g <= gridSteps; g++) {
+    var gVal = minVal + (maxVal - minVal) * (g / gridSteps);
+    var gy = yPos(gVal);
+    svg += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (w - padR) + '" y2="' + gy + '" stroke="#e5e0da" stroke-width="1" stroke-dasharray="4,4"/>';
+    svg += '<text x="' + (padL - 10) + '" y="' + (gy + 4) + '" text-anchor="end" fill="#9e958b" font-family="Roboto Mono,monospace" font-size="10">' + formatCurrency(Math.round(gVal)) + '</text>';
+  }
+
+  // Zero line if savings go negative
+  if (minVal < 0) {
+    var zeroY = yPos(0);
+    svg += '<line x1="' + padL + '" y1="' + zeroY + '" x2="' + (w - padR) + '" y2="' + zeroY + '" stroke="#c4bcb2" stroke-width="1.5"/>';
+  }
+
+  // Month labels
+  var monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  for (var i = 0; i < 12; i++) {
+    svg += '<text x="' + xPos(i) + '" y="' + (h - 8) + '" text-anchor="middle" fill="#9e958b" font-family="Roboto Mono,monospace" font-size="10">' + monthLabels[i] + '</text>';
+  }
+
+  // Build line paths
+  var series = [
+    { key: 'income', color: '#8babc4', label: 'Income' },
+    { key: 'expenses', color: '#e39589', label: 'Expenses' },
+    { key: 'saved', color: '#7ba87b', label: 'Savings' }
+  ];
+
+  series.forEach(function(s) {
+    var points = [];
+    var dots = '';
+    data.forEach(function(d, idx) {
+      if (d.exists) {
+        var px = xPos(idx);
+        var py = yPos(d[s.key]);
+        points.push(px + ',' + py);
+        dots += '<circle cx="' + px + '" cy="' + py + '" r="4" fill="' + s.color + '" stroke="white" stroke-width="2"/>';
+        // Tooltip area
+        dots += '<circle cx="' + px + '" cy="' + py + '" r="12" fill="transparent" class="y-line-hover" data-tip="' + monthLabels[idx] + ': ' + formatCurrency(d[s.key]) + '"/>';
+      }
+    });
+
+    if (points.length > 1) {
+      svg += '<polyline points="' + points.join(' ') + '" fill="none" stroke="' + s.color + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+    svg += dots;
+  });
+
+  svg += '</svg>';
+
+  // Legend
+  var legend = '<div style="display:flex; justify-content:center; gap:24px; margin-top:12px;">';
+  series.forEach(function(s) {
+    legend += '<div style="display:flex; align-items:center; gap:6px;">';
+    legend += '<div style="width:12px; height:3px; border-radius:2px; background:' + s.color + ';"></div>';
+    legend += '<span style="font-family:\'Roboto Mono\',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted);">' + s.label + '</span>';
+    legend += '</div>';
+  });
+  legend += '</div>';
+
+  el.innerHTML = svg + legend;
 }
 
 // ============================================

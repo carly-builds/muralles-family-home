@@ -111,7 +111,7 @@
           <div style="display:flex; align-items:center; justify-content:space-between;">
             <div>
               <h2>Dashboard</h2>
-              <p class="section-subtitle">Your family's financial snapshot</p>
+              <p class="section-subtitle">Your family at a glance</p>
             </div>
             <div id="dash-intention" class="dash-intention"></div>
           </div>
@@ -119,6 +119,18 @@
 
         <!-- Last Updated Nudge -->
         <div id="dash-nudge" class="dash-nudge"></div>
+
+        <!-- Calendar -->
+        <div class="card section-gap" style="margin-bottom:24px;">
+          <div class="card-header">
+            <h3>Family Calendar</h3>
+            <button class="btn btn-ghost btn-sm" onclick="showCalendarSetupModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              Settings
+            </button>
+          </div>
+          <div id="dash-calendar"></div>
+        </div>
 
         <!-- Top Stats Row -->
         <div class="grid-4" id="dash-stats">
@@ -699,6 +711,14 @@
           <div id="y-month-table" class="mt-md"></div>
         </div>
 
+        <!-- Line Chart: Income / Expenses / Savings trend -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Income, Expenses & Savings Trend</h3>
+          </div>
+          <div id="y-line-chart" style="height:280px; position:relative;"></div>
+        </div>
+
         <!-- Year over Year -->
         <div class="card" id="y-yoy-card" style="display:none;">
           <div class="card-header">
@@ -931,6 +951,7 @@
   </div>
 
   <script src="data.js"></script>
+  <script src="calendar.js"></script>
   <script src="dashboard.js"></script>
   <script src="monthly.js"></script>
   <script src="goals.js"></script>
