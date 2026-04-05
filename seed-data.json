@@ -1243,6 +1243,16 @@
           "category": "Salary (Matt/Flywire)",
           "amount": 7572.9,
           "notes": ""
+        },
+        {
+          "category": "TETHER (Stripe)",
+          "amount": 1460.12,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Reach Out Party (Stripe)",
+          "amount": 4609.37,
+          "notes": "[Stripe] Auto-imported"
         }
       ],
       "fixedExpenses": [],
@@ -1335,10 +1345,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 31372.9,
+        "totalIncome": 37442.39,
         "totalExpenses": 5223.48,
-        "totalSaved": 26149.42,
-        "savingsRate": 83.4
+        "totalSaved": 32218.91,
+        "savingsRate": 86.0
       }
     },
     "2026-02": {
@@ -1353,6 +1363,16 @@
           "category": "Other",
           "amount": 885.44,
           "notes": ""
+        },
+        {
+          "category": "Reach Out Party (Stripe)",
+          "amount": 10071.55,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "TETHER (Stripe)",
+          "amount": 1354.19,
+          "notes": "[Stripe] Auto-imported"
         }
       ],
       "fixedExpenses": [],
@@ -1437,10 +1457,10 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 10208.34,
+        "totalIncome": 21634.08,
         "totalExpenses": 12405.28,
-        "totalSaved": -2196.94,
-        "savingsRate": -21.5
+        "totalSaved": 9228.8,
+        "savingsRate": 42.7
       }
     },
     "2026-03": {
@@ -1455,6 +1475,16 @@
           "category": "RSU/Stock Sales",
           "amount": 25727.29,
           "notes": ""
+        },
+        {
+          "category": "TETHER (Stripe)",
+          "amount": 1361.93,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "Reach Out Party (Stripe)",
+          "amount": 6537.42,
+          "notes": "[Stripe] Auto-imported"
         }
       ],
       "fixedExpenses": [],
@@ -1547,10 +1577,43 @@
         "notes": ""
       },
       "totals": {
-        "totalIncome": 57354.93,
+        "totalIncome": 65254.28,
         "totalExpenses": 15872.66,
-        "totalSaved": 41482.27,
-        "savingsRate": 72.3
+        "totalSaved": 49381.62,
+        "savingsRate": 75.7
+      }
+    },
+    "2026-04": {
+      "yearMonth": "2026-04",
+      "income": [
+        {
+          "category": "Reach Out Party (Stripe)",
+          "amount": 1485.65,
+          "notes": "[Stripe] Auto-imported"
+        },
+        {
+          "category": "TETHER (Stripe)",
+          "amount": 170.38,
+          "notes": "[Stripe] Auto-imported"
+        }
+      ],
+      "fixedExpenses": [],
+      "creditCards": [],
+      "surpriseSpend": 0,
+      "surpriseNotes": "",
+      "savingsAllocations": [],
+      "pulse": {
+        "carlyFeeling": 0,
+        "partnerFeeling": 0,
+        "wentWell": "",
+        "toAdjust": "",
+        "notes": ""
+      },
+      "totals": {
+        "totalIncome": 1656.03,
+        "totalExpenses": 0,
+        "totalSaved": 1656.03,
+        "savingsRate": 100.0
       }
     }
   },
@@ -1657,7 +1720,8 @@
     "currency": "USD",
     "incomeCategories": [
       "Salary (Matt/Flywire)",
-      "Stripe (Carly)",
+      "Reach Out Party (Stripe)",
+      "TETHER (Stripe)",
       "RSU/Stock Sales",
       "Consulting",
       "Bonus",
